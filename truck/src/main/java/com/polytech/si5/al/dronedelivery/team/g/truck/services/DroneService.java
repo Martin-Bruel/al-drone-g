@@ -1,19 +1,29 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.services;
 
+import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DroneStateDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
-import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DroneRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-
-@Service
 public class DroneService {
 
-    @Autowired
-    private DroneRepository droneRepository;
+    private final RestTemplate restTemplate;
 
-    public List<Drone> list(){
-        return droneRepository.findAll();
+    public DroneService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder.build();
+    }
+
+    public DroneStateDto getDroneState(Drone drone) {
+        String port=drone.getConnectionInterface().getPort();
+        String host=drone.getConnectionInterface().getHost();
+        String url = "https://"+host+":"+port+"/drone-{id}";
+        ResponseEntity<DroneStateDto> response= this.restTemplate.getForEntity(url, DroneStateDto.class,drone.getId());
+        if(response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            return null;
+        }
     }
 }

@@ -13,15 +13,32 @@ public class Drone {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
+    private String name;
+    public ConnectionInterface connectionInterface;
 
+    public Drone(String name, ConnectionInterface connectionInterface) {
+        this.name=name;
+        this.connectionInterface=connectionInterface;
+    }
+    public Drone(ConnectionInterface connectionInterface){
+        this.connectionInterface=connectionInterface;
+    }
+    public Drone(String name){
+        this.name=name;
+    }
 
     @OneToMany( targetEntity=Delivery.class, mappedBy="deliveryDrone" )
-    private List<Delivery> commands = new ArrayList<>();
+    private List<Delivery> deliveries = new ArrayList<>();
+
+    public Drone() {
+
+    }
+
 
     @Override
     public String toString() {
         return String.format(
-                "Drone-%d", id);
+                "Drone[id = %d, name = %s]", id,name);
     }
 
 }
