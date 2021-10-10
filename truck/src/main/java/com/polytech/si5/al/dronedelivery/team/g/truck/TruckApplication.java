@@ -1,6 +1,6 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.dao.DroneDAO;
+import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DroneRepository;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class TruckApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(DroneDAO repository) {
+	public CommandLineRunner demo(DroneRepository repository) {
 		return (args) -> {
 			// save a few drones
 			repository.save(new Drone("Alpha"));

@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  database:
+    image: postgres:13.4
+    environment:
+      - POSTGRES_PASSWORD=dev_password
+      - POSTGRES_USER=si5_sacc
+      - POSTGRES_DB=td_1
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
