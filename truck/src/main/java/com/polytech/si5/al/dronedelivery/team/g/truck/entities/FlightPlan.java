@@ -9,4 +9,8 @@ public class FlightPlan {
     public FlightPlan(List<Position> steps) {
         this.steps = steps;
     }
+
+    public List<Position> getSteps() {
+        return steps;
+    }
 }
