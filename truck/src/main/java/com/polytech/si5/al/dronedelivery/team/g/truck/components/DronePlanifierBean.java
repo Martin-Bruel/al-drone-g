@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Slf4j
 public class DronePlanifierBean implements PathFinder {
 
     @Override
@@ -17,7 +16,7 @@ public class DronePlanifierBean implements PathFinder {
      * Very simple flight plan
      */
     public FlightPlan getPath(Position truckPos, Position packagePos) {
-        log.info("DronePlanifier - Determine flight plan from truc to {}", packagePos);
+        System.out.println("DronePlanifier - Determine flight plan from truck to "+ packagePos);
         return new FlightPlan(List.of(truckPos, packagePos));
     }
 }

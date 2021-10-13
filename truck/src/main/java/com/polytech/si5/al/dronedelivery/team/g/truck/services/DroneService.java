@@ -2,6 +2,7 @@ package com.polytech.si5.al.dronedelivery.team.g.truck.services;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DroneStateDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.FlightPlan;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +26,12 @@ public class DroneService {
         } else {
             return null;
         }
+    }
+
+    public void launchDrone(FlightPlan flightPlan, Drone drone){
+        String port=drone.getConnectionInterface().getPort();
+        String host=drone.getConnectionInterface().getHost();
+        String url = "https://"+host+":"+port+"/drone-{id}";
+        ResponseEntity<DroneStateDto> response= this.restTemplate.getForEntity(url, DroneStateDto.class,drone.getId());
     }
 }
