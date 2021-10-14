@@ -11,6 +11,14 @@ import javax.persistence.ManyToOne;
 @Getter
 public class Delivery {
 
+    public Delivery(Address address) {
+        this.id = id;
+        this.address = address;
+        this.deliveryDrone = deliveryDrone;
+    }
+
+    public Delivery(){}
+
     @Id
     @GeneratedValue
     private Long id;
@@ -20,5 +28,12 @@ public class Delivery {
     @ManyToOne
     private Drone deliveryDrone;
 
-
+    @Override
+    public String toString() {
+        return "Delivery{" +
+                "id=" + id +
+                ", address=" + address +
+                ", deliveryDrone=" + deliveryDrone +
+                '}';
+    }
 }

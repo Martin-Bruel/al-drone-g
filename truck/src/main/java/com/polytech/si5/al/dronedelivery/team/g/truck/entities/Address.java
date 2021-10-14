@@ -4,6 +4,17 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Address {
+
+    public Address(String street, int number, int postalCode, String city, Position position) {
+        this.street = street;
+        this.number = number;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.position = position;
+    }
+
+    public Address(){}
+
     private String street;
     private int number;
     private int postalCode;
@@ -48,5 +59,16 @@ public class Address {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "street='" + street + '\'' +
+                ", number=" + number +
+                ", postalCode=" + postalCode +
+                ", city='" + city + '\'' +
+                ", position=" + position +
+                '}';
     }
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class TruckLocatorBean implements PositionProvider {
     @Override
     public Position getTruckPosition() {
-        return null;
+        return new Position(0,0);
     }
 }

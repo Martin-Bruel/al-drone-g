@@ -14,7 +14,6 @@ public class TabletRestController {
 
     @PostMapping("/start/drone/{droneId}/package/{packageId}")
     public void start(@PathVariable int droneId, @PathVariable int packageId){
-
         droneLauncher.start(droneId, packageId);
     }
 
