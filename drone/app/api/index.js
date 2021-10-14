@@ -1,6 +1,7 @@
 const { Router } = require('express')
-const TimeController= require('../controllers/time.controller')
 const router = new Router()
-router.get('/', TimeController.getTime)
-router.post('/tick', TimeController.update)
+router.post('/delivery/start', function (req, res) {
+    console.log('Drone reiceve flight plan : ' + JSON.stringify(req.body.steps))
+    res.status(200).json('drone started')
+})
 module.exports = router

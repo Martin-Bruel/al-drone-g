@@ -27,7 +27,7 @@ public class DroneStarterBean implements DroneLauncher {
     DroneService droneService;
 
     @Override
-    public void start(int droneId, int packageId) {
+    public void start(Long droneId, Long packageId) {
         System.out.println("Drone Starter - starting drone " + droneId + " with package " + packageId);
         Position truckPos = positionProvider.getTruckPosition();
         Position packagePos = packageFinder.getPackageByPackageId(packageId).getAddress().getPosition();

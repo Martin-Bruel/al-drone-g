@@ -16,7 +16,7 @@ public class DronePlanifierBean implements PathFinder {
      * Very simple flight plan
      */
     public FlightPlan getPath(Position truckPos, Position packagePos) {
-        System.out.println("DronePlanifier - Determine flight plan from truck to "+ packagePos);
+        System.out.println("DronePlanifier - Determine flight plan");
         return new FlightPlan(List.of(truckPos, packagePos));
     }
 }

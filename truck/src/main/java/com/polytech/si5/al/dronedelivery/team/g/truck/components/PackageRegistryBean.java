@@ -22,14 +22,15 @@ public class PackageRegistryBean implements PackageFinder {
     }
 
     @Override
-    public Delivery getPackageByPackageId(int packageId) {
+    public Delivery getPackageByPackageId(Long packageId) {
+        System.out.println("PackageRegistry - find delivery for id " + packageId);
         Delivery delivery = entityManager.find(Delivery.class, packageId);
         if(delivery == null) throw new IllegalArgumentException("Drone " + packageId + " not found...");
         return delivery;
     }
 
     @Override
-    public List<Delivery> getPackagesByDroneId(int droneId) {
+    public List<Delivery> getPackagesByDroneId(Long droneId) {
         return (List<Delivery>) entityManager.createQuery(
                 "SELECT e FROM Delivery e WHERE e.deliveryDrone = " + droneId, Delivery.class).getResultList();
     }

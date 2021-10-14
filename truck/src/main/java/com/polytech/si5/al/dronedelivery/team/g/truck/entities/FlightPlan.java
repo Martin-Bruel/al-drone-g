@@ -16,7 +16,7 @@ public class FlightPlan {
 
     @Override
     public String toString() {
-        return "{" +
+        return "FlightPlan{" +
                 "steps=" + steps.toString() +
                 '}';
     }
