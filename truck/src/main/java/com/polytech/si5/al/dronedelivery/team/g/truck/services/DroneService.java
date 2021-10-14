@@ -20,10 +20,10 @@ public class DroneService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public DroneStateDto getDroneState(Drone drone) {
+    public DroneStateDto getDronePosition(Drone drone) {
         String port=drone.getConnectionInterface().getPort();
         String host=drone.getConnectionInterface().getHost();
-        String url = "https://"+host+":"+port+"/drone-{id}";
+        String url = "https://"+host+":"+port+"{id}/drone-api";
         ResponseEntity<DroneStateDto> response= this.restTemplate.getForEntity(url, DroneStateDto.class,drone.getId());
         if(response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
