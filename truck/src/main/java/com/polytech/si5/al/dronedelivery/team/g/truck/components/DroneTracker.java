@@ -1,11 +1,15 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.configuration.SchedulerConfiguration;
+import com.polytech.si5.al.dronedelivery.team.g.truck.dto.Position;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneFinder;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneStateNotifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneWatcher;
 import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DroneRepository;
 import com.polytech.si5.al.dronedelivery.team.g.truck.scheduling.CronTaskRegister;
 import com.polytech.si5.al.dronedelivery.team.g.truck.scheduling.SchedulingRunnable;
+import com.polytech.si5.al.dronedelivery.team.g.truck.services.DroneService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +39,22 @@ public class DroneTracker implements DroneWatcher {
     @Autowired
     private ApplicationContext applicationContext;
 
-    public void doTracking(Integer droneId){
+    @Autowired
+    DroneService droneService;
+
+    @Autowired
+    DroneFinder droneFinder;
+
+    public void doTracking(Long droneId){
         logger.info("Log of drone "+droneId);
+        Drone drone= droneFinder.findDroneById(droneId);
+        Position position =droneService.getDronePosition(drone);
+        logger.info(String.valueOf(position));
     }
 
-    public void track(int droneId) {
+    public void track(long droneId) {
         Class[] paramsTypes = new Class[1];
-        paramsTypes[0] = Integer.class;
+        paramsTypes[0] = Long.class;
         Object[] params= new Object[1];
         params[0]=droneId;
         SchedulingRunnable task = new SchedulingRunnable(applicationContext,"droneTracker", "doTracking", paramsTypes ,params);
@@ -49,7 +62,7 @@ public class DroneTracker implements DroneWatcher {
     }
 
     @Override
-    public void untrack(int droneId) {
+    public void untrack(long droneId) {
 
     }
 }

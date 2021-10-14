@@ -16,7 +16,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
     DroneWatcher droneWatcher;
 
     @Override
-    public void updateDeliverySate(int droneId, int status) {
+    public void updateDeliverySate(long droneId, int status) {
         logger.info(String.valueOf(status));
         switch (status){
             case DeliveryStatusCode.STARTING_DELIVERY:
@@ -30,7 +30,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
     }
 
     @Override
-    public void droneDown(int droneId) {
+    public void droneDown(long droneId) {
 
     }
 }

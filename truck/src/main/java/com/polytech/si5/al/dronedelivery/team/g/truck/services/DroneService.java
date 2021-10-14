@@ -1,6 +1,8 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.services;
 
+import com.polytech.si5.al.dronedelivery.team.g.truck.constants.Api;
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DroneStateDto;
+import com.polytech.si5.al.dronedelivery.team.g.truck.dto.Position;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.FlightPlan;
 import org.slf4j.Logger;
@@ -20,11 +22,11 @@ public class DroneService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public DroneStateDto getDronePosition(Drone drone) {
+    public Position getDronePosition(Drone drone) {
         String port=drone.getConnectionInterface().getPort();
         String host=drone.getConnectionInterface().getHost();
-        String url = "https://"+host+":"+port+"{id}/drone-api";
-        ResponseEntity<DroneStateDto> response= this.restTemplate.getForEntity(url, DroneStateDto.class,drone.getId());
+        String url = "http://"+host+":"+port+"/"+ Api.DRONE_API_BASE_URL+"/position";
+        ResponseEntity<Position> response= this.restTemplate.getForEntity(url, Position.class);
         if(response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
@@ -35,7 +37,7 @@ public class DroneService {
     public void launchDrone(FlightPlan flightPlan, Drone drone){
         String port=drone.getConnectionInterface().getPort();
         String host=drone.getConnectionInterface().getHost();
-        String url = "http://"+host+":"+port+"/drone-api/delivery/start";
+        String url = "http://"+host+":"+port+"/"+Api.DRONE_API_BASE_URL+"/delivery/start";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<FlightPlan> request = new HttpEntity<FlightPlan>(flightPlan, headers);
