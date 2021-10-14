@@ -13,4 +13,11 @@ public class FlightPlan {
     public List<Position> getSteps() {
         return steps;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "steps=" + steps.toString() +
+                '}';
+    }
 }

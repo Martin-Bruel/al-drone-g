@@ -31,7 +31,8 @@ public class DroneService {
     public void launchDrone(FlightPlan flightPlan, Drone drone){
         String port=drone.getConnectionInterface().getPort();
         String host=drone.getConnectionInterface().getHost();
-        String url = "https://"+host+":"+port+"/drone-{id}";
-        ResponseEntity<DroneStateDto> response= this.restTemplate.getForEntity(url, DroneStateDto.class,drone.getId());
+        String url = "http://"+host+":"+port+"/drone-api/delivery/start";
+        String response= this.restTemplate.postForObject(url, flightPlan, String.class);
+        System.out.println(response);
     }
 }
