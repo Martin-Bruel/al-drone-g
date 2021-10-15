@@ -1,6 +1,8 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.*;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Address;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
 import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DeliveryRepository;
 import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DroneRepository;
 import org.slf4j.Logger;
@@ -29,26 +31,6 @@ public class TruckApplication {
 	private DeliveryRepository deliveryRepository;
 
 	@Bean
-	public CommandLineRunner createDrone(DroneRepository repository) {
-		return (args) -> {
-			// save a few drones
-			droneRepository.save(new Drone("Alpha",new ConnectionInterface("localhost","8084")));
-			droneRepository.save(new Drone("Tango"));
-			droneRepository.save(new Drone("Charly"));
-
-
-			// fetch all drones
-			log.info("Drones found with findAll():");
-			log.info("-------------------------------");
-			for (Drone drone : droneRepository.findAll()) {
-				log.info(drone.toString());
-			}
-			log.info("");
-		};
-	}
-
-
-	@Bean
 	public CommandLineRunner createDelivery(DeliveryRepository repository) {
 		return (args) -> {
 			// save a few drones
@@ -62,6 +44,8 @@ public class TruckApplication {
 				log.info(delivery.toString());
 			}
 			log.info("");
+
+			deliveryRepository.deleteAll();
 		};
 	}
 }
