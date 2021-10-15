@@ -56,7 +56,7 @@ public class DroneTracker implements DroneWatcher {
         params[0]=droneId;
         SchedulingRunnable task = new SchedulingRunnable(applicationContext,"droneTracker", "doTracking", paramsTypes ,params);
         this.tasks.put(droneId,task);
-        this.cronTaskRegister.addCronTask(task, "* * * * * ?");
+        this.cronTaskRegister.addCronTask(task, "*/5 * * * * *");
     }
 
     @Override

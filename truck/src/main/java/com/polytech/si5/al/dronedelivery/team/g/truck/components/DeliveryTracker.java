@@ -17,15 +17,16 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
 
     @Override
     public void updateDeliverySate(long droneId, int status) {
-        logger.info("DronId="+droneId+"  Status="+status);
-        logger.info(String.valueOf(status));
+        logger.info("Updating delivery of drone "+droneId);
         switch (status){
             case DeliveryStatusCode.STARTING_DELIVERY:
+                logger.info("Starting delivery ");
                 droneWatcher.track(droneId);
                 break;
             case DeliveryStatusCode.PENDING_DELIVERY:
                 break;
             case DeliveryStatusCode.FINISHED_DELIVERY:
+                logger.info("Finishing delivery ");
                 droneWatcher.untrack(droneId);
             default:
                 break;

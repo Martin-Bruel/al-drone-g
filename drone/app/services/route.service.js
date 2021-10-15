@@ -7,7 +7,7 @@ let task=[]
 
 exports.startDelivery= async function(itinary){
     Route.clean()
-    Route.create({id:0,step:0,itinary:itinary})
+    Route.create({id:0,direction:1,step:0,itinary:itinary})
     console.log('Drone reiceve flight plan : ' + JSON.stringify(itinary))
     TruckService.sendDeliveryState(droneId,1);
     startTask() 
@@ -19,14 +19,22 @@ function startTask(){
         var route =Route.getById(0)
         var step = route.step;
         var itinary=route.itinary;
+        var direction=route.direction;
         console.log("I'm in position "+toString_Position(itinary[step]));
-        if(step+1==itinary.length){
+        if(step+direction==itinary.length){
+            direction=-direction;
+            console.log("Delivering package..");
+            console.log("Done.");
+            console.log("Comming back from customer");
+        }
+        if(step==0 && direction <0){
             await TruckService.sendDeliveryState(droneId,3);
             Route.clean();
             console.log("Arriving to truck");
             task.destroy();       
         }
-        route.step=step+=1;
+        route.step=step+=direction;
+        route.direction=direction;
         Route.update(route.id,route)
     });
     return task; 
