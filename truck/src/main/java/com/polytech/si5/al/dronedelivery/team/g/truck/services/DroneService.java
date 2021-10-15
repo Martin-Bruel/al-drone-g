@@ -26,6 +26,7 @@ public class DroneService {
         String host=drone.getConnectionInterface().getHost();
         String url = "http://"+host+":"+port+"/"+ Api.DRONE_API_BASE_URL+"/position";
         ResponseEntity<PositionDto> response= this.restTemplate.getForEntity(url, PositionDto.class);
+        logger.info(String.valueOf(response.getStatusCode()));
         if(response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {

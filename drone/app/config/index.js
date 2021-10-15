@@ -2,7 +2,7 @@ const DEFAULT_ENV="dev";
 let configuration = {
   server_name:"drone",
   info:{
-    id:0
+    id:1
   },
   prod:{
     port: 8084,

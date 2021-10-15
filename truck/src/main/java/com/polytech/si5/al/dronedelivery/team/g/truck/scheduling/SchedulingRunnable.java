@@ -63,7 +63,7 @@ public class SchedulingRunnable implements Runnable {
                 method.invoke(target);
             }
         } catch (Exception ex) {
-            //logger.error(String.format("Timed Task Execution Exception - bean: %s，Method:%s，Parameters:%s ", beanName, methodName, params), ex);
+            logger.error(String.format("Timed Task Execution Exception - bean: %s，Method:%s，Parameters:%s ", beanName, methodName, params), ex);
         }
 
         long times = System.currentTimeMillis() - startTime;

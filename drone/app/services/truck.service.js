@@ -10,7 +10,7 @@ exports.sendDeliveryState=async function(droneId,statusCode){
         deliveryState:statusCode
       })
       .then((response) => {
-        console.log(response);
+        console.log("Update state");
       }, (error) => {
         console.log(error);
     });
