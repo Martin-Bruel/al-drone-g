@@ -29,13 +29,15 @@ public class TruckApplication {
 	@Autowired
 	private DeliveryRepository deliveryRepository;
 
+	Drone droneCharly = new Drone("Charly");
+
 	@Bean
 	public CommandLineRunner createDrone(DroneRepository repository) {
 		return (args) -> {
 			// save a few drones
 			droneRepository.save(new Drone("Alpha",new ConnectionInterface("localhost","8084")));
 			droneRepository.save(new Drone("Tango"));
-			droneRepository.save(new Drone("Charly"));
+			droneRepository.save(droneCharly);
 
 
 			// fetch all drones
@@ -54,8 +56,10 @@ public class TruckApplication {
 		return (args) -> {
 			// save a few drones
 			deliveryRepository.save(new Delivery(new Address("Rue Jean Macet", 3, 31300, "Toulouse", new Position(2,2))));
-
-
+			Delivery deliveryCharly = new Delivery(new Address("345 chemin des Rastines", 12, 06600, "Antibes", new Position(5,9)));
+			deliveryCharly.setDeliveryDrone(droneCharly);
+			deliveryRepository.save(deliveryCharly);
+			
 			// fetch all drones
 			log.info("Delivery found with findAll():");
 			log.info("-------------------------------");

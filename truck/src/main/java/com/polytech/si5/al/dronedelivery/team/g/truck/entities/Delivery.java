@@ -28,6 +28,10 @@ public class Delivery {
     @ManyToOne
     private Drone deliveryDrone;
 
+    public void setDeliveryDrone(Drone drone){
+        this.deliveryDrone = drone;
+    }
+
     @Override
     public String toString() {
         return "Delivery{" +
