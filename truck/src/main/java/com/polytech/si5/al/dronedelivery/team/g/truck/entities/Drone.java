@@ -16,7 +16,7 @@ public class Drone {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Setter(AccessLevel.PRIVATE)
+    @Setter(AccessLevel.NONE)
     private Long id;
     private String name;
 
@@ -24,7 +24,9 @@ public class Drone {
     @Enumerated(EnumType.STRING)
     private DroneStatus status;
 
-    @OneToMany( targetEntity=Delivery.class, mappedBy="deliveryDrone" )
+    @OneToMany(targetEntity=Delivery.class, mappedBy="deliveryDrone",
+        cascade = {CascadeType.PERSIST,CascadeType.MERGE}
+    )
     private List<Delivery> deliveries = new ArrayList<>();
 
     public ConnectionInterface connectionInterface;

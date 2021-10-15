@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
-public class DroneRegistryBean implements DroneFinder {
+public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegistration {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -44,5 +44,24 @@ public class DroneRegistryBean implements DroneFinder {
 
         cq.where(builder.equal(drone.get("status"), DroneStatus.READY));
         return entityManager.createQuery(cq).getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void assignDeliveryToDrone(Drone drone, Delivery delivery) {
+        delivery = entityManager.merge(delivery);
+        drone = entityManager.merge(drone);
+        drone.getDeliveries().add(delivery);
+        entityManager.persist(drone);
+        // TODO: 15/10/2021 Use cascading instead
+        delivery.setDeliveryDrone(drone);
+        entityManager.persist(delivery);
+    }
+
+
+    @Override
+    @Transactional
+    public void registerDrone(Drone d) {
+        entityManager.persist(d);
     }
 }

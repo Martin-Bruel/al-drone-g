@@ -23,11 +23,6 @@ class DroneRegistryBeanTest {
     @Autowired
     DroneFinder droneFinder;
 
-
-
-//    @PersistenceContext
-//    private EntityManager entityManager;
-
     @BeforeEach
     void setUp() {
         droneRepository.deleteAll();

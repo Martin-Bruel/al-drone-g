@@ -4,13 +4,14 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Allocation;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
-import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.AllocationProvider;
-import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneFinder;
-import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageFinder;
-import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PositionProvider;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.*;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +23,15 @@ public class SchedulerBean implements AllocationProvider {
     @Autowired
     private PackageFinder packageFinder;
     @Autowired
+    private DroneModifier droneModifier;
+    @Autowired
     private DroneFinder droneFinder;
 
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
+    @Transactional
     public List<Allocation> getAllocations() {
         Position pos = positionProvider.getTruckPosition();
         List<Delivery> packs = packageFinder.getDeliverablePackages();
@@ -35,7 +41,13 @@ public class SchedulerBean implements AllocationProvider {
 
         // Simple allocation
         for (int i = 0; i < Math.min(packs.size(), drones.size()); i++) {
-            allocations.add(new Allocation(drones.get(i), packs.get(i)));
+            Drone drone = entityManager.merge(drones.get(i));
+            Delivery pack = entityManager.merge(packs.get(i));
+            droneModifier.assignDeliveryToDrone(drone,pack);
+
+            Hibernate.initialize(drone.getDeliveries());
+            Hibernate.initialize(pack.getDeliveryDrone());
+            allocations.add(new Allocation(drone, pack));
         }
 
         return allocations;

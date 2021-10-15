@@ -13,6 +13,10 @@ public class Address {
         this.position = position;
     }
 
+    public Address(Position position) {
+        this.position = position;
+    }
+
     public Address(){}
 
     private String street;
