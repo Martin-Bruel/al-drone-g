@@ -1,7 +1,10 @@
 const { Router } = require('express')
 const router = new Router()
+
 router.post('/delivery/start', function (req, res) {
-    console.log('Drone reiceve flight plan : ' + JSON.stringify(req.body.steps))
+    let steps=req.body.steps;
+    Itinary=steps;
+    console.log('Drone reiceve flight plan : ' + JSON.stringify(steps))
     res.status(200).json('drone started')
 })
 router.get('/position', function (req, res) {

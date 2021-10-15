@@ -21,6 +21,7 @@ import org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProc
 import org.springframework.stereotype.Component;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 
 @Component("droneTracker")
@@ -45,6 +46,8 @@ public class DroneTracker implements DroneWatcher {
     @Autowired
     DroneFinder droneFinder;
 
+    private HashMap<Long,SchedulingRunnable> tasks=new HashMap<>();
+
     public void doTracking(Long droneId){
         logger.info("Log of drone "+droneId);
         Drone drone= droneFinder.findDroneById(droneId);
@@ -58,11 +61,13 @@ public class DroneTracker implements DroneWatcher {
         Object[] params= new Object[1];
         params[0]=droneId;
         SchedulingRunnable task = new SchedulingRunnable(applicationContext,"droneTracker", "doTracking", paramsTypes ,params);
+        this.tasks.put(droneId,task);
         this.cronTaskRegister.addCronTask(task, "* * * * * ?");
     }
 
     @Override
     public void untrack(long droneId) {
-
+        SchedulingRunnable task =this.tasks.get(droneId);
+        this.cronTaskRegister.removeCronTask(task);
     }
 }

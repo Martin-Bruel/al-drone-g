@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.ReflectionUtils;
 
+import javax.persistence.Embeddable;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
+@Embeddable
 public class SchedulingRunnable implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(SchedulingRunnable.class);
@@ -35,9 +37,13 @@ public class SchedulingRunnable implements Runnable {
         this.params = params;
     }
 
+    public SchedulingRunnable() {
+
+    }
+
     @Override
     public void run() {
-        logger.info("Timed Task Start Execution - bean: {}，Method:{}，Parameters:{}", beanName, methodName, params);
+        //logger.info("Timed Task Start Execution - bean: {}，Method:{}，Parameters:{}", beanName, methodName, params);
         long startTime = System.currentTimeMillis();
 
         try {
@@ -57,11 +63,11 @@ public class SchedulingRunnable implements Runnable {
                 method.invoke(target);
             }
         } catch (Exception ex) {
-            logger.error(String.format("Timed Task Execution Exception - bean: %s，Method:%s，Parameters:%s ", beanName, methodName, params), ex);
+            //logger.error(String.format("Timed Task Execution Exception - bean: %s，Method:%s，Parameters:%s ", beanName, methodName, params), ex);
         }
 
         long times = System.currentTimeMillis() - startTime;
-        logger.info("Timed Task Execution End - bean: {}，Method:{}，Parameters:{}，Time consuming:{} Millisecond", beanName, methodName, params, times);
+        //logger.info("Timed Task Execution End - bean: {}，Method:{}，Parameters:{}，Time consuming:{} Millisecond", beanName, methodName, params, times);
     }
 
     @Override
