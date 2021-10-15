@@ -21,13 +21,14 @@ function startTask(){
         var itinary=route.itinary;
         var direction=route.direction;
         console.log("I'm in position "+toString_Position(itinary[step]));
-        if(step+direction==itinary.length){
+        if(step+direction==itinary.length){//Arriving to address
             direction=-direction;
             console.log("Delivering package..");
             console.log("Done.");
+            TruckService.sendDeliveryState(droneId,4);//Sending delivery confirmation
             console.log("Comming back from customer");
         }
-        if(step==0 && direction <0){
+        if(step==0 && direction <0){//Returned to truck
             await TruckService.sendDeliveryState(droneId,3);
             Route.clean();
             console.log("Arriving to truck");

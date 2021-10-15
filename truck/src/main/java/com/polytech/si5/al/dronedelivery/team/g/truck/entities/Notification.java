@@ -8,7 +8,7 @@ public class Notification {
     private String description;
 
     public Notification(Long packageId, int deliverySate){
-        if(deliverySate == DeliveryStatusCode.PACKAGE_DELIVER){
+        if(deliverySate == DeliveryStatusCode.PACKAGE_DELIVERED){
             description = "The package " + packageId + " has been delivered.";
         } else {
             description = "packageId = " + packageId + ", deliverySate" + deliverySate;

@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
 
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 
 
@@ -44,12 +46,30 @@ public class DroneTracker implements DroneWatcher {
     private HashMap<Long,SchedulingRunnable> tasks=new HashMap<>();
 
     public void doTracking(Long droneId){
-        Drone drone= droneFinder.findDroneById(droneId);
-        PositionDto position =droneService.getDronePosition(drone);
-        logger.info("Received position of drone "+droneId +": "+position);
+        try{
+            Drone drone= droneFinder.findDroneById(droneId);
+            PositionDto position =droneService.getDronePosition(drone);
+            logger.info("Received position of drone "+droneId +": "+position);
+        }catch (ResourceAccessException e){
+
+            logger.error(e.getMessage());
+            if(e.getCause() instanceof SocketTimeoutException) {
+                //
+                droneStateNotifier.droneDown(droneId);
+                untrack(droneId);
+            }
+            if(e.getCause() instanceof InterruptedException) {
+                //
+                droneStateNotifier.droneDown(droneId);
+                untrack(droneId);
+            }
+        }
+
+
     }
 
     public void track(long droneId) {
+        logger.info("Tracking drone "+droneId);
         Class[] paramsTypes = new Class[1];
         paramsTypes[0] = Long.class;
         Object[] params= new Object[1];
@@ -61,6 +81,7 @@ public class DroneTracker implements DroneWatcher {
 
     @Override
     public void untrack(long droneId) {
+        logger.info("Untracking drone "+droneId);
         SchedulingRunnable task =this.tasks.get(droneId);
         this.cronTaskRegister.removeCronTask(task);
     }

@@ -27,7 +27,7 @@ public class Drone {
         this.name=name;
     }
 
-    @OneToMany( targetEntity=Delivery.class, mappedBy="deliveryDrone" )
+    @OneToMany( targetEntity=Delivery.class, mappedBy="deliveryDrone",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private List<Delivery> deliveries = new ArrayList<>();
 
     public Drone() {
