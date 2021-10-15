@@ -1,15 +1,21 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.DroneStatus;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneFinder;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneModifier;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneRegistration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Arrays;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
@@ -29,10 +35,14 @@ public class DroneRegistryBean implements DroneFinder {
     }
 
     @Override
+    @Transactional
     public List<Drone> getAvailableDrones() {
-        // TODO: 14/10/2021 Fetch 'READY' drones instead
-        Drone d = new Drone();
-        d.setStatus(DroneStatus.READY);
-        return Arrays.asList(d);
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Drone> cq = builder.createQuery(Drone.class);
+        Root<Drone> drone = cq.from(Drone.class);
+        cq.select(drone);
+
+        cq.where(builder.equal(drone.get("status"), DroneStatus.READY));
+        return entityManager.createQuery(cq).getResultList();
     }
 }
