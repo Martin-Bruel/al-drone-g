@@ -1,6 +1,7 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.entities;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +15,11 @@ public class Drone {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String name;
+
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private DroneStatus status;
+
     public ConnectionInterface connectionInterface;
 
     public Drone(String name, ConnectionInterface connectionInterface) {
