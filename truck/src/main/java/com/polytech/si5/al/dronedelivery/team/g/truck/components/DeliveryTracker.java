@@ -24,6 +24,8 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
                 break;
             case DeliveryStatusCode.PENDING_DELIVERY:
                 break;
+            case DeliveryStatusCode.FINISHED_DELIVERY:
+                droneWatcher.untrack(droneId);
             default:
                 break;
         }

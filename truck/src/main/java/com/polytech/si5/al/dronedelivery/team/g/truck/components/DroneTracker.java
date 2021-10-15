@@ -1,7 +1,6 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.configuration.SchedulerConfiguration;
-import com.polytech.si5.al.dronedelivery.team.g.truck.dto.Position;
+import com.polytech.si5.al.dronedelivery.team.g.truck.dto.PositionDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneFinder;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneStateNotifier;
@@ -14,13 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor;
 import org.springframework.stereotype.Component;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
+
 import java.util.HashMap;
 
 
@@ -49,10 +44,9 @@ public class DroneTracker implements DroneWatcher {
     private HashMap<Long,SchedulingRunnable> tasks=new HashMap<>();
 
     public void doTracking(Long droneId){
-        logger.info("Log of drone "+droneId);
         Drone drone= droneFinder.findDroneById(droneId);
-        Position position =droneService.getDronePosition(drone);
-        logger.info(String.valueOf(position));
+        PositionDto position =droneService.getDronePosition(drone);
+        logger.info("Received position of drone "+droneId +": "+position);
     }
 
     public void track(long droneId) {

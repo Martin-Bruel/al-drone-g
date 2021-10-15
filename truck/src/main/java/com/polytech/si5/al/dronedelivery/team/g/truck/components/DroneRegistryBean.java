@@ -19,7 +19,7 @@ public class DroneRegistryBean implements DroneFinder {
 
     @Override
     public Drone findDroneById(Long droneId) throws IllegalArgumentException{
-        logger.info("find drone for id " + droneId);
+        logger.info("Find drone for id " + droneId);
         Drone drone = entityManager.find(Drone.class, droneId);
         if(drone == null) throw new IllegalArgumentException("Drone " + droneId + " not found...");
         return drone;

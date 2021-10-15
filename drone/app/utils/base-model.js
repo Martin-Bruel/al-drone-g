@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 const fs = require('fs')
 const Joi = require('joi')
-const logger = require('../utils/logger.js')
+const logger = require('./logger.js')
 const ValidationError = require('./errors/validation-error.js')
 const NotFoundError = require('./errors/not-found-error.js')
 
@@ -36,6 +36,18 @@ module.exports = class BaseModel {
     return this.items
   }
 
+  isEmpty() {
+    if(this.items.length==0){
+      return true;
+    }
+    return false;
+  }
+
+  clean(){
+    this.items=[]
+    this.save()
+  }
+
   getById(id) {
     if (typeof id === 'string') id = parseInt(id, 10)
     const item = this.items.find((i) => i.id === id)
@@ -44,8 +56,11 @@ module.exports = class BaseModel {
   }
 
   create(obj = {}) {
-    const item = { ...obj, id: Date.now() }
-    const { error } = Joi.validate(item, this.schema)
+    if(obj.id == "undefined"){
+      throw new Error("Id not defined");
+    }
+    const item = obj;
+    const { error } = this.schema.validate(item)
     if (error) throw new ValidationError(`Create Error : Object ${JSON.stringify(obj)} does not match schema of model ${this.name}`, error)
     this.items.push(item)
     this.save()

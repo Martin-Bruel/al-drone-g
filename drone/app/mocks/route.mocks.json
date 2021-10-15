@@ -1,0 +1,24 @@
+[
+  {
+    "id": 0,
+    "step": 0,
+    "itinary": [
+      {
+        "Latitude": "43543543",
+        "longitude": "23423435"
+      },
+      {
+        "Latitude": "23423435",
+        "longitude": "565465467"
+      },
+      {
+        "Latitude": "67676876",
+        "longitude": "786787873"
+      },
+      {
+        "Latitude": "34334343",
+        "longitude": "5654545546"
+      }
+    ]
+  }
+]

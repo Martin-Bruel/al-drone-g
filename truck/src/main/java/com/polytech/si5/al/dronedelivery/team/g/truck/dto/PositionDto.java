@@ -3,14 +3,14 @@ package com.polytech.si5.al.dronedelivery.team.g.truck.dto;
 import lombok.Getter;
 
 @Getter
-public class Position {
-    private String latitude;
+public class PositionDto {
+    private String Latitude;
     private String longitude;
 
     @Override
     public String toString() {
         return "Position{" +
-                "latitude='" + latitude + '\'' +
+                "Latitude='" + Latitude + '\'' +
                 ", longitude='" + longitude + '\'' +
                 '}';
     }

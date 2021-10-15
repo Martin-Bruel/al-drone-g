@@ -33,7 +33,7 @@ public class DroneStarterBean implements DroneLauncher {
 
     @Override
     public void start(Long droneId, Long packageId) {
-        logger.info("starting drone " + droneId + " with package " + packageId);
+        logger.info("Starting drone " + droneId + " with package " + packageId);
         Position truckPos = positionProvider.getTruckPosition();
         Position packagePos = packageFinder.getPackageByPackageId(packageId).getAddress().getPosition();
         FlightPlan flightPlan = pathFinder.getPath(truckPos, packagePos);
