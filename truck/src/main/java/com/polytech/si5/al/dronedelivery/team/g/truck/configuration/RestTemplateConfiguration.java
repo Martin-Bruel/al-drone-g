@@ -12,7 +12,7 @@ public class RestTemplateConfiguration {
     @Bean
     public RestTemplate restTemplate() {
 
-        var factory = new SimpleClientHttpRequestFactory();
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
 
         factory.setConnectTimeout(Api.TIMEOUT);
         factory.setReadTimeout(Api.TIMEOUT);
