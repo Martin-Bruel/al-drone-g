@@ -1,6 +1,8 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.*;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Address;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
 import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DeliveryRepository;
 import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DroneRepository;
 import org.slf4j.Logger;
@@ -67,6 +69,8 @@ public class TruckApplication {
 				log.info(delivery.toString());
 			}
 			log.info("");
+
+			deliveryRepository.deleteAll();
 		};
 	}
 }

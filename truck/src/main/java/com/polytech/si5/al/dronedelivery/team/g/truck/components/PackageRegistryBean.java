@@ -1,9 +1,8 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageFinder;
-import org.hibernate.Session;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageRegistration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,10 +14,11 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
-public class PackageRegistryBean implements PackageFinder {
+public class PackageRegistryBean implements PackageFinder, PackageRegistration {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -54,5 +54,11 @@ public class PackageRegistryBean implements PackageFinder {
         } catch (NoResultException nre) {
             throw new NoResultException(nre.getMessage());
         }
+    }
+
+    @Override
+    @Transactional
+    public void registerDelivery(Delivery delivery) {
+        entityManager.persist(delivery);
     }
 }

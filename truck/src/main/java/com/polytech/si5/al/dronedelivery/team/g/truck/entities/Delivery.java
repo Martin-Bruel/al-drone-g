@@ -1,12 +1,16 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.entities;
 
+
 import com.polytech.si5.al.dronedelivery.team.g.truck.enumeration.DeliveryStatus;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 public class Delivery {
 
     public Delivery(Address address) {
@@ -19,6 +23,7 @@ public class Delivery {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     private Address address;
