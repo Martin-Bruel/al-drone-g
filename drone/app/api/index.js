@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const router = new Router()
-router.post('/delivery/start', function (req, res) {
-    console.log('Drone reiceve flight plan : ' + JSON.stringify(req.body.steps))
-    res.status(200).json('drone started')
-})
+const DroneController = require('../controllers/drone.controller')
+
+router.post('/delivery/start',DroneController.startDelivery )
+router.get('/position', DroneController.getPosition)
 module.exports = router

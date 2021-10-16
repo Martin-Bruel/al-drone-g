@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -22,6 +23,9 @@ public class DronePlanifierBean implements PathFinder {
      */
     public FlightPlan getPath(Position truckPos, Position packagePos) {
         logger.info("Determine flight plan");
-        return new FlightPlan(List.of(truckPos, packagePos));
+        List<Position> positions = new ArrayList<>();
+        positions.add(truckPos);
+        positions.add(packagePos);
+        return new FlightPlan(positions);
     }
 }
