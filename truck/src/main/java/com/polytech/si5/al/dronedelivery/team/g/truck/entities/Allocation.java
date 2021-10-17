@@ -1,5 +1,6 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.entities;
 
+import com.polytech.si5.al.dronedelivery.team.g.truck.views.AllocationView;
 import lombok.Getter;
 
 @Getter
@@ -19,5 +20,9 @@ public class Allocation {
                 "drone=" + drone.getId() +
                 ", delivery=" + delivery.getId() +
                 '}';
+    }
+
+    public AllocationView getView() {
+        return new AllocationView(this);
     }
 }
