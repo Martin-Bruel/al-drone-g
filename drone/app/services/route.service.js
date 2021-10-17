@@ -49,5 +49,5 @@ exports.getPosition = async function(){
 }
 
 function toString_Position(position){
-    return "("+position.Latitude+","+position.longitude+")"
+    return "("+position.latitude+","+position.longitude+")"
 }

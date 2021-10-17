@@ -3,6 +3,7 @@ package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 import com.polytech.si5.al.dronedelivery.team.g.truck.constants.DeliveryStatusCode;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.DroneStatus;
 import com.polytech.si5.al.dronedelivery.team.g.truck.enumeration.DeliveryStatus;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.*;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
@@ -34,6 +36,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
     private boolean mustSendMessage=true;
 
     @Override
+    @Transactional
     public void updateDeliverySate(long droneId, int status) {
         logger.info("Updating delivery of drone "+droneId + " (Status:"+status+")");
         switch (status){
@@ -45,19 +48,20 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
                 break;
             case DeliveryStatusCode.FINISHED_DELIVERY:
                 logger.info("Finishing delivery ");
+                Drone drone= droneFinder.findDroneById(droneId);
+                drone.setStatus(DroneStatus.READY);
                 droneWatcher.untrack(droneId);
                 break;
             case DeliveryStatusCode.PACKAGE_DELIVERED:
                 logger.info("Package delivered");
-                Drone drone= droneFinder.findDroneById(droneId);
                 List<Delivery> deliveries=packageFinder.getPackagesByDroneId(droneId);
+                if(mustSendMessage){
+                    sendNotification(droneId, status);
+                }
                 for(Delivery delivery : deliveries){
                     delivery.setDeliveryStatus(DeliveryStatus.DELIVERED);
                     delivery.setDeliveryDrone(null);
-                    entityManager.merge(delivery);
-                }
-                if(mustSendMessage){
-                    sendNotification(droneId, status);
+                    entityManager.persist(delivery);
                 }
                 break;
             default:
@@ -81,5 +85,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
             delivery.setDeliveryStatus(DeliveryStatus.LOST);
             entityManager.merge(delivery);
         }
+        Drone drone= droneFinder.findDroneById(droneId);
+        drone.setStatus(DroneStatus.LOST);
     }
 }

@@ -23,4 +23,45 @@ public class TruckApplication {
 		SpringApplication.run(TruckApplication.class, args);
 	}
 
+	@Autowired
+	private DroneRepository droneRepository;
+
+	@Autowired
+	private DeliveryRepository deliveryRepository;
+
+	@Bean
+	public CommandLineRunner createDrone(DroneRepository repository) {
+		return (args) -> {
+			// Save drone
+			Drone newDrone =new Drone("Alpha",new ConnectionInterface("localhost","8084"));
+			newDrone.setStatus(DroneStatus.READY);
+			droneRepository.save(newDrone);
+
+
+			// Fetch all drones
+			log.info("Drones found with findAll():");
+			log.info("-------------------------------");
+			for (Drone drone : droneRepository.findAll()) {
+				log.info(drone.toString());
+			}
+			log.info("");
+		};
+	}
+
+	@Bean
+	public CommandLineRunner createDelivery(DeliveryRepository repository) {
+		return (args) -> {
+			// Save delivery
+			deliveryRepository.save(new Delivery(new Address("Rue Jean Macet", 3, 31300, "Toulouse", new Position(2,2))));
+
+
+			// Fetch all deliveries
+			log.info("Delivery found with findAll():");
+			log.info("-------------------------------");
+			for (Delivery delivery : deliveryRepository.findAll()) {
+				log.info(delivery.toString());
+			}
+			log.info("");
+		};
+	}
 }
