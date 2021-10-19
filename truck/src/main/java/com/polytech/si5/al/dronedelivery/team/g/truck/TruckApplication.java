@@ -30,25 +30,6 @@ public class TruckApplication {
 	private DeliveryRepository deliveryRepository;
 
 	@Bean
-	public CommandLineRunner createDrone(DroneRepository repository) {
-		return (args) -> {
-			// Save drone
-			Drone newDrone =new Drone("Alpha",new ConnectionInterface("localhost","8084"));
-			newDrone.setStatus(DroneStatus.READY);
-			droneRepository.save(newDrone);
-
-
-			// Fetch all drones
-			log.info("Drones found with findAll():");
-			log.info("-------------------------------");
-			for (Drone drone : droneRepository.findAll()) {
-				log.info(drone.toString());
-			}
-			log.info("");
-		};
-	}
-
-	@Bean
 	public CommandLineRunner createDelivery(DeliveryRepository repository) {
 		return (args) -> {
 			// Save delivery

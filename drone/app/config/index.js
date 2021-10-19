@@ -6,6 +6,7 @@ let configuration = {
   },
   prod:{
     port: 8084,
+    name: process.env.DRONE_NAME,
     database: '' , 
     external: {
       truck : {host:'truck',port:8085}
@@ -13,6 +14,7 @@ let configuration = {
   },
   dev:{
     port: 8084,
+    name: 'alpha',
     database:'',
     external: {
       truck : {host:'localhost',port:8085}
