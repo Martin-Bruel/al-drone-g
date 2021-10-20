@@ -35,4 +35,19 @@ public class WarehouseService {
         logger.info(response);
 
     }
+
+    public void sendNotifications(Notification[] notifications){
+        logger.info("In sendNotifications : "+notifications);
+        // Build URL //
+        String host= Api.WAREHOUSE_API_HOST;
+        String port= Api.WAREHOUSE_API_PORT;
+        String url = "http://"+host+":"+port+"/"+ Api.WAREHOUSE_API_BASE_URL+"/notifications";
+        // Build request //
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Notification[]> request = new HttpEntity<Notification[]>(notifications, headers);
+        String response= restTemplate.postForObject(url, request, String.class);
+        logger.info(response);
+
+    }
 }
