@@ -15,3 +15,19 @@ exports.sendDeliveryState=async function(droneId,statusCode){
         console.log(error);
     });
 }
+
+exports.connectToTruck=async function(){
+  let url='http://'+truckService.host + ':'+ truckService.port +'/connect/drone/';
+  let result = await axios.post(url, {
+    name : context.name,
+    host: context.host,
+    port: context.port
+  }).then((response) => {
+    let id = response.data
+    console.log("Connected to the truck - my id is : " + id)
+    getConfiguration().info.id = id
+  }, (error) => {
+    console.log(error);
+  });
+  
+}

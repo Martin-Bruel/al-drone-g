@@ -2,10 +2,10 @@ var cron = require('node-cron');
 const { Route } = require('../models')
 const TruckService= require('../services/truck.service')
 const {getConfiguration}=require('../config')
-const droneId= getConfiguration().info.id;
 let task=[]
 
 exports.startDelivery= async function(itinary){
+    let droneId= getConfiguration().info.id;
     Route.clean()
     Route.create({id:0,direction:1,step:0,itinary:itinary})
     console.log('Drone reiceve flight plan : ' + JSON.stringify(itinary))
@@ -14,6 +14,7 @@ exports.startDelivery= async function(itinary){
 }
 
 function startTask(){
+    let droneId= getConfiguration().info.id;
     console.log("Starting delivery")
     task=cron.schedule('*/5 * * * * *', async () =>  {
         var route =Route.getById(0)

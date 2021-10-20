@@ -1,11 +1,12 @@
 const DEFAULT_ENV="dev";
-let configuration = {
+var configuration = {
   server_name:"drone",
   info:{
     id:1
   },
   prod:{
-    port: 8084,
+    host: process.env.DRONE_HOST,
+    port: process.env.DRONE_PORT,
     name: process.env.DRONE_NAME,
     database: '' , 
     external: {
@@ -13,6 +14,7 @@ let configuration = {
     }
   },
   dev:{
+    host: 'localhost',
     port: 8084,
     name: 'alpha',
     database:'',
