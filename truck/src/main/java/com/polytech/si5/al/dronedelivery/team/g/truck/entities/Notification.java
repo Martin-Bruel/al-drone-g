@@ -34,6 +34,10 @@ public class Notification {
         this.description = "An empty notification";
     }
 
+    public Long getId(){
+        return this.id;
+    }
+
     @Override
     public String toString() {
         return String.format(

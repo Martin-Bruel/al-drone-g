@@ -1,6 +1,8 @@
 async function receivedNotifications(notifications){
+    console.log("Bunch of notifications recieved :")
     for(indexNotification in notifications){
-        console.log(notifications[indexNotification]);
+        currentNotif = notifications[indexNotification]
+        console.log("Notification "+currentNotif.id+" : "+currentNotif.description);
     }
 }
 

@@ -2,13 +2,19 @@ package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Notification;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.NotificationFinder;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.NotificationModifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.services.WarehouseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class NotifierSender {
@@ -19,6 +25,11 @@ public class NotifierSender {
     @Autowired
     NotificationFinder notificationFinder;
 
+    @Autowired
+    NotificationModifier notificationModifier;
+
+    private static final Logger logger = LoggerFactory.getLogger(NotifierSender.class);
+
     @Scheduled(fixedDelay = 5000)
     public void scheduleFixedDelayTask() {
         List<Notification> notifications = notificationFinder.getAllNotification();
@@ -28,17 +39,17 @@ public class NotifierSender {
     }
 
     private void sendNotificationList(List<Notification> notificationList) {
-        Notification[] notificationsTable = notificationList.toArray(new Notification[0]);
-        System.out.println("array of notification : ");
-        for(Notification not : notificationsTable){
-            System.out.println(not);
-        }
-
         try {
             warehouseService.sendNotifications(notificationList.toArray(new Notification[0]));
-        } catch (IOException e){
-            System.out.println("The warehouse can't be joined, the notifications will send later");
+            cleanNotifications(notificationList);
+        } catch (ResourceAccessException e){
+            logger.warn("The warehouse can't be joined, the notifications will send later");
         }
+    }
 
+    private void cleanNotifications(List<Notification> notificationList){
+        logger.info("The notifications have been sent");
+        List<Long> notificationsIds = notificationList.stream().map(Notification::getId).collect(Collectors.toList());
+        notificationModifier.deleteNotificationsByIds(notificationsIds);
     }
 }

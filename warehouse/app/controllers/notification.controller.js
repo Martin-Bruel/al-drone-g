@@ -2,9 +2,7 @@ const notificationService = require('../services/notification.service');
 
 async function receivedNotifications(req, res) {
     try {
-        let bodyNotif = req.body;
-        console.log("ce que contient le body : "+bodyNotif);
-        notificationService.receivedNotifications(bodyNotif);
+        notificationService.receivedNotifications(req.body);
         res.status(200).json('notification received')
     } catch (error) {
         console.log(error)
