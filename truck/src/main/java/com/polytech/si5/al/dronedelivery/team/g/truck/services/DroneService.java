@@ -10,6 +10,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -24,12 +25,12 @@ public class DroneService {
 
     public RestTemplate buildRestTemplate(int timeout){
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        requestFactory.setConnectTimeout(1000);
-        requestFactory.setReadTimeout(1000);
+        requestFactory.setConnectTimeout(timeout);
+        requestFactory.setReadTimeout(timeout);
         RestTemplate restTemplate = new RestTemplate(requestFactory);
         return restTemplate;
     }
-    public PositionDto getDronePositionFunc(Drone drone, int timeout) {
+    public PositionDto getDronePositionFunc(Drone drone, int timeout) throws RestClientException {
         RestTemplate restTemplate= buildRestTemplate(timeout);
         String port=drone.getConnectionInterface().getPort();
         String host=drone.getConnectionInterface().getHost();
@@ -42,11 +43,11 @@ public class DroneService {
         }
 
     }
-    public PositionDto getDronePosition(Drone drone) {
+    public PositionDto getDronePosition(Drone drone)throws RestClientException {
         return  getDronePositionFunc(drone,Api.DRONE_TIMEOUT);
     }
 
-    public PositionDto getDronePositionInTime(Drone drone, int timeout) {
+    public PositionDto getDronePositionInTime(Drone drone, int timeout) throws RestClientException {
         return  getDronePositionFunc(drone,timeout);
     }
 

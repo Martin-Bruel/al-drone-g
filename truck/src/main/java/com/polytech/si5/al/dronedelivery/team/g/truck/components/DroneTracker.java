@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -60,7 +61,7 @@ public class DroneTracker implements DroneWatcher {
 
     }
 
-    public void retryDoTracking(Drone drone) throws UnreachableServiceException {
+    public void retryDoTracking(Drone drone) {
         long droneId = drone.getId();
         for (int i = 0; i < Api.DRONE_RETRY_CONNECTION;i++){
             try {
@@ -69,8 +70,8 @@ public class DroneTracker implements DroneWatcher {
                 logger.info("Attempted success!");
                 logger.info("Received position of drone "+droneId +": "+position);
                 return;
-            }catch(ResourceAccessException e){
-                logger.info(e.getMessage());
+            }catch(RestClientException e){
+                //logger.info(e.getMessage());
                 logger.info("Attempted failed");
             }
 
@@ -96,7 +97,11 @@ public class DroneTracker implements DroneWatcher {
     @Override
     public void untrack(long droneId) {
         logger.info("Untracking drone "+droneId);
+        logger.info("Runnable "+tasks);
         SchedulingRunnable task =this.tasks.get(droneId);
-        this.cronTaskRegister.removeCronTask(task);
+        if(this.tasks.containsKey(droneId)){
+            this.cronTaskRegister.removeCronTask(task);
+            this.tasks.remove(droneId);
+        }
     }
 }

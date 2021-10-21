@@ -1,17 +1,1 @@
-[
-  {
-    "id": 0,
-    "direction": 1,
-    "step": 0,
-    "itinary": [
-      {
-        "longitude": 0,
-        "latitude": 0
-      },
-      {
-        "longitude": 2,
-        "latitude": 2
-      }
-    ]
-  }
-]
+[]
