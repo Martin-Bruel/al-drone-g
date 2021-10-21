@@ -37,7 +37,7 @@ public class NotifierDelivery implements Notifier, NotificationRegistration, Not
         System.out.println("Notification to persist = "+notification);
         registerNotification(notification);
         System.out.println("Persisted");
-        System.out.println("Notifications in database :");
+        /*System.out.println("Notifications in database :");
         List<Notification> notifications = getAllNotification();
         for(Notification n : notifications){
             System.out.println(n);
@@ -49,7 +49,7 @@ public class NotifierDelivery implements Notifier, NotificationRegistration, Not
             System.out.println(not);
         }
         warehouseService.sendNotifications(notifications.toArray(new Notification[0]));
-        System.out.println("End of the test for the notifications");
+        System.out.println("End of the test for the notifications");*/
     }
 
     @Override

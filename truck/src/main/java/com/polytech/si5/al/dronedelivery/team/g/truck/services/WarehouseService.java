@@ -11,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.net.ConnectException;
+
 @Service
 public class WarehouseService {
 
@@ -36,7 +39,7 @@ public class WarehouseService {
 
     }
 
-    public void sendNotifications(Notification[] notifications){
+    public void sendNotifications(Notification[] notifications) throws ConnectException {
         logger.info("In sendNotifications : "+notifications);
         // Build URL //
         String host= Api.WAREHOUSE_API_HOST;
