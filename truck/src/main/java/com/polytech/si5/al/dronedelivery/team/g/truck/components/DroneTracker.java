@@ -77,7 +77,6 @@ public class DroneTracker implements DroneWatcher {
 
         }
         logger.info("Unreachable service");
-        logger.info("Untracking drone "+droneId);
         droneStateNotifier.droneDown(droneId);
         untrack(droneId);
 
