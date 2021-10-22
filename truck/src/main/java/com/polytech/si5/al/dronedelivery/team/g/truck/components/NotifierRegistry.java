@@ -12,6 +12,10 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -40,15 +44,22 @@ public class NotifierRegistry implements NotificationRegistration, NotificationF
 
     @Transactional
     public List<Notification> getAllNotification(){
-        return (List<Notification>) entityManager.createQuery(
-                "SELECT e FROM Notification e", Notification.class).getResultList();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Notification> cq = builder.createQuery(Notification.class);
+        Root<Notification> notificationRoot = cq.from(Notification.class);
+        cq.select(notificationRoot);
+
+        return entityManager.createQuery(cq).getResultList();
     }
 
     @Override
     @Transactional
     public void deleteNotificationsByIds(List<Long> notificationsIds) {
-        entityManager.createQuery("DELETE FROM Notification n WHERE n.id IN (:ids)")
-                .setParameter("ids", notificationsIds)
-                .executeUpdate();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaDelete<Notification> query = cb.createCriteriaDelete(Notification.class);
+        Root<Notification> root = query.from(Notification.class);
+        query.where(root.get("id").in(notificationsIds));
+
+        entityManager.createQuery(query).executeUpdate();
     }
 }
