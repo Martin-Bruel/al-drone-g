@@ -21,7 +21,6 @@ public class Drone {
     private Long id;
     private String name;
 
-    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private DroneStatus status;
 

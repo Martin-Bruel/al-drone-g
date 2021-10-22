@@ -8,13 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.concurrent.TimeoutException;
 
 @Service
 public class DroneService {
@@ -28,13 +25,13 @@ public class DroneService {
 
     public RestTemplate buildRestTemplate(int timeout){
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        requestFactory.setConnectTimeout(1000);
-        requestFactory.setReadTimeout(1000);
+        requestFactory.setConnectTimeout(timeout);
+        requestFactory.setReadTimeout(timeout);
         RestTemplate restTemplate = new RestTemplate(requestFactory);
         return restTemplate;
     }
-    public PositionDto getDronePosition(Drone drone) {
-        RestTemplate restTemplate= buildRestTemplate(Api.ACCEPTABLE_DRONE_TIMEOUT);
+    public PositionDto getDronePositionFunc(Drone drone, int timeout) throws RestClientException {
+        RestTemplate restTemplate= buildRestTemplate(timeout);
         String port=drone.getConnectionInterface().getPort();
         String host=drone.getConnectionInterface().getHost();
         String url = "http://"+host + ":" + port+"/"+ Api.DRONE_API_BASE_URL+"/position";
@@ -45,6 +42,13 @@ public class DroneService {
             return null;
         }
 
+    }
+    public PositionDto getDronePosition(Drone drone)throws RestClientException {
+        return  getDronePositionFunc(drone,Api.DRONE_TIMEOUT);
+    }
+
+    public PositionDto getDronePositionInTime(Drone drone, int timeout) throws RestClientException {
+        return  getDronePositionFunc(drone,timeout);
     }
 
     public void launchDrone(FlightPlan flightPlan, Drone drone){
