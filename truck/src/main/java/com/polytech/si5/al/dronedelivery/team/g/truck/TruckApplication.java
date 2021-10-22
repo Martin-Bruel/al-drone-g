@@ -29,31 +29,16 @@ public class TruckApplication {
 	private DeliveryRepository deliveryRepository;
 
 	@Bean
-	public CommandLineRunner createDrone(DroneRepository repository) {
-		return (args) -> {
-			// Save drone
-			Drone newDrone =new Drone("Alpha",new ConnectionInterface("localhost","8084"));
-			newDrone.setStatus(DroneStatus.READY);
-			droneRepository.save(newDrone);
-
-
-			// Fetch all drones
-			log.info("Drones found with findAll():");
-			log.info("-------------------------------");
-			for (Drone drone : droneRepository.findAll()) {
-				log.info(drone.toString());
-			}
-			log.info("");
-
-			//droneRepository.deleteAll();
-		};
-	}
-
-	@Bean
 	public CommandLineRunner createDelivery(DeliveryRepository repository) {
 		return (args) -> {
 			// Save delivery
 			deliveryRepository.save(new Delivery(new Address("Rue Jean Macet", 3, 31300, "Toulouse", new Position(2,2))));
+			deliveryRepository.save(new Delivery(new Address("Avenue Saint Patrick", 3, 81000, "Albi", new Position(4,2))));
+			deliveryRepository.save(new Delivery(new Address("Rue de la paix", 3, 06600, "Antibes", new Position(1,2))));
+			deliveryRepository.save(new Delivery(new Address("Chemin Jean Martinet", 3, 75000, "Paris", new Position(5,4))));
+			deliveryRepository.save(new Delivery(new Address("Avenue Jeanne darc", 3, 66000, "Perpignan", new Position(3,2))));
+			deliveryRepository.save(new Delivery(new Address("Boulevard de Paris", 3, 64000, "Pau", new Position(0,4))));
+			deliveryRepository.save(new Delivery(new Address("Route de Saint Jean", 3, 12000, "Rodez", new Position(10,8))));
 
 
 			// Fetch all deliveries

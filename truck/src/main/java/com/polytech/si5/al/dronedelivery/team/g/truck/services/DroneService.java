@@ -34,7 +34,7 @@ public class DroneService {
         RestTemplate restTemplate= buildRestTemplate(timeout);
         String port=drone.getConnectionInterface().getPort();
         String host=drone.getConnectionInterface().getHost();
-        String url = "http://"+host+":"+port+"/"+ Api.DRONE_API_BASE_URL+"/position";
+        String url = "http://"+host + ":" + port+"/"+ Api.DRONE_API_BASE_URL+"/position";
         ResponseEntity<PositionDto> response= restTemplate.getForEntity(url, PositionDto.class);
         if(response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
@@ -54,7 +54,7 @@ public class DroneService {
     public void launchDrone(FlightPlan flightPlan, Drone drone){
         String port=drone.getConnectionInterface().getPort();
         String host=drone.getConnectionInterface().getHost();
-        String url = "http://"+host+":"+port+"/"+Api.DRONE_API_BASE_URL+"/delivery/start";
+        String url = "http://"+host + ":" + port+"/"+Api.DRONE_API_BASE_URL+"/delivery/start";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<FlightPlan> request = new HttpEntity<FlightPlan>(flightPlan, headers);
