@@ -45,7 +45,7 @@ public class TruckApplication {
 			}
 			log.info("");
 
-			droneRepository.deleteAll();
+			//droneRepository.deleteAll();
 		};
 	}
 

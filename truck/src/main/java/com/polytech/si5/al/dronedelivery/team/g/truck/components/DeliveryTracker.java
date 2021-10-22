@@ -80,6 +80,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
     }
 
     @Override
+    @Transactional
     public void droneDown(long droneId) {
         List<Delivery> deliveries=packageFinder.getPackagesByDroneId(droneId);
         for(Delivery delivery : deliveries){
