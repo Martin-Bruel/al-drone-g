@@ -61,7 +61,9 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
 
     @Override
     @Transactional
-    public void registerDrone(Drone d) {
+    public Long registerDrone(Drone d) {
         entityManager.persist(d);
+        entityManager.flush();
+        return d.getId();
     }
 }

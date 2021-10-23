@@ -1,20 +1,53 @@
 version: "3.9"
 
 services:
-  web:
-      image: delivery-drone/truck
-      depends_on:
-        - database
-      environment:
-        - DATABASE_URL=postgres://root:password@database:5432/postgres
-        - PORT=8080
-      expose:
-        - 8080
-      ports:
-        - "8080:8080"
 
-  database:
-    image: postgres:13.4
-    environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=root
+  truck:
+      image: delivery-drone/truck
+      ports:
+        - "8085:8085"
+      environment:
+        - APP_ENV=prod
+
+  alpha:
+      image: delivery-drone/drone
+      ports:
+        - "8084:8084"
+      environment:
+        - DRONE_NAME=alpha
+        - DRONE_HOST=alpha
+        - DRONE_PORT=8084
+        - APP_ENV=prod
+      depends_on:
+        - "truck"
+
+  beta:
+      image: delivery-drone/drone
+      ports:
+        - "8083:8083"
+      environment:
+        - DRONE_NAME=beta
+        - DRONE_HOST=beta
+        - DRONE_PORT=8083
+        - APP_ENV=prod
+      depends_on:
+        - "truck"
+
+  charly:
+      image: delivery-drone/drone
+      ports:
+        - "8082:8082"
+      environment:
+        - DRONE_NAME=charly
+        - DRONE_HOST=charly
+        - DRONE_PORT=8082
+        - APP_ENV=prod
+      depends_on:
+        - "truck"
+
+  warehouse:
+      image: delivery-drone/warehouse
+      ports:
+        - "8086:8086"
+      environment:
+        - APP_ENV=prod

@@ -38,8 +38,9 @@ public class CronTaskRegister implements DisposableBean {
 
     public void removeCronTask(Runnable task) {
         ScheduledTask scheduledTask = this.scheduledTasks.remove(task);
-        if (scheduledTask != null)
+        if (scheduledTask != null) {
             scheduledTask.cancel();
+        }
     }
 
     public ScheduledTask scheduleCronTask(CronTask cronTask) {

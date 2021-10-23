@@ -31,7 +31,8 @@ public class Delivery {
     @ManyToOne(cascade = CascadeType.MERGE)
     private Drone deliveryDrone;
 
-    private DeliveryStatus deliveryStatus=DeliveryStatus.DOCKED;
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus deliveryStatus = DeliveryStatus.PENDING;
 
     public void setDeliveryDrone(Drone drone){
         this.deliveryDrone = drone;

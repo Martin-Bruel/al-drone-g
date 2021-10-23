@@ -1,5 +1,6 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.entities;
 
+import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DroneDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,6 @@ public class Drone {
     private Long id;
     private String name;
 
-    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private DroneStatus status;
 
@@ -39,6 +39,12 @@ public class Drone {
 
     public Drone() {
         this.status = DroneStatus.READY;
+    }
+
+    public Drone(DroneDto dto){
+        this();
+        this.name = dto.name;
+        this.connectionInterface = new ConnectionInterface(dto.host, dto.port);
     }
 
 
