@@ -19,7 +19,8 @@ public class Notification {
     @Column(name = "id", nullable = false)
     @Setter(AccessLevel.NONE)
     private Long id;
-
+    private Long packageId;
+    private int deliveryState;
     private String description;
 
     public Notification(Long packageId, int deliverySate){
@@ -28,6 +29,8 @@ public class Notification {
         } else {
             description = "packageId = " + packageId + ", deliverySate" + deliverySate;
         }
+        this.packageId = packageId;
+        this.deliveryState = deliverySate;
     }
 
     public Notification() {
@@ -36,6 +39,14 @@ public class Notification {
 
     public Long getId(){
         return this.id;
+    }
+
+    public Long getPackageId() {
+        return packageId;
+    }
+
+    public int getDeliveryState() {
+        return deliveryState;
     }
 
     @Override
