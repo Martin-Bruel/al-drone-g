@@ -1,15 +1,13 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.*;
-import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.*;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneRegistration;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageRegistration;
 import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DeliveryRepository;
 import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DroneRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -23,7 +21,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
+
 
 @SpringBootTest
 class SchedulerBeanTest {
@@ -40,21 +38,12 @@ class SchedulerBeanTest {
     @Autowired private DroneRegistration droneRegistration;
     @Autowired private PackageRegistration packageRegistration;
 
-    @Mock private PositionProvider positionProvider;
-    @Mock private DroneFinder droneFinder;
-    @Mock private PackageFinder packageFinder;
     List<Drone> drones;
     List<Delivery> packages;
-
-    @BeforeEach
-    public void initMocks(){
-        MockitoAnnotations.initMocks(this);
-    }
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
-    @InjectMocks
     @Resource
     private SchedulerBean allocationProvider;
 
@@ -62,8 +51,6 @@ class SchedulerBeanTest {
     public void setUp() throws Exception {
         drones = new ArrayList<>();
         packages = new ArrayList<>();
-
-        when(positionProvider.getTruckPosition()).thenReturn(new Position(0,0));
     }
 
     @AfterEach
@@ -91,8 +78,6 @@ class SchedulerBeanTest {
         packages.add(delivery);
         packageRegistration.registerDelivery(delivery);
 
-        when(droneFinder.getAvailableDrones()).thenReturn(drones);
-        when(packageFinder.getDeliverablePackages()).thenReturn(packages);
         List<Allocation> allocations = allocationProvider.getAllocations();
         assertThat(allocations).isNotEmpty();
     }
@@ -106,9 +91,6 @@ class SchedulerBeanTest {
         Delivery delivery = new Delivery(new Address(new Position(0,0)));
         packages.add(delivery);
         packageRegistration.registerDelivery(delivery);
-
-        when(droneFinder.getAvailableDrones()).thenReturn(drones);
-        when(packageFinder.getDeliverablePackages()).thenReturn(packages);
 
         List<Allocation> allocations = allocationProvider.getAllocations();
         Allocation allocation = allocations.get(0);
@@ -135,9 +117,6 @@ class SchedulerBeanTest {
             packages.add(delivery);
             packageRegistration.registerDelivery(delivery);
         }
-
-        when(droneFinder.getAvailableDrones()).thenReturn(drones);
-        when(packageFinder.getDeliverablePackages()).thenReturn(packages);
 
         List<Allocation> allocations = allocationProvider.getAllocations();
         assertEquals(2, allocations.size());
