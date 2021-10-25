@@ -10,9 +10,6 @@ public class PositionCalculator {
         int xP2 = p2.getLongitude();
         int yP2 = p2.getLatitude();
 
-        int ac = Math.abs(yP2 - yP1);
-        int cb = Math.abs(xP2 - xP1);
-
-        return Math.hypot(ac, cb);
+        return Math.abs(xP1 - xP2) + Math.abs(yP1 - yP2);
     }
 }
