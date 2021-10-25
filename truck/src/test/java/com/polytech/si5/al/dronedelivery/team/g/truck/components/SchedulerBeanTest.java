@@ -69,7 +69,7 @@ class SchedulerBeanTest {
 
     @Test
     public void schedulingNotEmptyTest() {
-        drones.add(new Drone("drone", new ConnectionInterface("localhost","8080")));
+        drones.add(new Drone("drone", new ConnectionInterface("localhost","8080"), 1));
         packages.add(new Delivery(new Address(new Position(0,0))));
         when(droneFinder.getAvailableDrones()).thenReturn(drones);
         when(packageFinder.getDeliverablePackages()).thenReturn(packages);
@@ -79,7 +79,7 @@ class SchedulerBeanTest {
 
     @Test
     public void schedulingAssignsDronesToPackagesTest() {
-        Drone drone = new Drone("drone", new ConnectionInterface("localhost","8080"));
+        Drone drone = new Drone("drone", new ConnectionInterface("localhost","8080"), 1);
         drones.add(drone);
         droneRegistration.registerDrone(drone);
 
