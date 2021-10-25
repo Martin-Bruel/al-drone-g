@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -48,14 +49,16 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
 
     @Override
     @Transactional
-    public void assignDeliveryToDrone(Drone drone, Delivery delivery) {
-        delivery = entityManager.merge(delivery);
+    public void assignDeliveryToDrone(Drone drone, List<Delivery> deliveries) {
         drone = entityManager.merge(drone);
-        drone.getDeliveries().add(delivery);
+        drone.setDeliveries(new ArrayList<>(deliveries));
         entityManager.persist(drone);
         // TODO: 15/10/2021 Use cascading instead
-        delivery.setDeliveryDrone(drone);
-        entityManager.persist(delivery);
+        for (Delivery d : deliveries) {
+            Delivery merged = entityManager.merge(d);
+            merged.setDeliveryDrone(drone);
+            entityManager.persist(merged);
+        }
     }
 
 
