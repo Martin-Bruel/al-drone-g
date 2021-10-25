@@ -19,9 +19,7 @@ import java.util.List;
 public class SchedulerBean implements AllocationProvider {
 
     @Autowired
-    private PositionProvider positionProvider;
-    @Autowired
-    private PackageFinder packageFinder;
+    private PackageSelector packageSelector;
     @Autowired
     private DroneModifier droneModifier;
     @Autowired
@@ -33,8 +31,7 @@ public class SchedulerBean implements AllocationProvider {
     @Override
     @Transactional
     public List<Allocation> getAllocations() {
-        Position pos = positionProvider.getTruckPosition();
-        List<Delivery> packs = packageFinder.getDeliverablePackages();
+        List<Delivery> packs = packageSelector.getDeliverySelected();
         List<Drone> drones = droneFinder.getAvailableDrones();
 
         List<Allocation> allocations = new ArrayList<>();

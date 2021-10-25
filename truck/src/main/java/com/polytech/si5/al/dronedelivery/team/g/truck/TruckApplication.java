@@ -38,7 +38,7 @@ public class TruckApplication {
 			deliveryRepository.save(new Delivery(new Address("Chemin Jean Martinet", 3, 75000, "Paris", new Position(5,4))));
 			deliveryRepository.save(new Delivery(new Address("Avenue Jeanne darc", 3, 66000, "Perpignan", new Position(3,2))));
 			deliveryRepository.save(new Delivery(new Address("Boulevard de Paris", 3, 64000, "Pau", new Position(0,4))));
-			deliveryRepository.save(new Delivery(new Address("Route de Saint Jean", 3, 12000, "Rodez", new Position(10,8))));
+			deliveryRepository.save(new Delivery(new Address("Route de Saint Jean", 3, 12000, "Rodez", new Position(4,4))));
 
 
 			// Fetch all deliveries

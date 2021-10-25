@@ -76,7 +76,6 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
         for(Delivery delivery : Deliveries){
             notificationRegistration.createNotification(delivery.getId(), status);
         }
-        notifierDelivery.notifyDelivered(3, status);
     }
 
     @Override
