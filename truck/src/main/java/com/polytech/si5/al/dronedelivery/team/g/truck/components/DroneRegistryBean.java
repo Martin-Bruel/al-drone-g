@@ -58,6 +58,11 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
         entityManager.persist(delivery);
     }
 
+    @Override
+    public void setDroneStatus(Drone drone, DroneStatus droneStatus) {
+        drone.setStatus(droneStatus);
+    }
+
 
     @Override
     @Transactional

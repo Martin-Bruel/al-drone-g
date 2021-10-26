@@ -7,7 +7,6 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.exceptions.UnreachableServ
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneFinder;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneStateNotifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneWatcher;
-import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DroneRepository;
 import com.polytech.si5.al.dronedelivery.team.g.truck.scheduling.CronTaskRegister;
 import com.polytech.si5.al.dronedelivery.team.g.truck.scheduling.SchedulingRunnable;
 import com.polytech.si5.al.dronedelivery.team.g.truck.services.DroneService;
@@ -28,9 +27,6 @@ public class DroneTracker implements DroneWatcher {
     private static final Logger logger = LoggerFactory.getLogger(DroneTracker.class);
     @Autowired
     DroneStateNotifier droneStateNotifier;
-
-    @Autowired
-    DroneRepository droneRepository;
 
     @Autowired
     private CronTaskRegister cronTaskRegister;

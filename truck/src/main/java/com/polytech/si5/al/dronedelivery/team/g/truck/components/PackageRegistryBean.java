@@ -4,6 +4,7 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.enumeration.DeliveryStatus;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageFinder;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageModifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageRegistration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
-public class PackageRegistryBean implements PackageFinder, PackageRegistration {
+public class PackageRegistryBean implements PackageFinder, PackageRegistration, PackageModifier {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -63,5 +64,15 @@ public class PackageRegistryBean implements PackageFinder, PackageRegistration {
     @Transactional
     public void registerDelivery(Delivery delivery) {
         entityManager.persist(delivery);
+    }
+
+    @Override
+    public void setPackageStatus(Delivery delivery, DeliveryStatus status) {
+        delivery.setDeliveryStatus(status);
+    }
+
+    @Override
+    public void updateDeliveryDrone(Drone drone, Delivery delivery) {
+        delivery.setDeliveryDrone(drone);
     }
 }
