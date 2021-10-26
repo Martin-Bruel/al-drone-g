@@ -1,10 +1,11 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.views;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Allocation;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import lombok.Getter;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class AllocationView {
@@ -14,7 +15,9 @@ public class AllocationView {
 
     public AllocationView(Allocation a) {
         this.droneId = a.getDrone().getId();
-        this.deliveryIds = Collections.singletonList(a.getDelivery().getId());
+        this.deliveryIds = a.getDeliveries().stream()
+                .map(Delivery::getId)
+                .collect(Collectors.toList());
     }
 
 }

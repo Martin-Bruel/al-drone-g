@@ -28,13 +28,15 @@ public class Drone {
         cascade = {CascadeType.PERSIST,CascadeType.MERGE}
     )
     private List<Delivery> deliveries = new ArrayList<>();
+    private int capacity;
 
     public ConnectionInterface connectionInterface;
 
-    public Drone(String name, ConnectionInterface connectionInterface) {
+    public Drone(String name, ConnectionInterface connectionInterface, int capacity) {
         this();
         this.name=name;
         this.connectionInterface=connectionInterface;
+        this.capacity = capacity;
     }
 
     public Drone() {
@@ -45,6 +47,7 @@ public class Drone {
         this();
         this.name = dto.name;
         this.connectionInterface = new ConnectionInterface(dto.host, dto.port);
+        this.capacity = (dto.capacity==null) ? 1 : dto.capacity;
     }
 
 
