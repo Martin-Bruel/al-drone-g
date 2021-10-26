@@ -5,7 +5,6 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.constants.DeliveryStatusCo
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Objects;
