@@ -1,20 +1,24 @@
 #!/bin/bash
+tGreen="$(tput setaf 2)"
+tBlue="$(tput setaf 4)"
+tNC="$(tput sgr0)"
+
 
 #Preparing environment
-echo Building truck application
+echo  "${tBlue}Building truck application${tNC}"
 cd ../truck
 mvn clean package -DskipTests
 
 # Building the docker image
-echo Building truck docker
+echo  "${tBlue}Building truck docker${tNC}"
 docker build -t delivery-drone/truck .
 
 # Building the docker image
-echo Building drone docker
+echo  "${tGreen}Building drone docker${tNC}"
 cd ../drone
 docker build -t delivery-drone/drone .
 
 # Building the docker image
-echo Building drone docker
+echo  "${tGreen}Building warehouse docker${tNC}"
 cd ../warehouse
 docker build -t delivery-drone/warehouse .

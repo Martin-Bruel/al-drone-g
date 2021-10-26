@@ -1,9 +1,9 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.controllers;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DeliveryStateDto;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DeliveryStateNotifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DroneRepository;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

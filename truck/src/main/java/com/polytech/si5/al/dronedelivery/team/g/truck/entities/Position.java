@@ -1,27 +1,26 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.entities;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 
 @Embeddable
 public class Position {
 
-    private int Latitude;
+    private int latitude;
     private int longitude;
 
     public Position(){}
 
     public Position(int latitude, int longitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
         this.longitude = longitude;
     }
 
     public int getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(int latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
     public int getLongitude() {
@@ -35,7 +34,7 @@ public class Position {
     @Override
     public String toString() {
         return "Position{" +
-                "Latitude=" + Latitude +
+                "latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';
     }

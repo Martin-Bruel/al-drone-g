@@ -1,28 +1,22 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
+import com.polytech.si5.al.dronedelivery.team.g.truck.constants.DeliveryStatusCode;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Notification;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.NotificationFinder;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.NotificationModifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.NotificationRegistration;
 import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.constants.DeliveryStatusCode;
-
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class NotifierRegistryTest {
