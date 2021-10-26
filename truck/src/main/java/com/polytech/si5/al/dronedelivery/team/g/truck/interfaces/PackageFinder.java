@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PackageFinder {
 
-    public List<Delivery> getDeliverablePackages();
-    public Delivery getPackageByPackageId(Long packageId);
-    public List<Delivery> getPackagesByDroneId(Long droneId);
+    List<Delivery> getDeliverablePackages();
+    Delivery getPackageByPackageId(Long packageId);
+    List<Delivery> getPackagesByDroneId(Long droneId);
 }

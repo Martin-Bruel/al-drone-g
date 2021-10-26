@@ -1,6 +1,5 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.api;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.components.DronePlanifierBean;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneLauncher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

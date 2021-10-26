@@ -9,39 +9,39 @@ services:
       environment:
         - APP_ENV=prod
 
-  alpha:
+  drone-alpha:
       image: delivery-drone/drone
       ports:
         - "8084:8084"
       environment:
         - DRONE_NAME=alpha
-        - DRONE_HOST=alpha
+        - DRONE_HOST=drone-alpha
         - DRONE_PORT=8084
         - DRONE_CAPACITY=3
         - APP_ENV=prod
       depends_on:
         - "truck"
 
-  beta:
+  drone-beta:
       image: delivery-drone/drone
       ports:
         - "8083:8083"
       environment:
         - DRONE_NAME=beta
-        - DRONE_HOST=beta
+        - DRONE_HOST=drone-beta
         - DRONE_PORT=8083
         - DRONE_CAPACITY=1
         - APP_ENV=prod
       depends_on:
         - "truck"
 
-  charly:
+  drone-charly:
       image: delivery-drone/drone
       ports:
         - "8082:8082"
       environment:
         - DRONE_NAME=charly
-        - DRONE_HOST=charly
+        - DRONE_HOST=drone-charly
         - DRONE_PORT=8082
         - DRONE_CAPACITY=1
         - APP_ENV=prod
