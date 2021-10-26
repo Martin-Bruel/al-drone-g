@@ -22,7 +22,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
     DroneWatcher droneWatcher;
 
     @Autowired
-    NotifierDelivery notifierDelivery;
+    NotificationRegistration notificationRegistration;
 
     @Autowired
     PackageFinder packageFinder;
@@ -74,11 +74,13 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
     void sendNotification(long droneId, int status) {
         List<Delivery> Deliveries = packageFinder.getPackagesByDroneId(droneId);
         for(Delivery delivery : Deliveries){
-            notifierDelivery.notifyDelivered(delivery.getId(), status);
+            notificationRegistration.createNotification(delivery.getId(), status);
         }
+        notifierDelivery.notifyDelivered(3, status);
     }
 
     @Override
+    @Transactional
     public void droneDown(long droneId) {
         List<Delivery> deliveries=packageFinder.getPackagesByDroneId(droneId);
         for(Delivery delivery : deliveries){

@@ -73,7 +73,8 @@ class SchedulerBeanTest {
         packages.add(new Delivery(new Address(new Position(0,0))));
         when(droneFinder.getAvailableDrones()).thenReturn(drones);
         when(packageFinder.getDeliverablePackages()).thenReturn(packages);
-        assertThat(allocationProvider.getAllocations()).isNotEmpty();
+        List<Allocation> allocations = allocationProvider.getAllocations();
+        assertThat(allocations).isNotEmpty();
     }
 
     @Test
