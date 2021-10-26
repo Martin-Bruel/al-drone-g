@@ -21,7 +21,8 @@ exports.connectToTruck=async function(){
   let result = await axios.post(url, {
     name : context.name,
     host: context.host,
-    port: context.port
+    port: context.port,
+    capacity: context.capacity
   }).then((response) => {
     let id = response.data
     console.log("Connected to the truck - my id is : " + id)

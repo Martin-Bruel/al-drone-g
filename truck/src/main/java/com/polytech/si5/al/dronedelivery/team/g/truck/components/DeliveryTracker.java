@@ -28,7 +28,13 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
     PackageFinder packageFinder;
 
     @Autowired
+    PackageModifier packageModifier;
+
+    @Autowired
     DroneFinder droneFinder;
+
+    @Autowired
+    DroneModifier droneModifier;
 
     @Autowired
     EntityManager entityManager;
@@ -43,26 +49,35 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
             case DeliveryStatusCode.STARTING_DELIVERY:
                 logger.info("Starting delivery ");
                 droneWatcher.track(droneId);
+                Drone drone = droneFinder.findDroneById(droneId);
+                droneModifier.setDroneStatus(drone, DroneStatus.FLYING_TO_DELIVERY);
+
+                List<Delivery> deliveries = packageFinder.getPackagesByDroneId(droneId);
+                for(Delivery delivery : deliveries) {
+                    packageModifier.setPackageStatus(delivery, DeliveryStatus.BEING_DELIVERED);
+                }
                 break;
             case DeliveryStatusCode.PENDING_DELIVERY:
                 break;
-            case DeliveryStatusCode.FINISHED_DELIVERY:
-                logger.info("Finishing delivery ");
-                Drone drone= droneFinder.findDroneById(droneId);
-                drone.setStatus(DroneStatus.READY);
-                droneWatcher.untrack(droneId);
-                break;
+
             case DeliveryStatusCode.PACKAGE_DELIVERED:
                 logger.info("Package delivered");
-                List<Delivery> deliveries=packageFinder.getPackagesByDroneId(droneId);
+
+                deliveries = packageFinder.getPackagesByDroneId(droneId);
                 if(mustSendMessage){
                     sendNotification(droneId, status);
                 }
-                for(Delivery delivery : deliveries){
-                    delivery.setDeliveryStatus(DeliveryStatus.DELIVERED);
-                    delivery.setDeliveryDrone(null);
+                for(Delivery delivery : deliveries){ // Warning : tous les paquests du drone sont considérés comme livrés
+                    packageModifier.setPackageStatus(delivery, DeliveryStatus.DELIVERED);
+                    packageModifier.updateDeliveryDrone(null, delivery);
                     entityManager.persist(delivery);
                 }
+                break;
+            case DeliveryStatusCode.FINISHED_DELIVERY:
+                logger.info("Finishing delivery ");
+                drone = droneFinder.findDroneById(droneId);
+                droneModifier.setDroneStatus(drone, DroneStatus.READY);
+                droneWatcher.untrack(droneId);
                 break;
             default:
                 break;
@@ -83,7 +98,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
     public void droneDown(long droneId) {
         List<Delivery> deliveries=packageFinder.getPackagesByDroneId(droneId);
         for(Delivery delivery : deliveries){
-            delivery.setDeliveryStatus(DeliveryStatus.LOST);
+            packageModifier.setPackageStatus(delivery, DeliveryStatus.LOST);
             entityManager.merge(delivery);
         }
         Drone drone= droneFinder.findDroneById(droneId);

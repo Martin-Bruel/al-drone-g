@@ -4,13 +4,13 @@ import lombok.Getter;
 
 @Getter
 public class PositionDto {
-    private String Latitude;
+    private String latitude;
     private String longitude;
 
     @Override
     public String toString() {
         return "Position{" +
-                "Latitude='" + Latitude + '\'' +
+                "latitude='" + latitude + '\'' +
                 ", longitude='" + longitude + '\'' +
                 '}';
     }

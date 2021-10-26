@@ -5,5 +5,5 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
 
 public interface PathFinder {
 
-    public FlightPlan getPath(Position truckPos, Position packagePos);
+    FlightPlan getPath(Position truckPos, Position packagePos);
 }

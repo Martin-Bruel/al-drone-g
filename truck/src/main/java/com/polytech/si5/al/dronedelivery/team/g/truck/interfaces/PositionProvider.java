@@ -4,5 +4,5 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
 
 public interface PositionProvider {
 
-    public Position getTruckPosition();
+    Position getTruckPosition();
 }

@@ -1,14 +1,11 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.api;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DeliveryStateDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DroneDto;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.ConnectionInterface;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneRegistration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -31,20 +32,32 @@ public class SchedulerBean implements AllocationProvider {
     @Override
     @Transactional
     public List<Allocation> getAllocations() {
-        List<Delivery> packs = packageSelector.getDeliverySelected();
+        List<Delivery> deliveries = packageSelector.getDeliverySelected();
         List<Drone> drones = droneFinder.getAvailableDrones();
 
         List<Allocation> allocations = new ArrayList<>();
 
-        // Simple allocation
-        for (int i = 0; i < Math.min(packs.size(), drones.size()); i++) {
-            Drone drone = entityManager.merge(drones.get(i));
-            Delivery pack = entityManager.merge(packs.get(i));
-            droneModifier.assignDeliveryToDrone(drone,pack);
+        drones.sort(Comparator.comparingInt(Drone::getCapacity).reversed());
 
+        for (Drone drone : drones) {
+            int amount = Math.min(deliveries.size(), drone.getCapacity());
+            List<Delivery> selection = new ArrayList<>(deliveries.subList(0,amount));
+            deliveries.removeAll(selection);
+
+            allocations.add(new Allocation(drone,selection));
+        }
+
+        for (Allocation a : allocations) {
+            Drone drone = entityManager.merge(a.getDrone());
             Hibernate.initialize(drone.getDeliveries());
-            Hibernate.initialize(pack.getDeliveryDrone());
-            allocations.add(new Allocation(drone, pack));
+
+            List<Delivery> deliveryList = new ArrayList<>();
+            for (Delivery d : a.getDeliveries()) {
+                Delivery merged = entityManager.merge(d);
+                Hibernate.initialize(merged.getDeliveryDrone());
+                deliveryList.add(merged);
+            }
+            droneModifier.assignDeliveryToDrone(drone,deliveryList);
         }
 
         return allocations;

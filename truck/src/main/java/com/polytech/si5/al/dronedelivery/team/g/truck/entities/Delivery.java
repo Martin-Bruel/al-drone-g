@@ -28,7 +28,7 @@ public class Delivery {
 
     private Address address;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private Drone deliveryDrone;
 
     @Enumerated(EnumType.STRING)
