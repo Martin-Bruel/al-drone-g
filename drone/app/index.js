@@ -10,6 +10,4 @@ app.listen(getConfiguration().context.port, function() {
    console.log('(env:'+getConfiguration().env+') Server ['+getConfiguration().service+'] started on port: ' + getConfiguration().context.port);
 });
 
-setTimeout(function() {
-   TruckService.connectToTruck()
-}, 15000);
+TruckService.connectToTruck()

@@ -17,7 +17,7 @@ services:
         - DRONE_NAME=alpha
         - DRONE_HOST=drone-alpha
         - DRONE_PORT=8084
-        - DRONE_CAPACITY=3
+        - DRONE_CAPACITY=1
         - APP_ENV=prod
       depends_on:
         - "truck"

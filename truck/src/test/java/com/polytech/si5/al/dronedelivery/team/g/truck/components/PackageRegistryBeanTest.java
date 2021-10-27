@@ -29,8 +29,8 @@ class PackageRegistryBeanTest {
 
     @BeforeEach
     public void setUp() {
-        drone = new Drone("droneName", new ConnectionInterface());
-        delivery = new Delivery(new Address("Rue Jean Macet", 3, 31300, "Toulouse", new Position(2,2)));
+        drone = new Drone("droneName", new ConnectionInterface(),1);
+        delivery = new Delivery(new Position(2,2));
     }
 
     @Test

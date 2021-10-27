@@ -43,8 +43,7 @@ public class SchedulerBean implements AllocationProvider {
             int amount = Math.min(deliveries.size(), drone.getCapacity());
             List<Delivery> selection = new ArrayList<>(deliveries.subList(0,amount));
             deliveries.removeAll(selection);
-
-            allocations.add(new Allocation(drone,selection));
+            if(!selection.isEmpty()) allocations.add(new Allocation(drone,selection));
         }
 
         for (Allocation a : allocations) {

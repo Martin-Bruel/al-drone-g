@@ -26,7 +26,7 @@ public class ProximityFilterBean implements PackageSelector {
 
         Position truckPosition = positionProvider.getTruckPosition();
         List<Delivery> deliveries = packageFinder.getDeliverablePackages();
-        deliveries.removeIf(d -> PositionCalculator.distance(truckPosition, d.getAddress().getPosition()) > Api.DRONE_RANGE);
+        deliveries.removeIf(d -> PositionCalculator.distance(truckPosition, d.getPosition()) > Api.DRONE_RANGE);
         return deliveries;
     }
 }

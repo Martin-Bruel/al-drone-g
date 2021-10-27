@@ -14,8 +14,9 @@ def launchDrone(droneId, deliveryIds):
     return requests.post(url)
 
 def initTest(number):
-    url = 'http://localhost:8085/init/test/package/' + str(number)
-    return requests.post(url)
+    for i in range(number):
+        url = 'http://localhost:8085/package/add'
+        requests.post(url, json = {'latitude':number, 'longitude':number})
 
 @given("Un conducteur, 3 drones, {number:n} colis et sa tablette")
 def step_impl(context, number):

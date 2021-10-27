@@ -1,6 +1,6 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Address;
+
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageFinder;
@@ -50,11 +50,11 @@ class ProximityFilterBeanTest {
     @Test
     public void allPackageInRangeTest(){
 
-        Delivery delivery1 = new Delivery(new Address(new Position(5,5)));
-        Delivery delivery2 = new Delivery(new Address(new Position(0,10)));
-        Delivery delivery3 = new Delivery(new Address(new Position(-5,-5)));
-        Delivery delivery4 = new Delivery(new Address(new Position(0,-10)));
-        Delivery delivery5 = new Delivery(new Address(new Position(-10,0)));
+        Delivery delivery1 = new Delivery(new Position(5,5));
+        Delivery delivery2 = new Delivery(new Position(0,10));
+        Delivery delivery3 = new Delivery(new Position(-5,-5));
+        Delivery delivery4 = new Delivery(new Position(0,-10));
+        Delivery delivery5 = new Delivery(new Position(-10,0));
         packages.add(delivery1);
         packages.add(delivery2);
         packages.add(delivery3);
@@ -73,11 +73,11 @@ class ProximityFilterBeanTest {
     @Test
     public void zeroPackageInRangeTest(){
 
-        Delivery delivery1 = new Delivery(new Address(new Position(6,5)));
-        Delivery delivery2 = new Delivery(new Address(new Position(-6,5)));
-        Delivery delivery3 = new Delivery(new Address(new Position(5,-6)));
-        Delivery delivery4 = new Delivery(new Address(new Position(-5,-6)));
-        Delivery delivery5 = new Delivery(new Address(new Position(11,0)));
+        Delivery delivery1 = new Delivery(new Position(6,5));
+        Delivery delivery2 = new Delivery(new Position(-6,5));
+        Delivery delivery3 = new Delivery(new Position(5,-6));
+        Delivery delivery4 = new Delivery(new Position(-5,-6));
+        Delivery delivery5 = new Delivery(new Position(11,0));
         packages.add(delivery1);
         packages.add(delivery2);
         packages.add(delivery3);
@@ -96,8 +96,8 @@ class ProximityFilterBeanTest {
     @Test
     public void OnePackageInRangeTest(){
 
-        Delivery delivery1 = new Delivery(new Address(new Position(3,-8)));
-        Delivery delivery2 = new Delivery(new Address(new Position(-3,5)));
+        Delivery delivery1 = new Delivery(new Position(3,-8));
+        Delivery delivery2 = new Delivery(new Position(-3,5));
         packages.add(delivery1);
         packages.add(delivery2);
         packageRegistration.registerDelivery(delivery1);
