@@ -48,6 +48,15 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
     }
 
     @Override
+    public List<Drone> getAllDrones() {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Drone> cq = builder.createQuery(Drone.class);
+        Root<Drone> drone = cq.from(Drone.class);
+        cq.select(drone);
+        return entityManager.createQuery(cq).getResultList();
+    }
+
+    @Override
     @Transactional
     public void assignDeliveryToDrone(Drone drone, List<Delivery> deliveries) {
         drone = entityManager.merge(drone);

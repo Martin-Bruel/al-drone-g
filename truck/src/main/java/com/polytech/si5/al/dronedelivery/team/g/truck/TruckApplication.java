@@ -24,14 +24,12 @@ public class TruckApplication {
 		SpringApplication.run(TruckApplication.class, args);
 	}
 
-	@Autowired
-	private DroneRepository droneRepository;
 
 	@Autowired
 	private DeliveryRepository deliveryRepository;
 
 	@Bean
-	public CommandLineRunner createDelivery(DeliveryRepository repository) {
+	public CommandLineRunner createDelivery() {
 		return (args) -> {
 			// Save delivery
 			deliveryRepository.save(new Delivery(new Address("Rue Jean Macet", 3, 31300, "Toulouse", new Position(2,2))));

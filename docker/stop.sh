@@ -2,6 +2,6 @@
 
 echo "<<" Cleaning the drone projet ">>"
 echo
-docker-compose -f ./docker-compose.yml down --volumes
+docker-compose down --volumes
 echo
 echo Done.
