@@ -22,11 +22,11 @@ function startTask(){
         var itinary=route.itinary;
         var direction=route.direction;
         console.log("I'm in position "+toString_Position(itinary[step]));
+        if(step!=0) console.log("Delivering package..");
         if(step+direction==itinary.length){//Arriving to address
-            direction=-direction;
-            console.log("Delivering package..");
-            console.log("Done.");
             TruckService.sendDeliveryState(droneId,4);//Sending delivery confirmation
+            direction=-direction;
+            console.log("Done.");
             console.log("Comming back from customer");
         }
         if(step==0 && direction <0){//Returned to truck
@@ -35,9 +35,17 @@ function startTask(){
             console.log("Arriving to truck");
             task.destroy();       
         }
-        route.step=step+=direction;
-        route.direction=direction;
-        Route.update(route.id,route)
+        if(direction <0){
+            route.step=0;
+            route.direction=direction;
+            Route.update(route.id,route)
+        }
+        else{
+            route.step=step+=direction;
+            route.direction=direction;
+            Route.update(route.id,route)
+        }
+        
     });
     return task; 
 }

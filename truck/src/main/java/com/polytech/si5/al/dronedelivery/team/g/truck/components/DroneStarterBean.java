@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class DroneStarterBean implements DroneLauncher {
 
@@ -32,11 +35,15 @@ public class DroneStarterBean implements DroneLauncher {
 
 
     @Override
-    public void start(Long droneId, Long packageId) {
-        logger.info("Starting drone " + droneId + " with package " + packageId);
+    public void start(Long droneId, Long[] packageIds) {
+        logger.info("Starting drone " + droneId + " with package " + packageIds);
         Position truckPos = positionProvider.getTruckPosition();
-        Position packagePos = packageFinder.getPackageByPackageId(packageId).getPosition();
-        FlightPlan flightPlan = pathFinder.getPath(truckPos, packagePos);
+        List<Position> packagePositions = new ArrayList<>();
+        for(Long id : packageIds){
+            packagePositions.add(packageFinder.getPackageByPackageId(id).getPosition());
+        }
+
+        FlightPlan flightPlan = pathFinder.getPath(truckPos, packagePositions);
         Drone drone = droneFinder.findDroneById(droneId);
         droneService.launchDrone(flightPlan, drone);
     }
