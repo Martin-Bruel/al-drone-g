@@ -14,4 +14,8 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: Prepare project
+        run: ./prepare.sh
+      - name: Integration tests
+        run: ./run_ci.sh
       - run: echo "🍏 This job's status is ${{ job.status }}."
