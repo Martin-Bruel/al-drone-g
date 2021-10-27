@@ -2,21 +2,26 @@ from behave import *
 import requests
 from time import sleep
 
-sleep(10)
-
 def getAllocations():
     url = 'http://localhost:8085/truck/allocation'
     response = requests.get(url)
     return response.json()
+    
 
 def launchDrone(droneId, deliveryIds):
     url = 'http://localhost:8085/start/drone/' + str(droneId) +'/package/' + str(deliveryIds)
     return requests.post(url)
 
 def initTest(number):
-    for i in range(number):
-        url = 'http://localhost:8085/package/add'
-        requests.post(url, json = {'latitude':number, 'longitude':number})
+    try:
+        for i in range(number):
+            url = 'http://localhost:8085/package/add'
+            requests.post(url, json = {'latitude':number, 'longitude':number})
+        sleep(15)
+    except requests.exceptions.ConnectionError:
+        sleep(5)
+        initTest(number)
+
 
 @given("Un conducteur, 3 drones, {number:n} colis et sa tablette")
 def step_impl(context, number):
