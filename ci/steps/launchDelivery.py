@@ -19,7 +19,7 @@ def getDronePosition():
     if DOCKER :
         res = []
         for d in LIST_DRONES:
-            url = 'http://localhost:' + str(LIST_DRONES[0]) + '/drone-api/position'
+            url = 'http://localhost:' + str(d) + '/drone-api/position'
             response = requests.get(url)
             res.append(response.status_code)
         return res
@@ -75,8 +75,6 @@ def step_impl(context):
     res = launchDrone(droneId, deliveryId)
     sleep(5)
 
-
-
 @then("le drone part effectuer sa livraison")
 def step_impl(context):
     global res
@@ -91,6 +89,7 @@ def step_impl(context, number):
         assert(len(allocations)==number-2)
     else:
         assert(len(allocations)==number)
+    sleep(10)
 
 
 @then("le colis est livré")
@@ -100,10 +99,10 @@ def step_impl(context):
     assert(package["deliveryStatus"] == 'DELIVERED')
 
 
-@then("le drone se déconnecte du camion")
+@then("le camion perd la connexion avec le drone")
 def step_impl(context):
     disconnectDrones()
-    sleep(2)
+    sleep(1)
 
 @then("le drone n'est pas localisable")
 def step_impl(context):
@@ -113,15 +112,7 @@ def step_impl(context):
     else: assert(res.status_code == 500)
 
 
-@when("le drone se reconnecte au camion")
+@when("le camion retrouve la connexion avec le drone")
 def step_impl(context):
     reconnectDrone()
     sleep(2)
-
-@then("le drone est localisable")
-def step_impl(context):
-    global droneId
-    res = getDronePosition()
-    if DOCKER:
-        assert(not 500 in res)
-    else: assert(res.status_code == 200)
