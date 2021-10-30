@@ -15,10 +15,10 @@ public class LogInterceptor implements HandlerInterceptor {
             throws Exception {
         long startTime = System.currentTimeMillis();
 //        System.out.println("\n-------- LogInterception.preHandle --- ");
-        System.out.println("\nRequest URL: " + request.getRequestURL());
+//        System.out.println("\nRequest URL: " + request.getRequestURL());
 //        System.out.println("Start Time: " + System.currentTimeMillis());
 
-        request.setAttribute("startTime", startTime);
+//        request.setAttribute("startTime", startTime);
 
         return true;
     }

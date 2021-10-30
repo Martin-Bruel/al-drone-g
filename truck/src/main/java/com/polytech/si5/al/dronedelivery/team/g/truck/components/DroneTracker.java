@@ -42,7 +42,7 @@ public class DroneTracker implements DroneWatcher {
 
     private HashMap<Long,SchedulingRunnable> tasks=new HashMap<>();
 
-    public void doTracking(Long droneId) throws UnreachableServiceException {
+    public void doTracking(Long droneId) throws UnreachableServiceException, InterruptedException {
         Drone drone= droneFinder.findDroneById(droneId);
         try{
             PositionDto position =droneService.getDronePosition(drone);
@@ -54,7 +54,7 @@ public class DroneTracker implements DroneWatcher {
 
     }
 
-    public void retryDoTracking(Drone drone) {
+    public void retryDoTracking(Drone drone) throws InterruptedException {
         long droneId = drone.getId();
         for (int i = 0; i < Api.DRONE_RETRY_CONNECTION;i++){
             try {
@@ -67,7 +67,6 @@ public class DroneTracker implements DroneWatcher {
                 //logger.info(e.getMessage());
                 logger.info("Attempted failed");
             }
-
         }
         logger.info("Unreachable service");
         droneStateNotifier.droneDown(droneId);
@@ -89,7 +88,6 @@ public class DroneTracker implements DroneWatcher {
     @Override
     public void untrack(long droneId) {
         logger.info("Untracking drone "+droneId);
-        logger.info("Runnable "+tasks);
         SchedulingRunnable task =this.tasks.get(droneId);
         if(this.tasks.containsKey(droneId)){
             this.cronTaskRegister.removeCronTask(task);

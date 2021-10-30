@@ -9,7 +9,7 @@ var configuration = {
     port: process.env.DRONE_PORT,
     name: process.env.DRONE_NAME,
     capacity: process.env.DRONE_CAPACITY,
-    database: '' , 
+    database: '' ,
     external: {
       truck : {host:'truck',port:8085}
     }
