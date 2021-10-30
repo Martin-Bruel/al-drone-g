@@ -10,6 +10,6 @@ public class PositionCalculator {
         double xP2 = p2.getLongitude();
         double yP2 = p2.getLatitude();
 
-        return Math.abs(xP1 - xP2) + Math.abs(yP1 - yP2);
+        return Math.pow(Math.pow(Math.abs(xP1 - xP2), 2) + Math.pow(Math.abs(yP1 - yP2), 2), 0.5);
     }
 }
