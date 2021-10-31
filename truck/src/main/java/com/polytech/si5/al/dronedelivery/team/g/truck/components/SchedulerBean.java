@@ -6,6 +6,8 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.*;
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,9 @@ import java.util.List;
 
 @Component
 public class SchedulerBean implements AllocationProvider {
+
+    Logger logger = LoggerFactory.getLogger(SchedulerBean.class);
+
 
     @Autowired
     private PackageSelector packageSelector;

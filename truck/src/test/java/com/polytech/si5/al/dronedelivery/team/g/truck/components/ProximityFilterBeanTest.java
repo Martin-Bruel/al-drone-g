@@ -50,11 +50,11 @@ class ProximityFilterBeanTest {
     @Test
     public void allPackageInRangeTest(){
 
-        Delivery delivery1 = new Delivery(new Position(5,5));
-        Delivery delivery2 = new Delivery(new Position(0,10));
-        Delivery delivery3 = new Delivery(new Position(-5,-5));
-        Delivery delivery4 = new Delivery(new Position(0,-10));
-        Delivery delivery5 = new Delivery(new Position(-10,0));
+        Delivery delivery1 = new Delivery(new Position(30,40));
+        Delivery delivery2 = new Delivery(new Position(0, 50));
+        Delivery delivery3 = new Delivery(new Position(-30,-40));
+        Delivery delivery4 = new Delivery(new Position(0,-50));
+        Delivery delivery5 = new Delivery(new Position(-50,0));
         packages.add(delivery1);
         packages.add(delivery2);
         packages.add(delivery3);
@@ -73,11 +73,11 @@ class ProximityFilterBeanTest {
     @Test
     public void zeroPackageInRangeTest(){
 
-        Delivery delivery1 = new Delivery(new Position(6,5));
-        Delivery delivery2 = new Delivery(new Position(-6,5));
-        Delivery delivery3 = new Delivery(new Position(5,-6));
-        Delivery delivery4 = new Delivery(new Position(-5,-6));
-        Delivery delivery5 = new Delivery(new Position(11,0));
+        Delivery delivery1 = new Delivery(new Position(40,31));
+        Delivery delivery2 = new Delivery(new Position(-40,31));
+        Delivery delivery3 = new Delivery(new Position(31,-40));
+        Delivery delivery4 = new Delivery(new Position(-31,-40));
+        Delivery delivery5 = new Delivery(new Position(51,0));
         packages.add(delivery1);
         packages.add(delivery2);
         packages.add(delivery3);
@@ -96,8 +96,8 @@ class ProximityFilterBeanTest {
     @Test
     public void OnePackageInRangeTest(){
 
-        Delivery delivery1 = new Delivery(new Position(3,-8));
-        Delivery delivery2 = new Delivery(new Position(-3,5));
+        Delivery delivery1 = new Delivery(new Position(50,-1));
+        Delivery delivery2 = new Delivery(new Position(-30,5));
         packages.add(delivery1);
         packages.add(delivery2);
         packageRegistration.registerDelivery(delivery1);
