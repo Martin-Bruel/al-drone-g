@@ -6,9 +6,6 @@ on:
     branches:
       - develop
   pull_request:
-    branches:
-      - develop
-      - main
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
