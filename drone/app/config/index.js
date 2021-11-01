@@ -2,7 +2,8 @@ const DEFAULT_ENV="dev";
 var configuration = {
   server_name:"drone",
   info:{
-    id:1
+    id:1,
+    speed:1
   },
   prod:{
     host: process.env.DRONE_HOST,
@@ -18,7 +19,7 @@ var configuration = {
     host: 'localhost',
     port: 8084,
     name: 'alpha',
-    capacity: 1,
+    capacity: 3,
     database:'',
     external: {
       truck : {host:'localhost',port:8085}

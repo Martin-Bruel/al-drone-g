@@ -5,26 +5,26 @@ import java.util.List;
 public class FlightPlan {
 
     private List<Position> steps;
-    private List<Position> deliverySteps;
+    private Position start;
 
-    public FlightPlan(List<Position> steps, List<Position> deliverySteps) {
+    public FlightPlan(List<Position> steps, Position start) {
         this.steps = steps;
-        this.deliverySteps = deliverySteps;
+        this.start = start;
     }
 
     public List<Position> getSteps() {
         return steps;
     }
 
-    public List<Position> getDeliverySteps(){
-        return deliverySteps;
+    public Position getStart() {
+        return start;
     }
 
     @Override
     public String toString() {
         return "FlightPlan{" +
                 "steps=" + steps.toString() +
-                ", deliverySteps=" + getDeliverySteps().toString() +
+                ", start=" + start.toString() +
                 '}';
     }
 }

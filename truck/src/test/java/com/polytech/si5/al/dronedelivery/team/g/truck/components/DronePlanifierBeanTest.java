@@ -24,6 +24,7 @@ class DronePlanifierBeanTest {
         packagePositions.add(new Position(2,2));
         Position truckPos= new Position(0,0);
         FlightPlan flightPlan = pathFinder.getPath(truckPos, packagePositions);
+        System.out.println(flightPlan);
         assertEquals(flightPlan.getSteps().get(0), truckPos);
         assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 1), packagePositions.get(0));
     }
