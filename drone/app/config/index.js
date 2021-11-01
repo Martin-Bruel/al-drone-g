@@ -3,7 +3,8 @@ var configuration = {
   server_name:"drone",
   info:{
     id:1,
-    speed:1
+    speed:1,
+    connected:true
   },
   prod:{
     host: process.env.DRONE_HOST,

@@ -1,9 +1,12 @@
 const axios = require('axios')
 const { getConfiguration} = require('../config')
+var ACCEPT_CONNECTION=getConfiguration().info.speed
 let context = getConfiguration().context;
 let truckService=context.external.truck;
 
 sendDeliveryState=async function(droneId,statusCode, deliveryId){
+
+  if(ACCEPT_CONNECTION){
     let url = 'http://'+truckService.host+":"+truckService.port+'/delivery'
     let result= await axios.post(url, {
         droneId:droneId,
@@ -15,6 +18,12 @@ sendDeliveryState=async function(droneId,statusCode, deliveryId){
       }, (error) => {
         console.log(error);
     });
+  }
+  else {
+    setTimeout(function() {
+      sendDeliveryState(droneId, statusCode,deliveryId)
+   }, 1000);
+  }
 }
 
 connectToTruck=async function(){

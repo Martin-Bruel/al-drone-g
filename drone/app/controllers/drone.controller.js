@@ -1,5 +1,6 @@
 const RouteService= require('../services/route.service')
-let ACCEPT_CONNECTION=true
+const {getConfiguration}=require('../config')
+let ACCEPT_CONNECTION=getConfiguration().info.speed
 const TIMEOUT=1000
 exports.startDelivery =async function(req,res) {
     if(ACCEPT_CONNECTION){
