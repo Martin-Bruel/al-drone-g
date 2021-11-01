@@ -24,7 +24,7 @@ function startTask(itinary){
     var route =Route.getById(0)
     for (let i = 0; i < itinary.steps.length; i++) {
         time = distance(precPos, itinary.steps[i]) / droneSpeed + time
-        console.log(Math.round(time) + ' second before arriving to step ' + (i + 1))
+        console.log(Math.round(time) + ' seconds before arriving to step ' + (i + 1))
         setTimeout(() => {
             console.log('Delivery package at ' + toString_Position(calculPosition()))
             route.lastdate = new Date().getTime() / 1000
@@ -34,7 +34,7 @@ function startTask(itinary){
         precPos = itinary.steps[i] 
     }
     time = distance(precPos, itinary.start) / droneSpeed + time
-    console.log(Math.round(time) + ' second before returning to truck')
+    console.log(Math.round(time) + ' seconds before returning to truck')
     setTimeout(() => {
         TruckService.sendDeliveryState(droneId,3);//Sending delivery confirmation
         console.log('Im docked at ' + toString_Position(calculPosition()))
