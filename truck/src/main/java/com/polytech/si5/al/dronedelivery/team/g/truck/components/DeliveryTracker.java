@@ -43,7 +43,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
 
     @Override
     @Transactional
-    public void updateDeliverySate(long droneId, int status) {
+    public void updateDeliverySate(long droneId, int status, long deliveryId) {
         logger.info("Updating delivery of drone "+droneId + " (Status:"+status+")");
         switch (status){
             case DeliveryStatusCode.STARTING_DELIVERY:
@@ -63,15 +63,13 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
             case DeliveryStatusCode.PACKAGE_DELIVERED:
                 logger.info("Package delivered");
 
-                deliveries = packageFinder.getPackagesByDroneId(droneId);
+                Delivery delivery = packageFinder.getPackageByPackageId(deliveryId);
                 if(mustSendMessage){
-                    sendNotification(droneId, status);
+                    sendNotification(droneId, status, deliveryId);
                 }
-                for(Delivery delivery : deliveries){ // Warning : tous les paquests du drone sont considérés comme livrés
-                    packageModifier.setPackageStatus(delivery, DeliveryStatus.DELIVERED);
-                    packageModifier.updateDeliveryDrone(null, delivery);
-                    entityManager.persist(delivery);
-                }
+                packageModifier.setPackageStatus(delivery, DeliveryStatus.DELIVERED);
+                packageModifier.updateDeliveryDrone(null, delivery);
+                entityManager.persist(delivery);
                 break;
             case DeliveryStatusCode.FINISHED_DELIVERY:
                 logger.info("Finishing delivery ");
@@ -86,11 +84,8 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
 
     void setMustSendMessage(boolean value){this.mustSendMessage=value;}
 
-    void sendNotification(long droneId, int status) {
-        List<Delivery> Deliveries = packageFinder.getPackagesByDroneId(droneId);
-        for(Delivery delivery : Deliveries){
-            notificationRegistration.createNotification(delivery.getId(), status);
-        }
+    void sendNotification(long droneId, int status, long deliveryId) {
+        notificationRegistration.createNotification(deliveryId, status);
     }
 
     @Override

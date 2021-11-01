@@ -1,5 +1,6 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.FlightPlan;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PathFinder;
@@ -20,32 +21,30 @@ class DronePlanifierBeanTest {
 
     @Test
     void getPathTest(){
-        List<Position> packagePositions = new ArrayList<>();
-        packagePositions.add(new Position(2,2));
+        List<Delivery> deliveries = new ArrayList<>();
+        deliveries.add(new Delivery(new Position(2,2), 0L));
         Position truckPos= new Position(0,0);
-        FlightPlan flightPlan = pathFinder.getPath(truckPos, packagePositions);
+        FlightPlan flightPlan = pathFinder.getPath(truckPos, deliveries);
         System.out.println(flightPlan);
-        assertEquals(flightPlan.getSteps().get(0), truckPos);
-        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 1), packagePositions.get(0));
+        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 1).getDeliveryId(), deliveries.get(0).getId());
     }
 
     @Test
     void getPathSeveralPackageTest(){
-        List<Position> packagePositions = new ArrayList<>();
+        List<Delivery> deliveries = new ArrayList<>();
 
-        Position pos1 = new Position(2,2);
-        Position pos2 = new Position(3,2);
-        Position pos3 = new Position(4,2);
+        Delivery d1 = new Delivery(new Position(2,2), 0L);
+        Delivery d2 = new Delivery(new Position(2,3), 0L);
+        Delivery d3 = new Delivery(new Position(2,4), 0L);
 
-        packagePositions.add(pos2);
-        packagePositions.add(pos3);
-        packagePositions.add(pos1);
+        deliveries.add(d2);
+        deliveries.add(d3);
+        deliveries.add(d1);
 
         Position truckPos= new Position(0,0);
-        FlightPlan flightPlan = pathFinder.getPath(truckPos, packagePositions);
-        assertEquals(flightPlan.getSteps().get(0), truckPos);
-        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 1), pos3);
-        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 2), pos2);
-        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 3), pos1);
+        FlightPlan flightPlan = pathFinder.getPath(truckPos, deliveries);
+        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 1).getDeliveryId(), d3.getId());
+        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 2).getDeliveryId(), d2.getId());
+        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 3).getDeliveryId(), d1.getId());
     }
 }

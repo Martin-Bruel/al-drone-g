@@ -16,7 +16,10 @@ public class Delivery {
 
     public Delivery(Position position) {
         this.position = position;
-        this.deliveryStatus = DeliveryStatus.PENDING;
+    }
+
+    public Delivery(Position position, Long id) {
+        this.position = position;
     }
 
     public Delivery(DeliveryDto deliveryDto){

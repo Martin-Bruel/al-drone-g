@@ -1,5 +1,6 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.FlightPlan;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
@@ -38,12 +39,12 @@ public class DroneStarterBean implements DroneLauncher {
     public void start(Long droneId, Long[] packageIds) {
         logger.info("Starting drone " + droneId + " with package " + packageIds);
         Position truckPos = positionProvider.getTruckPosition();
-        List<Position> packagePositions = new ArrayList<>();
+        List<Delivery> deliveries = new ArrayList<>();
         for(Long id : packageIds){
-            packagePositions.add(packageFinder.getPackageByPackageId(id).getPosition());
+            deliveries.add(packageFinder.getPackageByPackageId(id));
         }
 
-        FlightPlan flightPlan = pathFinder.getPath(truckPos, packagePositions);
+        FlightPlan flightPlan = pathFinder.getPath(truckPos, deliveries);
         Drone drone = droneFinder.findDroneById(droneId);
         droneService.launchDrone(flightPlan, drone);
     }

@@ -1,7 +1,9 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.FlightPlan;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Step;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PathFinder;
 import com.polytech.si5.al.dronedelivery.team.g.truck.utils.PositionCalculator;
 import org.slf4j.Logger;
@@ -19,16 +21,15 @@ public class DronePlanifierBean implements PathFinder {
     Logger logger = LoggerFactory.getLogger(DronePlanifierBean.class);
 
     @Override
-    public FlightPlan getPath(Position truckPos, List<Position> packagePositions) {
+    public FlightPlan getPath(Position truckPos, List<Delivery> deliveries) {
         logger.info("Determine flight plan");
-        List<Position> deliverySteps = new ArrayList<>();
-        packagePositions.sort((p1, p2) -> {
-            if (PositionCalculator.distance(p1, truckPos) == PositionCalculator.distance(p2, truckPos))
+        List<Step> deliverySteps = new ArrayList<>();
+        deliveries.sort((d1, d2) -> {
+            if (PositionCalculator.distance(d1.getPosition(), truckPos) == PositionCalculator.distance(d2.getPosition(), truckPos))
                 return 0;
-            else return PositionCalculator.distance(p1, truckPos) > PositionCalculator.distance(p2, truckPos) ? 1 : -1;
+            else return PositionCalculator.distance(d1.getPosition(), truckPos) > PositionCalculator.distance(d2.getPosition(), truckPos) ? 1 : -1;
         });
-        deliverySteps.addAll(packagePositions);
-
+        deliveries.forEach(delivery -> deliverySteps.add(new Step(delivery.getPosition(), delivery.getId())));
         return new FlightPlan(deliverySteps, truckPos);
     }
 }

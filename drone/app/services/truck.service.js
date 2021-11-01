@@ -3,11 +3,12 @@ const { getConfiguration} = require('../config')
 let context = getConfiguration().context;
 let truckService=context.external.truck;
 
-sendDeliveryState=async function(droneId,statusCode){
+sendDeliveryState=async function(droneId,statusCode, deliveryId){
     let url = 'http://'+truckService.host+":"+truckService.port+'/delivery'
     let result= await axios.post(url, {
         droneId:droneId,
-        deliveryState:statusCode
+        deliveryState:statusCode,
+        deliveryId:deliveryId
       })
       .then((response) => {
         console.log("Update state");

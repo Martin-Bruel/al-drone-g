@@ -29,7 +29,7 @@ function startTask(itinary){
             console.log('Delivery package at ' + toString_Position(calculPosition()))
             route.lastdate = new Date().getTime() / 1000
             route.step = i + 1
-            TruckService.sendDeliveryState(droneId,4);//Sending delivery confirmation
+            TruckService.sendDeliveryState(droneId,4, itinary.steps[i].deliveryId);//Sending delivery confirmation
         }, time * 1000)    
         precPos = itinary.steps[i] 
     }
