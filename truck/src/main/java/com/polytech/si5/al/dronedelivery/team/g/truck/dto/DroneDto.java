@@ -5,4 +5,5 @@ public class DroneDto {
     public String name;
     public String host;
     public String port;
+    public Integer capacity;
 }

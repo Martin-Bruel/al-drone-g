@@ -1,7 +1,6 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.constants.DeliveryStatusCode;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Address;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
@@ -17,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class DeliveryTrackerTest {
@@ -50,10 +49,8 @@ class DeliveryTrackerTest {
     void updateDeliverySate() {
         Drone drone=new Drone();
         entityManager.persist(drone);
-        Address address=new Address();
-        address.setPosition(new Position());
-        Delivery deliveryA = new Delivery(address);
-        Delivery deliveryB = new Delivery(address);
+        Delivery deliveryA = new Delivery(new Position());
+        Delivery deliveryB = new Delivery(new Position());
 
         entityManager.persist(deliveryA);
         entityManager.persist(deliveryB);

@@ -8,5 +8,5 @@ public interface DroneFinder {
 
     Drone findDroneById(Long droneId);
     List<Drone> getAvailableDrones();
-
+    List<Drone> getAllDrones();
 }

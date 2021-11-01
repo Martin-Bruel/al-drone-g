@@ -1,6 +1,7 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.entities;
 
 
+import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DeliveryDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.enumeration.DeliveryStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,10 +14,13 @@ import javax.persistence.*;
 @Setter
 public class Delivery {
 
-    public Delivery(Address address) {
-        this.id = id;
-        this.address = address;
-        this.deliveryDrone = deliveryDrone;
+    public Delivery(Position position) {
+        this.position = position;
+        this.deliveryStatus = DeliveryStatus.PENDING;
+    }
+
+    public Delivery(DeliveryDto deliveryDto){
+        this.position = new Position(deliveryDto.latitude, deliveryDto.longitude);
     }
 
     public Delivery(){}
@@ -26,9 +30,9 @@ public class Delivery {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    private Address address;
+    private Position position;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private Drone deliveryDrone;
 
     @Enumerated(EnumType.STRING)
@@ -44,7 +48,7 @@ public class Delivery {
     public String toString() {
         return "Delivery{" +
                 "id=" + id +
-                ", address=" + address +
+                ", position=" + position +
                 ", deliveryDrone=" + deliveryDrone +
                 '}';
     }

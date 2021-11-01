@@ -1,8 +1,10 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.enumeration.DeliveryStatus;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageFinder;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageModifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageRegistration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +15,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
-public class PackageRegistryBean implements PackageFinder, PackageRegistration {
+public class PackageRegistryBean implements PackageFinder, PackageRegistration, PackageModifier {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -29,6 +32,7 @@ public class PackageRegistryBean implements PackageFinder, PackageRegistration {
     @Override
     @Transactional
     public List<Delivery> getDeliverablePackages() {
+        logger.info("Get Packages");
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Delivery> cq = builder.createQuery(Delivery.class);
         Root<Delivery> deliveryRoot = cq.from(Delivery.class);
@@ -40,7 +44,7 @@ public class PackageRegistryBean implements PackageFinder, PackageRegistration {
 
     @Override
     public Delivery getPackageByPackageId(Long packageId) {
-        logger.info("find delivery for id " + packageId);
+        logger.info("Find delivery for id " + packageId);
         Delivery delivery = entityManager.find(Delivery.class, packageId);
         if (delivery == null) throw new IllegalArgumentException("Package " + packageId + " not found...");
         return delivery;
@@ -51,8 +55,8 @@ public class PackageRegistryBean implements PackageFinder, PackageRegistration {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Delivery> cr = cb.createQuery(Delivery.class);
         Root<Delivery> root = cr.from(Delivery.class);
-        root.join("deliveryDrone").get("id");
-        cr.select(root).where(cb.gt(root.get("id"),droneId));
+        Join<Delivery, Drone> drone = root.join("deliveryDrone");
+        cr.select(root).where(cb.equal(drone.get("id"),droneId));
         TypedQuery<Delivery> query = entityManager.createQuery(cr);
         return query.getResultList();
     }
@@ -61,5 +65,15 @@ public class PackageRegistryBean implements PackageFinder, PackageRegistration {
     @Transactional
     public void registerDelivery(Delivery delivery) {
         entityManager.persist(delivery);
+    }
+
+    @Override
+    public void setPackageStatus(Delivery delivery, DeliveryStatus status) {
+        delivery.setDeliveryStatus(status);
+    }
+
+    @Override
+    public void updateDeliveryDrone(Drone drone, Delivery delivery) {
+        delivery.setDeliveryDrone(drone);
     }
 }

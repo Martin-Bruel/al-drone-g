@@ -8,15 +8,17 @@ var configuration = {
     host: process.env.DRONE_HOST,
     port: process.env.DRONE_PORT,
     name: process.env.DRONE_NAME,
-    database: '' , 
+    capacity: process.env.DRONE_CAPACITY,
+    database: '' ,
     external: {
       truck : {host:'truck',port:8085}
     }
   },
   dev:{
     host: 'localhost',
-    port: 8084,
+    port: 8087,
     name: 'alpha',
+    capacity: 1,
     database:'',
     external: {
       truck : {host:'localhost',port:8085}

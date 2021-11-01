@@ -3,7 +3,7 @@ const { getConfiguration} = require('../config')
 let context = getConfiguration().context;
 let truckService=context.external.truck;
 
-exports.sendDeliveryState=async function(droneId,statusCode){
+sendDeliveryState=async function(droneId,statusCode){
     let url = 'http://'+truckService.host+":"+truckService.port+'/delivery'
     let result= await axios.post(url, {
         droneId:droneId,
@@ -16,18 +16,26 @@ exports.sendDeliveryState=async function(droneId,statusCode){
     });
 }
 
-exports.connectToTruck=async function(){
+connectToTruck=async function(){
   let url='http://'+truckService.host + ':'+ truckService.port +'/connect/drone/';
   let result = await axios.post(url, {
     name : context.name,
     host: context.host,
-    port: context.port
+    port: context.port,
+    capacity: context.capacity
   }).then((response) => {
     let id = response.data
     console.log("Connected to the truck - my id is : " + id)
     getConfiguration().info.id = id
   }, (error) => {
-    console.log(error);
+    setTimeout(function() {
+      connectToTruck()
+   }, 1000);
   });
   
+}
+
+module.exports = {
+  sendDeliveryState,
+  connectToTruck
 }
