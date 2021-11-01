@@ -24,7 +24,7 @@ function startTask(itinary){
     var route =Route.getById(0)
     for (let i = 0; i < itinary.steps.length; i++) {
         time = distance(precPos, itinary.steps[i]) / droneSpeed + time
-        console.log(Math.round(time) + ' second before arriving to step ' + i + 1)
+        console.log(Math.round(time) + ' second before arriving to step ' + (i + 1))
         setTimeout(() => {
             console.log('Delivery package at ' + toString_Position(calculPosition()))
             route.lastdate = new Date().getTime() / 1000
@@ -44,7 +44,9 @@ function startTask(itinary){
 
 
 exports.getPosition = async function(){
-    return calculPosition();
+    let position = calculPosition();
+    console.log('Sending position '+ toString_Position(position))
+    return position
 }
 
 function calculPosition() {
@@ -76,7 +78,6 @@ function calculPosition() {
 
     var position = {latitude : Xb, longitude : Yb}
 
-    console.log('Sending position '+ toString_Position(position))
     return position;
 }
 

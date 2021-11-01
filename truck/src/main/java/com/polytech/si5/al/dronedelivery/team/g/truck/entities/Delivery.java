@@ -1,6 +1,7 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DeliveryDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.enumeration.DeliveryStatus;
 import lombok.AccessLevel;
@@ -36,6 +37,7 @@ public class Delivery {
     private Position position;
 
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JsonIgnore
     private Drone deliveryDrone;
 
     @Enumerated(EnumType.STRING)

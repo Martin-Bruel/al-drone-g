@@ -60,7 +60,8 @@ class DeliveryTrackerTest {
         deliveryA.setDeliveryDrone(drone);
         deliveryB.setDeliveryDrone(drone);
         deliveryTracker.setMustSendMessage(false);
-        deliveryTracker.updateDeliverySate(drone.getId(), DeliveryStatusCode.PACKAGE_DELIVERED, 0);
+        deliveryTracker.updateDeliverySate(drone.getId(), DeliveryStatusCode.PACKAGE_DELIVERED, deliveryA.getId());
+        deliveryTracker.updateDeliverySate(drone.getId(), DeliveryStatusCode.PACKAGE_DELIVERED, deliveryB.getId());
         assertEquals(deliveryA.getDeliveryStatus(), DeliveryStatus.DELIVERED);
         assertEquals(deliveryB.getDeliveryStatus(), DeliveryStatus.DELIVERED);
     }

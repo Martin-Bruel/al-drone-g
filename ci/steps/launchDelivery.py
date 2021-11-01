@@ -30,8 +30,8 @@ def getDronePosition():
 
 
 def launchDrone(droneId, deliveryIds):
-    url = 'http://localhost:8085/start/drone/' + str(droneId) +'/package/' + str(deliveryIds)
-    return requests.post(url)
+    url = 'http://localhost:8085/start/drone/' + str(droneId)
+    return requests.post(url, json=deliveryIds)
 
 def disconnectDrones():
     for k in LIST_DRONES:
@@ -47,7 +47,7 @@ def initTest(number):
     try:
         url = 'http://localhost:8085/package/add'
         for i in range(number):
-            requests.post(url, json = {'latitude':5+number, 'longitude':5+number})
+            requests.post(url, json = {'latitude':10+number, 'longitude':10+number})
         sleep(15)
     except requests.exceptions.ConnectionError:
         sleep(5)
@@ -72,7 +72,7 @@ def step_impl(context):
     global droneId
     droneId = allocations[0]["droneId"]
     deliveryId = allocations[0]["deliveryIds"][0]
-    res = launchDrone(droneId, deliveryId)
+    res = launchDrone(droneId, [deliveryId])
     sleep(5)
 
 @then("le drone part effectuer sa livraison")
@@ -95,6 +95,7 @@ def step_impl(context, number):
 @then("le colis est livré")
 def step_impl(context):
     global deliveryId
+    sleep(10)
     package = getPackage(deliveryId)
     assert(package["deliveryStatus"] == 'DELIVERED')
 
