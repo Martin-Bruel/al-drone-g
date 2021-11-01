@@ -7,6 +7,8 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageFinder;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageSelector;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PositionProvider;
 import com.polytech.si5.al.dronedelivery.team.g.truck.utils.PositionCalculator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Component
 public class ProximityFilterBean implements PackageSelector {
+
+    Logger logger = LoggerFactory.getLogger(ProximityFilterBean.class);
 
     @Autowired
     PackageFinder packageFinder;
@@ -23,6 +27,7 @@ public class ProximityFilterBean implements PackageSelector {
 
     @Override
     public List<Delivery> getDeliverySelected() {
+        logger.info("Filter deliveries");
 
         Position truckPosition = positionProvider.getTruckPosition();
         List<Delivery> deliveries = packageFinder.getDeliverablePackages();

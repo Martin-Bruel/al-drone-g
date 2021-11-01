@@ -13,7 +13,7 @@ public class TruckLocatorBean implements PositionProvider {
 
     @Override
     public Position getTruckPosition() {
-        logger.info("get truck location");
+        logger.info("Get truck location");
         return new Position(0,0);
     }
 }

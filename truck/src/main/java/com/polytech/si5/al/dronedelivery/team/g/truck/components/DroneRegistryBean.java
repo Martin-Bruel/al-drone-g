@@ -38,6 +38,7 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
     @Override
     @Transactional
     public List<Drone> getAvailableDrones() {
+        logger.info("Get Available Drone");
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Drone> cq = builder.createQuery(Drone.class);
         Root<Drone> drone = cq.from(Drone.class);

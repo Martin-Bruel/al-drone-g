@@ -37,6 +37,7 @@ public class SchedulerBean implements AllocationProvider {
     @Override
     @Transactional
     public List<Allocation> getAllocations() {
+        logger.info("Get allocations");
         List<Delivery> deliveries = packageSelector.getDeliverySelected();
         List<Drone> drones = droneFinder.getAvailableDrones();
 

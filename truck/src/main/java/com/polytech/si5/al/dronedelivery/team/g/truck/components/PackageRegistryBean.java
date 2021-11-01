@@ -32,6 +32,7 @@ public class PackageRegistryBean implements PackageFinder, PackageRegistration, 
     @Override
     @Transactional
     public List<Delivery> getDeliverablePackages() {
+        logger.info("Get Packages");
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Delivery> cq = builder.createQuery(Delivery.class);
         Root<Delivery> deliveryRoot = cq.from(Delivery.class);
@@ -43,7 +44,7 @@ public class PackageRegistryBean implements PackageFinder, PackageRegistration, 
 
     @Override
     public Delivery getPackageByPackageId(Long packageId) {
-        logger.info("find delivery for id " + packageId);
+        logger.info("Find delivery for id " + packageId);
         Delivery delivery = entityManager.find(Delivery.class, packageId);
         if (delivery == null) throw new IllegalArgumentException("Package " + packageId + " not found...");
         return delivery;

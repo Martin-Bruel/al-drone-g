@@ -16,7 +16,7 @@ var configuration = {
   },
   dev:{
     host: 'localhost',
-    port: 8084,
+    port: 8087,
     name: 'alpha',
     capacity: 1,
     database:'',

@@ -3,7 +3,7 @@ import requests
 from time import sleep
 
 DOCKER = True
-LIST_DRONES = [8087, 8088, 8089] if DOCKER else [8084]
+LIST_DRONES = [8087, 8088, 8089] if DOCKER else [8087]
 
 def getAllocations():
     url = 'http://localhost:8085/truck/allocation'
