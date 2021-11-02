@@ -7,7 +7,7 @@ from Command import Command
 class LaunchDrone(Command):
 
     def __init__(self):
-        self._url = 'http://localhost:8085/start/drone/{0}/package/{1}'
+        self._url = 'http://localhost:8085/start/drone/{0}'
 
     def description(self):
         return 'Launch specified drone with given delivery'
@@ -17,14 +17,14 @@ class LaunchDrone(Command):
             droneId = input('> '+'Enter droneId'+' : ')
             deliveryIds = input('> '+'Enter deliveryIds'+' : ')
 
-            data = self.launchDrone(droneId, deliveryIds)
+            data = self.launchDrone(droneId, deliveryIds.split())
             print('> ','Starting ',droneId, ' with deliveries #', deliveryIds)
         except requests.exceptions.RequestException:
             print('Can\'t create connection with : ' + self._url)
 
     def launchDrone(self, droneId, deliveryIds):
-        url = self._url.format(droneId, deliveryIds)
-        response = requests.post(url)
+        url = self._url.format(droneId)
+        response = requests.post(url, json=deliveryIds)
         return response
 
 if __name__ == "__main__":

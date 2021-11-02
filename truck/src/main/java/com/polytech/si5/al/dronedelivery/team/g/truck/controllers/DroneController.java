@@ -38,7 +38,7 @@ public class DroneController {
 
     @PostMapping(value = "/delivery", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<String> post(@RequestBody DeliveryStateDto deliveryStateDto) {
-        deliveryStateNotifier.updateDeliverySate(deliveryStateDto.getDroneId(), deliveryStateDto.getDeliveryState());
+        deliveryStateNotifier.updateDeliverySate(deliveryStateDto.getDroneId(), deliveryStateDto.getDeliveryState(), deliveryStateDto.getDeliveryId());
         return new ResponseEntity<String>("OK", HttpStatus.OK);
     }
 

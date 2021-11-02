@@ -66,6 +66,7 @@ public class DroneTracker implements DroneWatcher {
             }catch(RestClientException e){
                 //logger.info(e.getMessage());
                 logger.info("Attempted failed");
+                Thread.sleep(Api.RESTTEMPLATE_TIMEOUT);
             }
         }
         logger.info("Unreachable service");

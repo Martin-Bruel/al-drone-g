@@ -1,9 +1,10 @@
 const RouteService= require('../services/route.service')
-let ACCEPT_CONNECTION=true
+const {getConfiguration}=require('../config')
+let ACCEPT_CONNECTION=getConfiguration().info.speed
 const TIMEOUT=1000
 exports.startDelivery =async function(req,res) {
     if(ACCEPT_CONNECTION){
-        await RouteService.startDelivery(req.body.steps);
+        await RouteService.startDelivery(req.body);
         res.status(200).json({started:true,message:'Drone started'})
     } else{
         res.status(500).json("Connection refused")

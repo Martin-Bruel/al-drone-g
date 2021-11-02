@@ -1,5 +1,7 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.controllers;
 
+import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DeliveryDto;
+import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DeliveryStateDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Allocation;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.AllocationProvider;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneLauncher;
@@ -7,10 +9,7 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.views.AllocationView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,9 +29,9 @@ public class AllocationController {
         return allocationProvider.getAllocations().stream().map(Allocation::getView).collect(Collectors.toList());
     }
 
-    @PostMapping("/start/drone/{droneId}/package/{packageId}")
-    public void start(@PathVariable Long droneId, @PathVariable Long packageId){
+    @PostMapping("/start/drone/{droneId}")
+    public void start(@PathVariable Long droneId, @RequestBody Long[] deliveryIds){
         logger.info("receive start demand");
-        droneLauncher.start(droneId, packageId);
+        droneLauncher.start(droneId, deliveryIds);
     }
 }

@@ -1,5 +1,6 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.FlightPlan;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
@@ -9,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DroneStarterBean implements DroneLauncher {
@@ -32,11 +36,15 @@ public class DroneStarterBean implements DroneLauncher {
 
 
     @Override
-    public void start(Long droneId, Long packageId) {
-        logger.info("Starting drone " + droneId + " with package " + packageId);
+    public void start(Long droneId, Long[] packageIds) {
+        logger.info("Starting drone " + droneId + " with package " + packageIds);
         Position truckPos = positionProvider.getTruckPosition();
-        Position packagePos = packageFinder.getPackageByPackageId(packageId).getPosition();
-        FlightPlan flightPlan = pathFinder.getPath(truckPos, packagePos);
+        List<Delivery> deliveries = new ArrayList<>();
+        for(Long id : packageIds){
+            deliveries.add(packageFinder.getPackageByPackageId(id));
+        }
+
+        FlightPlan flightPlan = pathFinder.getPath(truckPos, deliveries);
         Drone drone = droneFinder.findDroneById(droneId);
         droneService.launchDrone(flightPlan, drone);
     }

@@ -1,1 +1,31 @@
-[]
+[
+  {
+    "id": 0,
+    "start": 1635784684.634,
+    "itinary": {
+      "steps": [
+        {
+          "latitude": -30,
+          "longitude": 0,
+          "deliveryId": 2
+        },
+        {
+          "latitude": -30,
+          "longitude": 10,
+          "deliveryId": 3
+        },
+        {
+          "latitude": -30,
+          "longitude": 20,
+          "deliveryId": 4
+        }
+      ],
+      "start": {
+        "latitude": 0,
+        "longitude": 0
+      }
+    },
+    "step": 0,
+    "lastdate": 1635784684.634
+  }
+]
