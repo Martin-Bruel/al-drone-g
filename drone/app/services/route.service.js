@@ -3,6 +3,7 @@ const { Route } = require('../models')
 const TruckService= require('../services/truck.service')
 const {getConfiguration}=require('../config')
 const {distance}=require('../utils/math')
+var connectionState = require('../utils/connection-state');
 
 let task=[]
 
@@ -26,7 +27,7 @@ function startTask(itinary){
         time = distance(precPos, itinary.steps[i]) / droneSpeed + time
         console.log(Math.round(time) + ' seconds before arriving to step ' + (i + 1))
         setTimeout(() => {
-            console.log('Delivery package at ' + toString_Position(calculPosition()))
+            console.log('Delivering package at ' + toString_Position(calculPosition()) + ' <' + itinary.steps[i].deliveryId + '>')
             route.lastdate = new Date().getTime() / 1000
             route.step = i + 1
             TruckService.sendDeliveryState(droneId,4, itinary.steps[i].deliveryId);//Sending delivery confirmation
@@ -36,16 +37,25 @@ function startTask(itinary){
     time = distance(precPos, itinary.start) / droneSpeed + time
     console.log(Math.round(time) + ' seconds before returning to truck')
     setTimeout(() => {
+        connectionState.ACCEPT_CONNECTION
         TruckService.sendDeliveryState(droneId,3);//Sending delivery confirmation
         console.log('Im docked at ' + toString_Position(calculPosition()))
     }, time * 1000) 
+
+    while(time > 0){
+        setTimeout(() => {
+            console.log('Position : ' + toString_Position(calculPosition()))
+        }, time * 1000)
+        time--
+    }
+    
 }
 
 
 
 exports.getPosition = async function(){
     let position = calculPosition();
-    console.log('Sending position '+ toString_Position(position))
+    console.log('Sending position to truck '+ toString_Position(position))
     return position
 }
 

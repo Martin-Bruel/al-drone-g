@@ -1,12 +1,13 @@
 const axios = require('axios')
 const { getConfiguration} = require('../config')
-var ACCEPT_CONNECTION=getConfiguration().info.speed
+var connectionState = require('../utils/connection-state');
 let context = getConfiguration().context;
 let truckService=context.external.truck;
+const states = ['STARTING_DELIVERY','PENDING_DELIVERY','FINISHED_DELIVERY','PACKAGE_DELIVERED']
 
-sendDeliveryState=async function(droneId,statusCode, deliveryId){
+sendDeliveryState=async function(droneId,statusCode, deliveryId, retrying){
 
-  if(ACCEPT_CONNECTION){
+  if(connectionState.ACCEPT_CONNECTION){
     let url = 'http://'+truckService.host+":"+truckService.port+'/delivery'
     let result= await axios.post(url, {
         droneId:droneId,
@@ -14,14 +15,16 @@ sendDeliveryState=async function(droneId,statusCode, deliveryId){
         deliveryId:deliveryId
       })
       .then((response) => {
-        console.log("Update state");
+        if(deliveryId) console.log("Notify truck : " + states[statusCode - 1] + ' <' +deliveryId + '>');
+        else console.log("Notify truck : " + states[statusCode - 1]);
       }, (error) => {
         console.log(error);
     });
   }
   else {
+    if(!retrying) console.log("Cannot contact truck... retrying in background...")
     setTimeout(function() {
-      sendDeliveryState(droneId, statusCode,deliveryId)
+      sendDeliveryState(droneId, statusCode,deliveryId, true)
    }, 1000);
   }
 }
