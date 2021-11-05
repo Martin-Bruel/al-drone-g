@@ -86,7 +86,7 @@ function calculPosition() {
     Xb = Xv * (T - Tstart) + Xa
     Yb = Yv * (T - Tstart) + Ya
 
-    var position = {latitude : Xb, longitude : Yb}
+    var position = {latitude : Math.round(Xb*100)/100, longitude : Math.round(Yb*100)/100}
 
     return position;
 }

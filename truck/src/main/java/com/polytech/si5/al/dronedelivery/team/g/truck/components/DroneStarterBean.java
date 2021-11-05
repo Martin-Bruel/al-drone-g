@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -37,7 +38,7 @@ public class DroneStarterBean implements DroneLauncher {
 
     @Override
     public void start(Long droneId, Long[] packageIds) {
-        logger.info("Starting drone " + droneId + " with package " + packageIds);
+        logger.info("Starting drone " + droneId + " with package " + Arrays.toString(packageIds));
         Position truckPos = positionProvider.getTruckPosition();
         List<Delivery> deliveries = new ArrayList<>();
         for(Long id : packageIds){
