@@ -6,4 +6,5 @@ import lombok.Getter;
 public class DeliveryStateDto {
     int droneId;
     int deliveryState;
+    int deliveryId;
 }

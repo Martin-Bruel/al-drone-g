@@ -4,20 +4,27 @@ import java.util.List;
 
 public class FlightPlan {
 
-    private List<Position> steps;
+    private List<Step> steps;
+    private Position start;
 
-    public FlightPlan(List<Position> steps) {
+    public FlightPlan(List<Step> steps, Position start) {
         this.steps = steps;
+        this.start = start;
     }
 
-    public List<Position> getSteps() {
+    public List<Step> getSteps() {
         return steps;
+    }
+
+    public Position getStart() {
+        return start;
     }
 
     @Override
     public String toString() {
         return "FlightPlan{" +
                 "steps=" + steps.toString() +
+                ", start=" + start.toString() +
                 '}';
     }
 }

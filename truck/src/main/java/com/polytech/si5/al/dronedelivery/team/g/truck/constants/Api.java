@@ -6,7 +6,7 @@ public class Api {
     public static final String ENV = System.getenv("APP_ENV") != null ? System.getenv("APP_ENV") : DEFAULT_ENV;
     public static final int RESTTEMPLATE_TIMEOUT = 5000; //ms
     public static final int DRONE_TIMEOUT = 3000;
-    public static final int DRONE_RETRY_CONNECTION = 10;
+    public static final int DRONE_RETRY_CONNECTION = 30;
 
               //////////- Drone APIs-//////////
     public static final String DRONE_API_BASE_URL = "drone-api";
