@@ -6,7 +6,6 @@
 ## Status
 | Date | Planned | Achieved | Blockers/Risk | 🟩🟧🟥 Flag |
 | :--- | :--- | :--- | :--- | :---: |
-| 09-11-21<br />(week 45) || <ul><li>Report</li><li>Auto Evaluation</li></ul> | | 🟩 |
 | 02-11-21<br />(week 44) | <ul><li>Report</li></ul>| <ul><li>Deliveries by big drones</li><li>Cancel deliveries too far away</li><li>Prepare Demo</li><li>Improve Logs for Demo</li><li>Fix the sending of notifications when the drone delivers and is disconnected</li></ul> | | 🟩 |
 | 26-10-21<br />(week 43) | <ul><li>Deliveries by big drones</li><li>Warehouse Notification lost drone</li><li>Cancel deliveries too far away</li><li>Prepare Demo</li><li>Report</li></ul> | <ul><li>Scenario in CI</li><li>Resilient Notifications</li></ul> | <ul><li>Hard to test architecture (need to add some routes just for testing)</li></ul> | 🟩 |
 | 19-10-21<br />(week 42) | <ul><li>Deliveries by drones (one drone <-> one package)</li><li>Simple Scheduling && Flight Plan</li><li>Important Drone Tracking</li><li>Basic Notifications</li><li>CI End to End </li></ul> | <ul><li>Deliveries by drones (one drone <-> one package)</li><li>Simple Scheduling && Flight Plan</li><li>Important Drone Tracking</li><li>Basic Notifications</li></ul> | <ul><li>In-memory Database</li><li>Persistence Issues : error while testing with some os</li><li>Persistence Issues : difficulties with Cascading</li></ul> | 🟩 |
