@@ -1,5 +1,5 @@
-const { setCurrentPosition } = require('../interfaces/PositionModifier');
-const { getCurrentPosition } = require('../interfaces/PositionProvider');
+const PositionModifier = require('../interfaces/PositionModifier');
+const PositionProvider = require('../interfaces/PositionProvider');
 const { getConfiguration } = require('../configuration/config');
 const { Position } = require('../model/Position')
 
@@ -7,7 +7,7 @@ async function flyTo(position){
 
     return new Promise((res, rej) => {
         let speed = getConfiguration().info.speed;
-        let startPos = getCurrentPosition();
+        let startPos = PositionProvider.getCurrentPosition();
         let targetPos = position;
         let currentPos = startPos;
 
@@ -15,12 +15,12 @@ async function flyTo(position){
         let startTime = new Date().getTime() / 1000;
         let endTime = startTime + duringTime;
 
-        console.log('Drone fly from ' + startPos + ' to ' + targetPos + ' in ' + Math.round(duringTime) + ' seconds');
+        console.log('Drone flying from ' + startPos.toString() + ' to ' + targetPos.toString() + ' in ' + Math.round(duringTime) + ' seconds');
 
         let id = setInterval(() => {
             currentPos = calculPositionProjection(startPos, targetPos, startTime, endTime, speed);
             console.log(currentPos.toString());
-            setCurrentPosition(currentPos);
+            PositionModifier.setCurrentPosition(currentPos);
             if(currentPos.equals(targetPos)){
                 clearInterval(id);
                 res();

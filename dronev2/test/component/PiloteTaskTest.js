@@ -1,4 +1,4 @@
-const { startJourney } = require('../../app/interfaces/PiloteStarter');
+const PiloteStarter = require('../../app/interfaces/PiloteStarter');
 const { FlightPlan } = require('../../app/model/FlightPlan');
 const { Position } = require('../../app/model/Position');
 
@@ -11,7 +11,7 @@ async function piloteTaskTest(){
 
     let flightPlan = new FlightPlan([truckPos, deliveryPos, truckPos]);
 
-    await startJourney(flightPlan);
+    await PiloteStarter.startJourney(flightPlan);
 }
 
 module.exports = {
