@@ -78,7 +78,7 @@ class SchedulerBeanTest {
         packages.add(delivery);
         packageRegistration.registerDelivery(delivery);
 
-        List<Allocation> allocations = allocationProvider.getAllocations();
+        List<FleetAllocation> allocations = allocationProvider.getAllocations();
         assertThat(allocations).isNotEmpty();
     }
 
@@ -92,7 +92,8 @@ class SchedulerBeanTest {
         packages.add(delivery);
         packageRegistration.registerDelivery(delivery);
 
-        List<Allocation> allocations = allocationProvider.getAllocations();
+        List<FleetAllocation> fleetAllocations = allocationProvider.getAllocations();
+        List<Allocation> allocations = fleetAllocations.get(0).getAllocations();
         Allocation allocation = allocations.get(0);
         Drone allocatedDrone = allocation.getDrone();
         Delivery allocatedDelivery = allocation.getDeliveries().get(0);
@@ -118,14 +119,17 @@ class SchedulerBeanTest {
             packageRegistration.registerDelivery(delivery);
         }
 
-        List<Allocation> allocations = allocationProvider.getAllocations();
+        List<FleetAllocation> fleetAllocations = allocationProvider.getAllocations();
+        List<Allocation> allocations = fleetAllocations.get(0).getAllocations();
         assertEquals(2, allocations.size());
 
-        Allocation allocation1 = allocationProvider.getAllocations().get(0); // gros drone en priorité
+        List<FleetAllocation> fleetAllocations1 = allocationProvider.getAllocations();
+        Allocation allocation1 = fleetAllocations1.get(0).getAllocations().get(0); // gros drone en priorité
         assertEquals(bigDrone, allocation1.getDrone());
         assertEquals(3, allocation1.getDeliveries().size());
 
-        Allocation allocation2 = allocationProvider.getAllocations().get(1); // gros drone en priorité
+        List<FleetAllocation> fleetAllocations2 = allocationProvider.getAllocations();
+        Allocation allocation2 = fleetAllocations2.get(0).getAllocations().get(1); // gros drone en priorité
         assertEquals(drone, allocation2.getDrone());
         assertEquals(1, allocation2.getDeliveries().size());
 

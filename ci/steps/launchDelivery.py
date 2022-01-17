@@ -1,5 +1,5 @@
-from behave import *
 import requests
+from behave import *
 from time import sleep
 
 DOCKER = True
@@ -61,8 +61,12 @@ def step_impl(context, number):
 allocations = []
 @when("le conducteur demande les assignations")
 def step_impl(context):
-    global allocations
-    allocations = getAllocations()
+    global allocations, fleetAllocations
+    fleetAllocations = getAllocations()
+    allocations = []
+    for fleetAllocation in fleetAllocations:
+        for alloc in fleetAllocation['allocations']:
+            allocations.append(alloc)
 
 @when("le conducteur lance le drone avec son colis")
 def step_impl(context):
