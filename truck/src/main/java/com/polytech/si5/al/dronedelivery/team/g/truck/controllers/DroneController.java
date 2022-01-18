@@ -1,10 +1,12 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.controllers;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DeliveryStateDto;
+import com.polytech.si5.al.dronedelivery.team.g.truck.dto.PositionDroneDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DroneDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DeliveryStateNotifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneFinder;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneModifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneRegistration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,9 @@ public class DroneController {
 
     @Autowired
     private DeliveryStateNotifier deliveryStateNotifier;
+
+    @Autowired
+    private DroneModifier droneModifier;
 
     @RequestMapping(value="/drones", method= RequestMethod.GET)
     public List<Drone> getAllDrones() {
@@ -61,5 +66,10 @@ public class DroneController {
     public Long connect(@RequestBody DroneDto droneDto){
         logger.info("new drone connected : " + droneDto.name + " - " + droneDto.host + ":" + droneDto.port);
         return droneRegistration.registerDrone(new Drone(droneDto));
+    }
+
+    @PostMapping("/truck-api/position")
+    public void registerPosition(@RequestBody List<PositionDroneDto> positionsDroneDto){
+        droneModifier.setPositionsDrones(positionsDroneDto);
     }
 }
