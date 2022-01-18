@@ -27,6 +27,10 @@ class Position{
     toString(){
         return '('+Math.round(this.lat * 1000) / 1000 +','+Math.round(this.lon * 1000) / 1000+')';
     }
+
+    formatForTruck(){
+        return { "latitude": this.lat, "longitude": this.lon };
+    }
 }
 
 module.exports = {

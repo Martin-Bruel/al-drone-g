@@ -30,12 +30,9 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
     await axios.post(url, 
         [
             {
-                droneId: 1,
-                position: {
-                    latitude:43.61748221775195,
-                    longitude:7.07255137980926
-                },
-                timestamp: 123
+                droneId: idDrone,
+                position: currentPosition.formatForTruck(),
+                timestamp: currentTime
             }
         ]
     )
