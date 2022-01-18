@@ -23,6 +23,32 @@ async function connectToTruck(){
     });
 }
 
+async function sendPositionDrone(idDrone, currentPosition, currentTime){
+    let truck = getConfiguration().context.external.truck;
+    let url='http://'+truck.host + ':'+ truck.port +'/truck-api/position';
+
+    await axios.post(url, 
+        [
+            {
+                droneId: 1,
+                position: {
+                    latitude:43.61748221775195,
+                    longitude:7.07255137980926
+                },
+                timestamp: 123
+            }
+        ]
+    )
+    .then(function (response){
+        console.log("Position of drone send to truck")
+        return response.data;
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+}
+
 module.exports = {
-    connectToTruck
+    connectToTruck,
+    sendPositionDrone
 }
