@@ -23,7 +23,7 @@ public class Allocation {
                 .map(Delivery::getId)
                 .map(Object::toString)
                 .collect(Collectors.toList());
-        return "Position{" +
+        return "Allocation{" +
                 "drone=" + drone.getId() +
                 ", delivery=" + String.join(",", deliveryIds)
                 + '}';

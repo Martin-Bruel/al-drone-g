@@ -1,10 +1,10 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Allocation;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
-import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.*;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.*;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.AllocationProvider;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneFinder;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneModifier;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageSelector;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +36,21 @@ public class SchedulerBean implements AllocationProvider {
 
     @Override
     @Transactional
-    public List<Allocation> getAllocations() {
+    public List<FleetAllocation> getAllocations() {
         logger.info("Get allocations");
-        List<Delivery> deliveries = packageSelector.getDeliverySelected();
+        List<DeliveryPoint> deliveryPoints = packageSelector.getReachableDeliveryPoints();
         List<Drone> drones = droneFinder.getAvailableDrones();
+        List<FleetAllocation> fleetAllocations = new ArrayList<>();
 
+        for ( DeliveryPoint dp : deliveryPoints) {
+            List<Allocation> allocations = allocate(dp.getDeliveries(), drones);
+            fleetAllocations.add(new FleetAllocation(allocations));
+        }
+
+        return fleetAllocations;
+    }
+
+    private List<Allocation> allocate(List<Delivery> deliveries, List<Drone> drones) {
         List<Allocation> allocations = new ArrayList<>();
 
         drones.sort(Comparator.comparingInt(Drone::getCapacity).reversed());
@@ -63,8 +73,8 @@ public class SchedulerBean implements AllocationProvider {
                 deliveryList.add(merged);
             }
             droneModifier.assignDeliveryToDrone(drone,deliveryList);
+            drones.remove(drone);
         }
-
         return allocations;
     }
 }
