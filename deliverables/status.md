@@ -6,6 +6,7 @@
 ## Status
 | Date | Planned | Achieved | Blockers/Risk | 🟩🟧🟥 Flag |
 | :--- | :--- | :--- | :--- | :---: |
+| 18-01-22<br />(week 03) | <ul><li>Change of the direction of communication : drone -> truck</li><li>Air traffic control compliance: a lost drone does not move</li><li>Disconnection Drone Follower - Truck</li></ul>| <ul><li>Definition of new interfaces </li><li>Refactoring of the drone</li><li>The truck can provide assignments for a fleet</li></ul> | <ul><li>Refactoring more important than expected</li> | 🟩 |
 | 11-01-22<br />(week 02) | <ul><li>Delivery of several packages in a fleet</li><li>Air traffic control compliance: a lost drone does not move</li></ul>| <ul><li>Adding new scenarios</li><li>Architecture Update</li><li>Sprints Plannification</li></ul> | <li>The new architecture must still allow delivery by a single drone</li><li>The case where the leading drone falls is not yet handled</li> | 🟩 |
 | 02-11-21<br />(week 44) | <ul><li>Report</li></ul>| <ul><li>Deliveries by big drones</li><li>Cancel deliveries too far away</li><li>Prepare Demo</li><li>Improve Logs for Demo</li><li>Fix the sending of notifications when the drone delivers and is disconnected</li></ul> | | 🟩 |
 | 26-10-21<br />(week 43) | <ul><li>Deliveries by big drones</li><li>Warehouse Notification lost drone</li><li>Cancel deliveries too far away</li><li>Prepare Demo</li><li>Report</li></ul> | <ul><li>Scenario in CI</li><li>Resilient Notifications</li></ul> | <ul><li>Hard to test architecture (need to add some routes just for testing)</li></ul> | 🟩 |
