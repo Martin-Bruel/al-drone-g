@@ -28,7 +28,7 @@ class Position{
         return '('+Math.round(this.lat * 1000) / 1000 +','+Math.round(this.lon * 1000) / 1000+')';
     }
 
-    formatForTruck(){
+    format(){
         return { "latitude": this.lat, "longitude": this.lon };
     }
 }

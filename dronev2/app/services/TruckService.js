@@ -31,7 +31,7 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
         [
             {
                 droneId: idDrone,
-                position: currentPosition.formatForTruck(),
+                position: currentPosition.format(),
                 timestamp: currentTime
             }
         ]

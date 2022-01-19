@@ -1,6 +1,7 @@
 const PositionProvider = require('../interfaces/PositionProvider');
 const { getConfiguration } = require('../configuration/config');
 const TruckService = require('../services/TruckService')
+const DroneService = require('../services/DroneService')
 const TimeUtils = require('../utils/TimeUtil')
 
 async function startSendingPositions(lastPosition) {
@@ -13,8 +14,11 @@ async function startSendingPositions(lastPosition) {
 
         let currentTime = TimeUtils.getCurrentTime();
         let idDrone = getConfiguration().info.id;
-
-        TruckService.sendPositionDrone(idDrone, currentPosition, currentTime);
+        try{
+            TruckService.sendPositionDrone(idDrone, currentPosition, currentTime);
+        }catch(error){
+            DroneService.sendPositionDrone(idDrone, currentPosition, currentTime);
+        }
 
     }, 5000)
 }
