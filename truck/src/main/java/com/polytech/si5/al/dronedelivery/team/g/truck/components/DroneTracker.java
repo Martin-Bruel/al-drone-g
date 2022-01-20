@@ -5,6 +5,7 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.dto.PositionDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.exceptions.UnreachableServiceException;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneFinder;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneModifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneStateNotifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneWatcher;
 import com.polytech.si5.al.dronedelivery.team.g.truck.scheduling.CronTaskRegister;
@@ -15,10 +16,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 @Component("droneTracker")
@@ -39,6 +42,9 @@ public class DroneTracker implements DroneWatcher {
 
     @Autowired
     DroneFinder droneFinder;
+
+    @Autowired
+    DroneModifier droneModifier;
 
     private HashMap<Long,SchedulingRunnable> tasks=new HashMap<>();
 
@@ -75,6 +81,7 @@ public class DroneTracker implements DroneWatcher {
 
     }
 
+
     public void track(long droneId) {
         logger.info("Tracking drone "+droneId);
         Class[] paramsTypes = new Class[1];
@@ -94,5 +101,15 @@ public class DroneTracker implements DroneWatcher {
             this.cronTaskRegister.removeCronTask(task);
             this.tasks.remove(droneId);
         }
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void startTracking(long droneId) {
+        logger.info("Tracking drone "+droneId);
+        droneModifier.setInFlight(droneId, true);
+
+        List<Drone> drones = droneFinder.getDronesInFlight();
+        logger.info("Drones in flight === "+drones);
     }
 }

@@ -3,6 +3,8 @@ const PositionModifier = require('../interfaces/PositionModifier');
 const PositionProvider = require('../interfaces/PositionProvider');
 const TrackingStarter = require('../interfaces/TrackingStarter');
 
+const TruckService = require('../services/TruckService')
+
 async function startJourney(flightPlan) {
 
     return new Promise(async (accept,reject) => {
@@ -13,6 +15,7 @@ async function startJourney(flightPlan) {
         PositionModifier.setCurrentPosition(flightPlan.getPositions()[0]);
         let currentStep = 1;
 
+        TruckService.sendDeliveryState(1, 1);
         TrackingStarter.startSendingPositions(positions[nbPositions-1]);
 
         while(currentStep < flightPlan.getPositions().length){

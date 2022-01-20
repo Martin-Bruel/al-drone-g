@@ -51,6 +51,18 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
     }
 
     @Override
+    @Transactional
+    public List<Drone> getDronesInFlight(){
+        logger.info("Get Drones in flight");
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Drone> cq = builder.createQuery(Drone.class);
+        Root<Drone> drone = cq.from(Drone.class);
+        cq.select(drone);
+        cq.where(builder.isTrue(drone.get("inFlight")));
+        return entityManager.createQuery(cq).getResultList();
+    }
+
+    @Override
     public List<Drone> getAllDrones() {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Drone> cq = builder.createQuery(Drone.class);
@@ -92,6 +104,13 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
         }
     }
 
+    @Override
+    public void setInFlight(long droneId, boolean inFlight) {
+        Drone drone = findDroneById(droneId);
+        drone = entityManager.merge(drone);
+        drone.setInFlight(inFlight);
+        entityManager.persist(drone);
+    }
 
     @Override
     @Transactional
