@@ -1,7 +1,7 @@
 const { setCurrentPosition } = require('../components/DroneLocator');
-const { modifyPositionDrone } = require('../components/FleetRegistry')
+const { updatePositionDrone } = require('../components/FleetRegistry')
 
 module.exports = {
     setCurrentPosition,
-    modifyPositionDrone
+    updatePositionDrone
 }

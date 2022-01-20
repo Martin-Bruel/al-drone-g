@@ -45,7 +45,22 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
     })
 }
 
+
+async function sendFleet(fleetInfo){
+    let truck = getConfiguration().context.external.truck;
+    let url='http://'+truck.host + ':'+ truck.port +'/truck-api/position';
+
+    await axios.post(url, fleetInfo)
+    .then(function (response){
+        return response.data;
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+}
+
 module.exports = {
     connectToTruck,
-    sendPositionDrone
+    sendPositionDrone,
+    sendFleet
 }

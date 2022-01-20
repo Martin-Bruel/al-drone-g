@@ -28,10 +28,11 @@ function registerFleet(fleet, leaderId){
     leaderIdRegistry = leaderId;
 }
 
-function modifyPositionDrone(droneId, position){
+function updatePositionDrone(droneId, position,timeStamp){
     let oldDrone = fleetRegistry.find({id:droneId});
     let newDrone = oldDrone;
     newDrone.position = position;
+    newDrone.timeStamp=timeStamp;
     fleetRegistry.update(oldDrone, newDrone);
 }
 
@@ -40,5 +41,5 @@ module.exports = {
     findLeader,
     findDroneDisconnected,
     registerFleet,
-    modifyPositionDrone
+    updatePositionDrone
 }
