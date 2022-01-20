@@ -28,11 +28,11 @@ function registerFleet(fleet, leaderId){
     leaderIdRegistry = leaderId;
 }
 
-function updatePositionDrone(droneId, position,timeStamp){
+function updatePositionDrone(droneId, position,timestamp){
     let oldDrone = fleetRegistry.find({id:droneId});
     let newDrone = oldDrone;
     newDrone.position = position;
-    newDrone.timeStamp=timeStamp;
+    newDrone.timestamp=timestamp;
     fleetRegistry.update(oldDrone, newDrone);
 }
 
