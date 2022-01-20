@@ -21,6 +21,13 @@ public class PackageController {
         packageRegistration.registerDelivery(new Delivery(deliveryDto));
     }
 
+    @PostMapping("/package/addAll")
+    public void addPackages(@RequestBody DeliveryDto[] deliveryDtos){
+        for(DeliveryDto deliveryDto : deliveryDtos){
+            packageRegistration.registerDelivery(new Delivery(deliveryDto));
+        }
+    }
+
     @GetMapping("/packages/{id}")
     public Delivery getPackages(@PathVariable Long id){
         return packageFinder.getPackageByPackageId(id);
