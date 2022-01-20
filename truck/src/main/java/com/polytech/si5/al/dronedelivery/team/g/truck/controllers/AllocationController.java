@@ -29,8 +29,14 @@ public class AllocationController {
     }
 
     @PostMapping("/start/drone/{droneId}")
-    public void start(@PathVariable Long droneId, @RequestBody Long[] deliveryIds){
+    public void startDrone(@PathVariable Long droneId){
         logger.info("receive start demand");
-        droneLauncher.start(droneId, deliveryIds);
+        droneLauncher.startDrone(droneId);
+    }
+
+    @PostMapping("/start/fleet")
+    public void startFleet(@RequestBody Long[] droneIds){
+        logger.info("receive start demand");
+        droneLauncher.startFleet(droneIds);
     }
 }

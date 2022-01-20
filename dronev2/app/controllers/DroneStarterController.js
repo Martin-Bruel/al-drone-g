@@ -4,8 +4,8 @@ const { Fleet } = require('../model/Fleet');
 
 exports.deliveryStart = async function(req, res){
     
-    let flightPlan = new FlightPlan(req.body.flightPlan.positions);
-    let fleet = new Fleet(req.body.fleet.drones);
+    let flightPlan = new FlightPlan(req.body.flightPlan.steps, req.body.flightPlan.start);
+    let fleet = new Fleet(req.body.drones);
     let leaderId = req.body.leaderId;
 
     DroneStarter.start(flightPlan, fleet, leaderId);
