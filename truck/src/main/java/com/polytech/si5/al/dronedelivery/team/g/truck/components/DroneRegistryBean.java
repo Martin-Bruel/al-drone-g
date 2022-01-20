@@ -51,6 +51,22 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
     }
 
     @Override
+    @Transactional
+    public List<Drone> getDroneFlying(){
+        logger.info("Get Drones flying");
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Drone> cq = builder.createQuery(Drone.class);
+        Root<Drone> drone = cq.from(Drone.class);
+        cq.select(drone);
+        cq.where(
+                builder.or(
+                        builder.equal(drone.get("status"), DroneStatus.FLYING_TO_DELIVERY),
+                        builder.equal(drone.get("status"), DroneStatus.FLYING_TO_TRUCK))
+                );
+        return entityManager.createQuery(cq).getResultList();
+    }
+
+    @Override
     public List<Drone> getAllDrones() {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Drone> cq = builder.createQuery(Drone.class);
@@ -91,7 +107,6 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
             entityManager.persist(drone);
         }
     }
-
 
     @Override
     @Transactional

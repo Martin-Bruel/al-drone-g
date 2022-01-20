@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { getConfiguration } = require('../configuration/config');
+const states = ['STARTING_DELIVERY','PENDING_DELIVERY','FINISHED_DELIVERY','PACKAGE_DELIVERED']
 
 async function connectToTruck(){
     
@@ -23,6 +24,24 @@ async function connectToTruck(){
     });
 }
 
+async function sendDeliveryState(statusCode, deliveryId){
+    let truck = getConfiguration().context.external.truck;
+    let idDrone = getConfiguration().info.id;
+    let url='http://'+truck.host + ':'+ truck.port +'/delivery';
+    await axios.post(url, 
+    {
+        droneId:idDrone,
+        deliveryState:statusCode,
+        deliveryId:deliveryId
+    }
+    ).then((response) => {
+        if(deliveryId) console.log("Notify truck : " + states[statusCode - 1] + ' <' +deliveryId + '>');
+        else console.log("Notify truck : " + states[statusCode - 1]);
+    }, (error) => {
+        console.log(error);
+    });
+}
+
 async function sendPositionDrone(idDrone, currentPosition, currentTime){
     let truck = getConfiguration().context.external.truck;
     let url='http://'+truck.host + ':'+ truck.port +'/truck-api/position';
@@ -37,7 +56,7 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
         ]
     )
     .then(function (response){
-        console.log("Position of drone send to truck")
+        console.log("Position of drone send to truck : "+currentPosition)
         return response.data;
     })
     .catch(function (error) {
@@ -46,6 +65,7 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
 }
 
 module.exports = {
+    sendDeliveryState, 
     connectToTruck,
     sendPositionDrone
 }

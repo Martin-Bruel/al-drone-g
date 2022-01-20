@@ -48,7 +48,6 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
         switch (status){
             case DeliveryStatusCode.STARTING_DELIVERY:
                 logger.info("Starting delivery ");
-                droneWatcher.track(droneId);
                 Drone drone = droneFinder.findDroneById(droneId);
                 droneModifier.setDroneStatus(drone, DroneStatus.FLYING_TO_DELIVERY);
 
@@ -91,6 +90,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
     @Override
     @Transactional
     public void droneDown(long droneId) {
+        logger.warn("This drone is down= "+droneId);
         List<Delivery> deliveries=packageFinder.getPackagesByDroneId(droneId);
         for(Delivery delivery : deliveries){
             packageModifier.setPackageStatus(delivery, DeliveryStatus.LOST);
