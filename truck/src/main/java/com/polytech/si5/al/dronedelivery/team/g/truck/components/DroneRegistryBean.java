@@ -50,7 +50,6 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
         return entityManager.createQuery(cq).getResultList();
     }
 
-    @Override
     @Transactional
     public List<Drone> getDronesInFlight(){
         logger.info("Get Drones in flight");
@@ -63,6 +62,7 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
     }
 
 
+    @Override
     @Transactional
     public List<Drone> getDroneFlying(){
         logger.info("Get Drones flying");
@@ -70,7 +70,12 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
         CriteriaQuery<Drone> cq = builder.createQuery(Drone.class);
         Root<Drone> drone = cq.from(Drone.class);
         cq.select(drone);
-        cq.where(builder.equal(drone.get("status"), DroneStatus.FLYING_TO_DELIVERY || DroneStatus.FLYING_TO_TRUCK));
+        cq.where(
+                builder.or(
+                        builder.equal(drone.get("status"), DroneStatus.FLYING_TO_DELIVERY),
+                        builder.equal(drone.get("status"), DroneStatus.FLYING_TO_TRUCK))
+                );
+        return entityManager.createQuery(cq).getResultList();
     }
 
     @Override

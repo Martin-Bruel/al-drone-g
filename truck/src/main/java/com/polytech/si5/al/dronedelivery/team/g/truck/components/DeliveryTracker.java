@@ -51,7 +51,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
 
                 //droneWatcher.track(droneId);
 
-                droneWatcher.startTracking(droneId);
+                //droneWatcher.startTracking(droneId);
 
                 Drone drone = droneFinder.findDroneById(droneId);
                 droneModifier.setDroneStatus(drone, DroneStatus.FLYING_TO_DELIVERY);

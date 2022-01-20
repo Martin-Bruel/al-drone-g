@@ -110,14 +110,11 @@ public class DroneTracker implements DroneWatcher {
     public void startTracking(long droneId) {
         logger.info("Tracking drone "+droneId);
         droneModifier.setInFlight(droneId, true);
-
-        List<Drone> drones = droneFinder.getDronesInFlight();
-        logger.info("Drones in flight === "+drones);
     }
 
     @Scheduled(fixedDelay = 10000)
-    public void trackDrones() throws InterruptedException {
-        List<Drone> drones = droneFinder.getDronesInFlight();
+    public void trackDrones() {
+        List<Drone> drones = droneFinder.getDroneFlying();
         logger.info("Drone in flight = "+drones);
         for (Drone drone : drones){
             if (TimeSystem.getCurrentTimeSecond() - drone.getTimeStamp() > 10) {
