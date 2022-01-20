@@ -117,7 +117,7 @@ public class DroneTracker implements DroneWatcher {
         List<Drone> drones = droneFinder.getDroneFlying();
         logger.info("Drone in flight = "+drones);
         for (Drone drone : drones){
-            if (TimeSystem.getCurrentTimeSecond() - drone.getTimeStamp() > 10) {
+            if (TimeSystem.getCurrentTimeSecond() - drone.getTimeStamp() > 10 && drone.getTimeStamp() != 0) {
                 droneStateNotifier.droneDown(drone.getId());
             }
         }

@@ -56,7 +56,7 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
         ]
     )
     .then(function (response){
-        console.log("Position of drone send to truck")
+        console.log("Position of drone send to truck : "+currentPosition)
         return response.data;
     })
     .catch(function (error) {

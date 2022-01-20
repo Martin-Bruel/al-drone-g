@@ -95,6 +95,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
     @Override
     @Transactional
     public void droneDown(long droneId) {
+        logger.info("THIS DRONE IS DOWN = "+droneId);
         List<Delivery> deliveries=packageFinder.getPackagesByDroneId(droneId);
         for(Delivery delivery : deliveries){
             packageModifier.setPackageStatus(delivery, DeliveryStatus.LOST);
