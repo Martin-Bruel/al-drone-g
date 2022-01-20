@@ -11,6 +11,7 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneWatcher;
 import com.polytech.si5.al.dronedelivery.team.g.truck.scheduling.CronTaskRegister;
 import com.polytech.si5.al.dronedelivery.team.g.truck.scheduling.SchedulingRunnable;
 import com.polytech.si5.al.dronedelivery.team.g.truck.services.DroneService;
+import com.polytech.si5.al.dronedelivery.team.g.truck.utils.TimeSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -112,4 +114,17 @@ public class DroneTracker implements DroneWatcher {
         List<Drone> drones = droneFinder.getDronesInFlight();
         logger.info("Drones in flight === "+drones);
     }
+
+    @Scheduled(fixedDelay = 10000)
+    public void trackDrones() throws InterruptedException {
+        List<Drone> drones = droneFinder.getDronesInFlight();
+        logger.info("Drone in flight = "+drones);
+        for (Drone drone : drones){
+            if (TimeSystem.getCurrentTimeSecond() - drone.getTimeStamp() > 10) {
+                droneStateNotifier.droneDown(drone.getId());
+            }
+        }
+    }
+
+
 }
