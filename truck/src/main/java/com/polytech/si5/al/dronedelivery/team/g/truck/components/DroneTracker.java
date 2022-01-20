@@ -104,13 +104,6 @@ public class DroneTracker implements DroneWatcher {
             this.tasks.remove(droneId);
         }
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public void startTracking(long droneId) {
-        logger.info("Tracking drone "+droneId);
-        droneModifier.setInFlight(droneId, true);
-    }
 
     @Scheduled(fixedDelay = 10000)
     public void trackDrones() {

@@ -31,7 +31,6 @@ public class Drone {
     private int capacity;
     private Position position;
     private long timeStamp;
-    private boolean inFlight = false;
 
     public ConnectionInterface connectionInterface;
 
