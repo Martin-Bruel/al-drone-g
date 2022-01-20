@@ -3,7 +3,7 @@ var configuration = {
   server_name:"drone",
   info:{
     id:1,
-    speed:1,
+    speed:3,
     connected:true
   },
   prod:{
@@ -19,7 +19,7 @@ var configuration = {
     host: 'localhost',
     port: 8087,
     name: 'alpha',
-    capacity: 3,
+    capacity: 1,
     external: {
       truck : {host:'localhost',port:8085}
     }
