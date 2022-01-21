@@ -34,6 +34,8 @@ async function startJourney(flightPlan) {
             })
         }
         accept();
+    
+        TruckService.sendDeliveryState(3);
     });
 
     

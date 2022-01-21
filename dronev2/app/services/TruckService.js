@@ -45,18 +45,37 @@ async function sendDeliveryState(statusCode, deliveryId){
 async function sendPositionDrone(idDrone, currentPosition, currentTime){
     let truck = getConfiguration().context.external.truck;
     let url='http://'+truck.host + ':'+ truck.port +'/truck-api/position';
-
+    
+    console.log("Position of drone send to truck at "+ currentTime+": "+currentPosition)
     await axios.post(url, 
         [
             {
                 droneId: idDrone,
-                position: currentPosition.formatForTruck(),
+                position: currentPosition,
                 timestamp: currentTime
             }
         ]
     )
     .then(function (response){
-        console.log("Position of drone send to truck : "+currentPosition)
+        return response.data;
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+}
+
+
+async function sendFleet(fleetInfo){
+    let truck = getConfiguration().context.external.truck;
+    let url='http://'+truck.host + ':'+ truck.port +'/truck-api/position';
+
+    let fleetInfoDto= fleetInfo.map( drone => {
+        return {droneId: drone.id,
+        position: drone.position.format(),
+        timestamp: drone.timestamp};
+    })
+    await axios.post(url, fleetInfoDto)
+    .then(function (response){
         return response.data;
     })
     .catch(function (error) {
@@ -67,5 +86,6 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
 module.exports = {
     sendDeliveryState, 
     connectToTruck,
-    sendPositionDrone
+    sendPositionDrone,
+    sendFleet
 }

@@ -1,5 +1,5 @@
-const { modifyPositionDrone } = require('../components/FleetRegistry');
+const { updatePositionDrone } = require('../components/FleetRegistry');
 
 module.exports = {
-    modifyPositionDrone
+    updatePositionDrone
 }

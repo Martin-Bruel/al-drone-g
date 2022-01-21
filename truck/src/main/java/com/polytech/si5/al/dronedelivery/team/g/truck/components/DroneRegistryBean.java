@@ -95,6 +95,11 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
     }
 
     @Override
+    public void setTimeStampDrone(Drone drone, long timestamp) {
+        drone.setTimeStamp(timestamp);
+    }
+
+    @Override
     @Transactional
     public void setPositionsDrones(List<PositionDroneDto> positionsDroneDto) {
         for(PositionDroneDto positionDroneDto : positionsDroneDto){
