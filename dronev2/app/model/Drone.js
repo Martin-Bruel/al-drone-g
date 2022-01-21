@@ -6,7 +6,7 @@ class Drone{
     constructor(id, connectionInterface, position, timestamp){
         this.connectionInterface = new ConnectionInterface(connectionInterface.host, connectionInterface.port);
         this.id = id;
-        this.position = new Position(position.lat, position.lon);
+        this.position = new Position(position.latitude, position.longitude);
         this.timestamp = timestamp;
     }
 }

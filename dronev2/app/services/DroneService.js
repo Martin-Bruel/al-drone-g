@@ -1,12 +1,10 @@
 const DroneFinder = require('../interfaces/DroneFinder');
 const axios = require('axios');
-const { getConfiguration } = require('../configuration/config');
-
 
 async function sendPositionDrone(idDrone, currentPosition, currentTime){
     const droneLeader= DroneFinder.findLeader();
-    let url='http://'+droneLeader.ip+'/drone-api/position/followers';
-
+    let url='http://'+droneLeader.connectionInterface.host +':'+ droneLeader.connectionInterface.port+'/drone-api/position/followers';  
+    console.log("Position of drone send the drone leader at "+ currentTime+": "+currentPosition)
     await axios.post(url, 
         {
             droneId: idDrone,
@@ -15,7 +13,6 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
         }
     )
     .then(function (response){
-        console.log("Position of drone sent to the drone leader")
         return response.data;
     })
     .catch(function (error) {

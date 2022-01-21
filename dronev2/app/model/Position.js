@@ -1,35 +1,35 @@
 class Position{
 
-    constructor(lat, lon){
-        this.lat = lat;
-        this.lon = lon;
+    constructor(latitude, longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     getLon(){
-        return this.lon;
+        return this.longitude;
     }
 
     getLat(){
-        return this.lat;
+        return this.latitude;
     }
 
     equals(position){
         var precision = 0.00001;
-        return (Math.abs(this.lat - position.lat) <= precision && Math.abs(this.lon - position.lon) <= precision);
+        return (Math.abs(this.latitude - position.latitude) <= precision && Math.abs(this.longitude - position.longitude) <= precision);
     }
 
     distance(position){
-        var a = this.lat - position.lat;
-        var b = this.lon - position.lon;
+        var a = this.latitude - position.latitude;
+        var b = this.longitude - position.longitude;
         return Math.sqrt( a*a + b*b );
     }
 
     toString(){
-        return '('+Math.round(this.lat * 1000) / 1000 +','+Math.round(this.lon * 1000) / 1000+')';
+        return '('+Math.round(this.latitude * 1000) / 1000 +','+Math.round(this.longitude * 1000) / 1000+')';
     }
 
     format(){
-        return { "latitude": this.lat, "longitude": this.lon };
+        return { "latitude": this.latitude, "longitude": this.longitude };
     }
 }
 
