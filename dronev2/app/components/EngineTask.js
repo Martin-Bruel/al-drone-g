@@ -1,6 +1,7 @@
 const PositionModifier = require('../interfaces/PositionModifier');
 const PositionProvider = require('../interfaces/PositionProvider');
 const { getConfiguration } = require('../configuration/config');
+const TimeUtils = require('../utils/TimeUtil')
 const { Position } = require('../model/Position')
 
 async function flyTo(position){
@@ -21,6 +22,7 @@ async function flyTo(position){
             currentPos = calculPositionProjection(startPos, targetPos, startTime, endTime, speed);
             console.log(currentPos.toString());
             PositionModifier.setCurrentPosition(currentPos);
+            PositionModifier.updatePositionDrone(getConfiguration().info.id,currentPos,TimeUtils.getCurrentTime())
             if(currentPos.equals(targetPos)){
                 clearInterval(id);
                 res();
@@ -36,11 +38,11 @@ function calculPositionProjection(startPosition, targetPosition, startTime, endT
     
     var dist = startPosition.distance(targetPosition);
 
-    Xa = startPosition.lat
-    Ya = startPosition.lon
+    Xa = startPosition.latitude
+    Ya = startPosition.longitude
 
-    Xc = targetPosition.lat
-    Yc = targetPosition.lon
+    Xc = targetPosition.latitude
+    Yc = targetPosition.longitude
 
     Tstart = startTime
     Tend = dist / speed + Tstart

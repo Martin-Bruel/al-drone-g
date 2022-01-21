@@ -4,8 +4,9 @@ class Registry{
 
     constructor(name){
         this.name = name;
-        this.filePath = 'mocks/'+this.name+'.json';
+        this.filePath = `${__dirname}/../mocks/${this.name.toLowerCase()}.mocks.json`
         this.items = [];
+        //this.load()
     }
 
     load(){
@@ -17,7 +18,6 @@ class Registry{
     }
 
     save(){
-        
         try {
             fs.writeFileSync(this.filePath, JSON.stringify(this.items, null, 2), 'utf8');
         } catch (err) {
@@ -31,7 +31,7 @@ class Registry{
 
     clean(){
         this.items = [];
-        this.save();
+        //this.save();
     }
 
     find(filter){
@@ -42,7 +42,7 @@ class Registry{
 
     create(obj){
         this.items.push(obj);
-        this.save();
+        //this.save();
         return obj;
     }
 
@@ -51,7 +51,7 @@ class Registry{
         if (prevObjIndex === -1) throw new NotFoundError('Cannot update '+ this.name + 'item ' + oldObj +' : not found');
         const updatedItem = { ...this.items[prevObjIndex], ...newObj };
         this.items[prevObjIndex] = updatedItem;
-        this.save();
+        //this.save();
         return updatedItem;
     }
 
@@ -59,7 +59,7 @@ class Registry{
         const objIndex = this.items.findIndex((item) => item === obj);
         if (objIndex === -1) throw new NotFoundError('Cannot delete '+ this.name + 'item ' + oldObj +' : not found');
         this.items = this.items.filter((item) => item !== obj);
-        this.save();
+        //this.save();
     }
 }
 

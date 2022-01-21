@@ -74,7 +74,8 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
                 logger.info("Finishing delivery ");
                 drone = droneFinder.findDroneById(droneId);
                 droneModifier.setDroneStatus(drone, DroneStatus.READY);
-                droneWatcher.untrack(droneId);
+                // reset timestamp of drone for future flights
+                droneModifier.setTimeStampDrone(drone, 0);
                 break;
             default:
                 break;
