@@ -7,8 +7,8 @@ const DroneFinder = require('../interfaces/DroneFinder')
 
 async function startSendingPositions(lastPosition) {
     let leader =DroneFinder.findLeader();
-    console.log("The leader is .." + leader.id);
-    console.log("And i'm id "+getConfiguration().info.id);
+    // console.log("The leader is .." + leader.id);
+    // console.log("And i'm id "+getConfiguration().info.id);
     if(leader.id == getConfiguration().info.id){
         let id = setInterval(() => {
             let currentPosition = PositionProvider.getCurrentPosition();
@@ -17,7 +17,7 @@ async function startSendingPositions(lastPosition) {
             }
             console.log("Positions of drones in fleet sent to truck")
             let fleet = DroneFinder.findAll();
-            console.log(fleet)
+            // console.log(fleet)
             TruckService.sendFleet(fleet);  
         }, 5000)
         return;
