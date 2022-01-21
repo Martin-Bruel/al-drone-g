@@ -35,9 +35,7 @@ function updatePositionDrone(droneId, position,timestamp){
     let oldDrone = fleetRegistry.find({id:droneId});
     let newDrone = oldDrone;
     newDrone.position = position;
-    if(timestamp !==null){
-        newDrone.timestamp=timestamp;
-    }
+    newDrone.timestamp=timestamp;
     fleetRegistry.update(oldDrone, newDrone);
 }
 
