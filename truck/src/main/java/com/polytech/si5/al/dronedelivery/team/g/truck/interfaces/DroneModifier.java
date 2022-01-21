@@ -11,4 +11,5 @@ public interface DroneModifier {
     void assignDeliveryToDrone(Drone drone, List<Delivery> delivery);
     void setDroneStatus(Drone drone, DroneStatus droneStatus);
     void setPositionsDrones(List<PositionDroneDto> positionsDroneDto);
+    void setTimeStampDrone(Drone drone, long timestamp);
 }
