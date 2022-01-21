@@ -35,7 +35,7 @@ class Registry{
     }
 
     find(filter){
-        const item = this.items.find((i) => i[filter.key] === filter.value);
+        const item = this.items.find((i) => i[Object.keys(filter)[0]] === Object.values(filter)[0]);
         if (!item) throw new NotFoundError('Cannot get '+ this.name + 'item with ' + filter +' : not found');
         return item;
     }
