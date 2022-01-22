@@ -4,7 +4,6 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.constants.Api;
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.PositionDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Fleet;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.FlightPlan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -64,7 +63,7 @@ public class DroneService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Fleet> request = new HttpEntity<Fleet>(fleet, headers);
             String response= restTemplate.postForObject(url, request, String.class);
-            logger.info(response);
+            logger.debug(response);
         }
 
 

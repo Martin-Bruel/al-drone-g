@@ -7,8 +7,6 @@ const DroneFinder = require('../interfaces/DroneFinder')
 
 async function startSendingPositions(lastPosition) {
     let leader =DroneFinder.findLeader();
-    // console.log("The leader is .." + leader.id);
-    // console.log("And i'm id "+getConfiguration().info.id);
     if(leader.id == getConfiguration().info.id){
         let id = setInterval(() => {
             let currentPosition = PositionProvider.getCurrentPosition();

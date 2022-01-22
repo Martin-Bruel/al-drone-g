@@ -29,5 +29,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=LaunchFleet.description())
     parser.add_argument('-d', '--dronesId', help='droneId for each drone of the fleet', required=True)
     args = parser.parse_args()
-    res = LaunchFleet.launchFleet(args.droneId, args.deliveryIds)
+    res = LaunchFleet.launchFleet(args.dronesId)
     print(res)

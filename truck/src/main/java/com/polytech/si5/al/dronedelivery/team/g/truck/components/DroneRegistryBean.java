@@ -4,7 +4,6 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.dto.PositionDroneDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.DroneStatus;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneFinder;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneModifier;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneRegistration;
@@ -53,7 +52,7 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
     @Override
     @Transactional
     public List<Drone> getDroneFlying(){
-        logger.info("Get Drones flying");
+        logger.debug("Get Drones flying");
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Drone> cq = builder.createQuery(Drone.class);
         Root<Drone> drone = cq.from(Drone.class);
@@ -103,8 +102,7 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
     @Transactional
     public void setPositionsDrones(List<PositionDroneDto> positionsDroneDto) {
         for(PositionDroneDto positionDroneDto : positionsDroneDto){
-            logger.info("Position of drone received : ");
-            logger.info(positionDroneDto.toString());
+            logger.info(String.format("Position of drone %1$s received : %2$s", positionDroneDto.getDroneId(), positionDroneDto.getPosition()));
             Drone drone = findDroneById(positionDroneDto.getDroneId());
             drone = entityManager.merge(drone);
             drone.setPosition(positionDroneDto.getPosition());

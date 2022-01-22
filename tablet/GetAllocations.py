@@ -15,7 +15,6 @@ class GetAllocations(Command):
     def execute(self):
         try:
             data = self.getAllocations()
-            print('debug: ',data)
             for fleetAllocation in data:
                 print('> ','----- Fleet -----')
                 for allocation in fleetAllocation['allocations']:

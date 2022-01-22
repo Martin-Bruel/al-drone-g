@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { getConfiguration } = require('../configuration/config');
 const states = ['STARTING_DELIVERY','PENDING_DELIVERY','FINISHED_DELIVERY','PACKAGE_DELIVERED']
+const math = require('math')
 
 async function connectToTruck(){
     
@@ -46,7 +47,7 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
     let truck = getConfiguration().context.external.truck;
     let url='http://'+truck.host + ':'+ truck.port +'/truck-api/position';
     
-    console.log("Position of drone send to truck at "+ currentTime+": "+currentPosition)
+    console.log("Position of drone send to truck at " + math.round(currentTime*100)/100 + ": "+currentPosition)
     await axios.post(url, 
         [
             {

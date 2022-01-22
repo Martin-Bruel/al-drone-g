@@ -1,6 +1,9 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.*;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.ConnectionInterface;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PackageFinder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,11 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class PackageRegistryBeanTest {

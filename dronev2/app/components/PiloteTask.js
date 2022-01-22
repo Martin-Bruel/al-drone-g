@@ -11,17 +11,17 @@ async function startJourney(flightPlan) {
 
         positions = flightPlan.getPositions();
         nbPositions = positions.length;
-        
+
         PositionModifier.setCurrentPosition(flightPlan.getPositions()[0]);
         let currentStep = 1;
 
-        TruckService.sendDeliveryState(1, 1);
-        TrackingStarter.startSendingPositions(positions[nbPositions-1]);
+        await TruckService.sendDeliveryState(1, 1);
+        await TrackingStarter.startSendingPositions(positions[nbPositions - 1]);
 
         while(currentStep < flightPlan.getPositions().length){
 
             let targetPos = flightPlan.getPositions()[currentStep];
-            EngineActuator.flyTo(targetPos);
+            await EngineActuator.flyTo(targetPos);
 
             await new Promise((res,rej) => {
                 let id = setInterval(() => {
@@ -34,11 +34,11 @@ async function startJourney(flightPlan) {
             })
         }
         accept();
-    
-        TruckService.sendDeliveryState(3);
+
+        await TruckService.sendDeliveryState(3);
     });
 
-    
+
 }
 
 module.exports = {

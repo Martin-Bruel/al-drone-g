@@ -43,6 +43,7 @@ public class Drone {
 
     public Drone() {
         this.status = DroneStatus.READY;
+        this.position = new Position(0, 0);
     }
 
     public Drone(DroneDto dto){

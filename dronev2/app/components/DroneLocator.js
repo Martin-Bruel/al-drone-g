@@ -1,9 +1,9 @@
 const { Position } = require('../model/Position')
 
-var position = new Position(0,0);
+let position = new Position(0,0);
 
 function getCurrentPosition(){
-    return position 
+    return position
 }
 
 function setCurrentPosition(newPosition){
