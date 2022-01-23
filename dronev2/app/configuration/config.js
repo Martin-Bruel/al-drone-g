@@ -23,6 +23,15 @@ let configuration = {
         external: {
             truck: {host: 'localhost', port: 8085}
         }
+    },
+    multiDrone: {
+        host: 'localhost',
+        port: process.env.DRONE_PORT,
+        name: process.env.DRONE_NAME,
+        capacity: 1,
+        external: {
+            truck: {host: 'localhost', port: 8085}
+        }
     }
 };
 function getConfiguration(){

@@ -3,6 +3,7 @@
 **/node_modules
 **/package-lock.json
 **/mocks/*.json
+**/logs/*.txt
 ### IntelliJ IDEA ###
 .idea
 *.iws
