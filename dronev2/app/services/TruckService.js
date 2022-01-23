@@ -36,7 +36,6 @@ async function sendDeliveryState(statusCode, deliveryId){
         deliveryId:deliveryId
     }
     ).then((response) => {
-        console.log("Status code = "+statusCode);
         if(deliveryId) console.log("Notify truck : " + states[statusCode - 1] + ' <' +deliveryId + '>');
         else console.log("Notify truck : " + states[statusCode - 1]);
     }, (error) => {
