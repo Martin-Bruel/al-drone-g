@@ -1,7 +1,7 @@
 const PositionModifier = require('../interfaces/PositionModifier');
 const PositionProvider = require('../interfaces/PositionProvider');
 const { getConfiguration } = require('../configuration/config');
-const TimeUtils = require('../utils/TimeUtil')
+const TimeUtil = require('../utils/TimeUtil')
 const { Position } = require('../model/Position')
 
 async function flyTo(position){
@@ -13,7 +13,7 @@ async function flyTo(position){
         let currentPos = startPos;
 
         let duringTime = startPos.distance(targetPos) / speed;
-        let startTime = new Date().getTime() / 1000;
+        let startTime = TimeUtil.getCurrentTime();
         let endTime = startTime + duringTime;
 
         console.log('Drone flying from ' + startPos.toString() + ' to ' + targetPos.toString() + ' in ' + Math.round(duringTime) + ' seconds');
@@ -22,7 +22,7 @@ async function flyTo(position){
             currentPos = calculPositionProjection(startPos, targetPos, startTime, endTime, speed);
             console.log(currentPos.toString());
             PositionModifier.setCurrentPosition(currentPos);
-            PositionModifier.updatePositionDrone(getConfiguration().info.id,currentPos,TimeUtils.getCurrentTime())
+            PositionModifier.updatePositionDrone(getConfiguration().info.id,currentPos,TimeUtil.getCurrentTime())
             if(currentPos.equals(targetPos)){
                 clearInterval(id);
                 res();
@@ -33,7 +33,7 @@ async function flyTo(position){
 
 function calculPositionProjection(startPosition, targetPosition, startTime, endTime, speed) {
 
-    T = new Date().getTime() / 1000;
+    T = TimeUtil.getCurrentTime();
     if(endTime - T < 0) T = endTime;
     
     var dist = startPosition.distance(targetPosition);
@@ -47,8 +47,6 @@ function calculPositionProjection(startPosition, targetPosition, startTime, endT
     Tstart = startTime
     Tend = dist / speed + Tstart
 
-
-
     Xv = (speed / dist) * (Xc - Xa)
     Yv = (speed / dist) * (Yc - Ya)
 
@@ -57,7 +55,6 @@ function calculPositionProjection(startPosition, targetPosition, startTime, endT
 
     return new Position(Xb, Yb);
 }
-
 
 module.exports = {
     flyTo

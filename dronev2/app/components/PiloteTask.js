@@ -2,6 +2,7 @@ const EngineActuator = require('../interfaces/EngineActuator');
 const PositionModifier = require('../interfaces/PositionModifier');
 const PositionProvider = require('../interfaces/PositionProvider');
 const TrackingStarter = require('../interfaces/TrackingStarter');
+const DeliveryStatusCode = require('../constants/DeliveryStatusCode');
 
 const TruckService = require('../services/TruckService')
 
@@ -12,15 +13,16 @@ async function startJourney(flightPlan) {
         positions = flightPlan.getPositions();
         nbPositions = positions.length;
 
-        PositionModifier.setCurrentPosition(flightPlan.getPositions()[0]);
+        PositionModifier.setCurrentPosition(positions[0]);
         let currentStep = 1;
 
-        await TruckService.sendDeliveryState(1, 1);
+        // TODO : Remplacer l'id de package envoyer par défaud par le(s) vrais ids
+        await TruckService.sendDeliveryState(DeliveryStatusCode.STARTING_DELIVERY, 1);
         await TrackingStarter.startSendingPositions(positions[nbPositions - 1]);
 
-        while(currentStep < flightPlan.getPositions().length){
+        while(currentStep < nbPositions){
 
-            let targetPos = flightPlan.getPositions()[currentStep];
+            let targetPos = positions[currentStep];
             await EngineActuator.flyTo(targetPos);
 
             await new Promise((res,rej) => {
@@ -35,7 +37,7 @@ async function startJourney(flightPlan) {
         }
         accept();
 
-        await TruckService.sendDeliveryState(3);
+        await TruckService.sendDeliveryState(DeliveryStatusCode.FINISHED_DELIVERY);
     });
 
 
