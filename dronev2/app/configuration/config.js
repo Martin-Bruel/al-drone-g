@@ -17,7 +17,7 @@ let configuration = {
     },
     dev: {
         host: 'localhost',
-        port: 8087,
+        port: process.env.DRONE_PORT || 8087,
         name: 'alpha',
         capacity: 1,
         external: {
