@@ -33,6 +33,10 @@ def launchDrone(droneId, deliveryIds):
     url = 'http://localhost:8085/start/drone/' + str(droneId)
     return requests.post(url, json=deliveryIds)
 
+def launchFleet(dronesIds):
+    url = 'http://localhost:8085/start/fleet/'
+    return requests.post(url, json=dronesIds)
+
 def disconnectDrones():
     for k in LIST_DRONES:
         url = 'http://localhost:' + str(k) + '/drone-api/connection/stop'
@@ -58,28 +62,52 @@ def initTest(number):
 def step_impl(context, number):
     initTest(number)
 
-allocations = []
-@when("le conducteur demande les assignations")
-def step_impl(context):
-    global allocations, fleetAllocations
+@given("un conducteur, 1 flotte de 3 drones, {number:n} colis et la tablette")
+def step_impl(context, number):
+    initTest(number)
+
+def getAllAllocations():
+    global fleetAllocations
     fleetAllocations = getAllocations()
     allocations = []
     for fleetAllocation in fleetAllocations:
         for alloc in fleetAllocation['allocations']:
             allocations.append(alloc)
+    return allocations
+
+allocations = []
+@when("le conducteur demande les assignations")
+def step_impl(context):
+    global allocations
+    allocations = getAllAllocations()
+
+@when("le conducteur demande les assignations pour une flotte")
+def step_impl(context):
+    global allocations
+    allocations = getAllocations()
 
 @when("le conducteur lance le drone avec son colis")
 def step_impl(context):
-    global res
-    global allocations
-    global deliveryId
-    global droneId
+    global res, allocations, deliveryId, droneId
     droneId = allocations[0]["droneId"]
     deliveryId = allocations[0]["deliveryIds"][0]
     res = launchDrone(droneId, [deliveryId])
     sleep(5)
 
+@when("le conducteur lance la flotte avec les colis")
+def step_impl(context):
+    global res, dronesIds
+    dronesIds = list(map(lambda x: x["droneId"], [k["allocations"] for k in allocations][0]))
+    res = launchFleet(dronesIds)
+    sleep(5)
+
 @then("le drone part effectuer sa livraison")
+def step_impl(context):
+    global res
+    assert(res.status_code == 200)
+    sleep(16)
+
+@then("la flotte part effectuer sa livraison")
 def step_impl(context):
     global res
     assert(res.status_code == 200)
@@ -95,6 +123,14 @@ def step_impl(context, number):
         assert(len(allocations)==number)
     sleep(10)
 
+@then("il y a {number:n} assignations pour la flotte")
+def step_impl(context, number):
+    global allocations
+    if not DOCKER and len(LIST_DRONES)==1:
+        assert(len(allocations[0]['allocations'])==number-2)
+    else:
+        assert(len(allocations[0]['allocations'])==number)
+    sleep(10)
 
 @then("le colis est livré")
 def step_impl(context):
@@ -103,6 +139,13 @@ def step_impl(context):
     package = getPackage(deliveryId)
     assert(package["deliveryStatus"] == 'DELIVERED')
 
+@then("les colis sont livrés")
+def step_impl(context):
+    global allocations
+    sleep(10)
+    for id in list(map(lambda x: x["deliveryIds"], [k["allocations"] for k in allocations][0])):
+        package = getPackage(id)
+        assert(package["deliveryStatus"] == 'DELIVERED')
 
 @then("le camion perd la connexion avec le drone")
 def step_impl(context):
