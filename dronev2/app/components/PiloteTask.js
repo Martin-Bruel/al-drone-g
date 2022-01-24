@@ -40,8 +40,6 @@ async function startJourney(flightPlan) {
         }
         accept();
 
-        DroneModifier.unregisterFleet();
-
         await TruckService.sendDeliveryState(DeliveryStatusCode.FINISHED_DELIVERY);
         await MapService.sendStatusDrone(DeliveryStatusCode.FINISHED_DELIVERY);
     });

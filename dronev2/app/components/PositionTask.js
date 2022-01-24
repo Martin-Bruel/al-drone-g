@@ -18,7 +18,7 @@ async function startSendingPositions(lastPosition) {
             }
             MapService.sendPositionDrone(currentPosition);
             if(leader.id == getConfiguration().info.id){
-                console.log("Positions of drones in fleet sent to truck")
+                //console.log("Positions of drones in fleet sent to truck")
                 let fleet = DroneFinder.findAll();
                 // console.log(fleet)
                 TruckService.sendFleet(fleet);  
@@ -34,7 +34,7 @@ async function startSendingPositions(lastPosition) {
                     DroneService.sendPositionDrone(idDrone, currentPosition, currentTime);
                 }
             }
-        }, 5000)
+        }, 50)
 }
 
 

@@ -21,6 +21,7 @@ function findDroneDisconnected(){
 }
 
 function registerFleet(fleet, leaderDroneId){
+    unregisterFleet();
     let f = new Fleet(fleet.drones);
     for(drone of f.drones){
         console.log("Registering drone "+ drone.id+"");

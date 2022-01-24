@@ -23,7 +23,6 @@ async function connectToTruck(){
             getConfiguration().info.id = id
         },
         (error) => {
-            console.log(error)
             setTimeout(function() {
             connectToTruck()
         }, 1000);
@@ -49,7 +48,7 @@ async function sendDeliveryState(statusCode, deliveryId){
         (error) => {
             console.log(error);
         }
-    )
+    ).catch(error => {});
 }
 
 async function sendPositionDrone(idDrone, currentPosition, currentTime){
@@ -72,7 +71,7 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
         (error) => {
             console.log(error);
         }
-    )
+    ).catch(error => {});
 }
 
 
@@ -96,7 +95,7 @@ async function sendFleet(fleetInfo){
             console.log(error);
         }
 
-    )
+    ).catch(error => {});
 }
 
 module.exports = {

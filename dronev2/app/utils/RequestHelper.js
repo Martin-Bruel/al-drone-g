@@ -1,6 +1,7 @@
 const axios = require('axios');
 const {ConnectionException} = require('../exceptions/ConnectionException')
 const { getConfiguration } = require('../configuration/config');
+const BlackListHosts = require('../utils/BlackListHosts');
 
 exports.post = async function (host,port,path,body,response,error){
     if(!reachable(host,port)){
@@ -11,6 +12,6 @@ exports.post = async function (host,port,path,body,response,error){
 }
 
 function reachable(host,port){
-    //TO DO: Issue #80
+    if(BlackListHosts.blackList.includes(host+':'+port)) return false;
     return getConfiguration().info.connected;
 }
