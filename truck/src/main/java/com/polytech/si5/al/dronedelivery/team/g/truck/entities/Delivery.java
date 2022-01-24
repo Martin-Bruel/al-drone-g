@@ -36,6 +36,10 @@ public class Delivery {
 
     private Position position;
 
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private DeliveryPoint deliveryPoint;
+
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JsonIgnore
     private Drone deliveryDrone;
