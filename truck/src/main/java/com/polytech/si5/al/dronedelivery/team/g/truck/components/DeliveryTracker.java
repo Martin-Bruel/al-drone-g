@@ -18,8 +18,6 @@ import java.util.List;
 @Component
 public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifier {
     private static final Logger logger = LoggerFactory.getLogger(DeliveryTracker.class);
-    @Autowired
-    DroneWatcher droneWatcher;
 
     @Autowired
     NotificationRegistration notificationRegistration;

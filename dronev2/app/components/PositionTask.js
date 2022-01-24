@@ -2,7 +2,7 @@ const PositionProvider = require('../interfaces/PositionProvider');
 const { getConfiguration } = require('../configuration/config');
 const TruckService = require('../services/TruckService')
 const DroneService = require('../services/DroneService')
-const TimeUtils = require('../utils/TimeUtil')
+const TimeUtil = require('../utils/TimeUtil')
 const DroneFinder = require('../interfaces/DroneFinder')
 
 async function startSendingPositions(lastPosition) {
@@ -26,7 +26,7 @@ async function startSendingPositions(lastPosition) {
             clearInterval(id);
         }
 
-        let currentTime = TimeUtils.getCurrentTime();
+        let currentTime = TimeUtil.getCurrentTime();
         let idDrone = getConfiguration().info.id;
         let error= true;
         try{
@@ -35,7 +35,7 @@ async function startSendingPositions(lastPosition) {
                 error= false;
             }
         }catch(e){
-            // TO DO: Handle exception
+            // TODO: Handle exception
             // console.log(e)
         }
 
