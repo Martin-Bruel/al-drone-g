@@ -3,7 +3,7 @@ let configuration = {
     server_name: "drone",
     info: {
         id: 1,
-        speed: 0.1,
+        speed: 0.5,
         connected: true
     },
     prod: {

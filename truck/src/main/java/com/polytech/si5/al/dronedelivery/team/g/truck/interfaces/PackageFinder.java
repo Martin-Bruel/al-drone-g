@@ -9,4 +9,5 @@ public interface PackageFinder {
     List<Delivery> getDeliverablePackages();
     Delivery getPackageByPackageId(Long packageId);
     List<Delivery> getPackagesByDroneId(Long droneId);
+    List<Delivery> getPendingPackagesByDroneId(Long droneId);
 }

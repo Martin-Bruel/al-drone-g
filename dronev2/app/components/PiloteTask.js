@@ -3,6 +3,7 @@ const PositionModifier = require('../interfaces/PositionModifier');
 const PositionProvider = require('../interfaces/PositionProvider');
 const TrackingStarter = require('../interfaces/TrackingStarter');
 const DeliveryStatusCode = require('../constants/DeliveryStatusCode');
+const DroneModifier = require('../interfaces/DroneModifier');
 
 const TruckService = require('../services/TruckService')
 const MapService = require('../services/MapService')
@@ -38,6 +39,8 @@ async function startJourney(flightPlan) {
             })
         }
         accept();
+
+        DroneModifier.unregisterFleet();
 
         await TruckService.sendDeliveryState(DeliveryStatusCode.FINISHED_DELIVERY);
         await MapService.sendStatusDrone(DeliveryStatusCode.FINISHED_DELIVERY);

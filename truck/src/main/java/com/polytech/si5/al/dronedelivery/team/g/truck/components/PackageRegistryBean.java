@@ -62,6 +62,17 @@ public class PackageRegistryBean implements PackageFinder, PackageRegistration, 
     }
 
     @Override
+    public List<Delivery> getPendingPackagesByDroneId(Long droneId) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Delivery> cr = cb.createQuery(Delivery.class);
+        Root<Delivery> root = cr.from(Delivery.class);
+        Join<Delivery, Drone> drone = root.join("deliveryDrone");
+        cr.select(root).where(cb.equal(drone.get("id"),droneId), cb.equal(root.get("deliveryStatus"), DeliveryStatus.PENDING));
+        TypedQuery<Delivery> query = entityManager.createQuery(cr);
+        return query.getResultList();
+    }
+
+    @Override
     @Transactional
     public void registerDelivery(Delivery delivery) {
         entityManager.persist(delivery);
@@ -69,11 +80,15 @@ public class PackageRegistryBean implements PackageFinder, PackageRegistration, 
 
     @Override
     public void setPackageStatus(Delivery delivery, DeliveryStatus status) {
+        delivery = entityManager.merge(delivery);
         delivery.setDeliveryStatus(status);
+        entityManager.persist(delivery);
     }
 
     @Override
     public void updateDeliveryDrone(Drone drone, Delivery delivery) {
+        delivery = entityManager.merge(delivery);
         delivery.setDeliveryDrone(drone);
+        entityManager.persist(delivery);
     }
 }

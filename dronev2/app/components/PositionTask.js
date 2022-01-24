@@ -14,7 +14,7 @@ async function startSendingPositions(lastPosition) {
             if(currentPosition.equals(lastPosition)){
                 clearInterval(id);
             }
-            console.log("Positions of drones in fleet sent to truck")
+            //console.log("Positions of drones in fleet sent to truck")
             let fleet = DroneFinder.findAll();
             // console.log(fleet)
             TruckService.sendFleet(fleet);  

@@ -31,6 +31,11 @@ function registerFleet(fleet, leaderDroneId){
     leaderIdRegistry = leaderDroneId;
 }
 
+function unregisterFleet(){
+    fleetRegistry.clean();
+    leaderIdRegistry = 0;
+}
+
 function updatePositionDrone(droneId, position,timestamp){
     let oldDrone = fleetRegistry.find({id:droneId});
     let newDrone = oldDrone;
@@ -44,5 +49,6 @@ module.exports = {
     findLeader,
     findDroneDisconnected,
     registerFleet,
-    updatePositionDrone
+    updatePositionDrone,
+    unregisterFleet
 }

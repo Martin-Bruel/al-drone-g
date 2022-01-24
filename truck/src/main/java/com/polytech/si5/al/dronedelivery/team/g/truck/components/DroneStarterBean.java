@@ -37,7 +37,7 @@ public class DroneStarterBean implements DroneLauncher {
     public void startDrone(Long droneId) {
 
         Position truckPos = positionProvider.getTruckPosition();
-        List<Delivery> deliveries = droneFinder.findDroneById(droneId).getDeliveries();
+        List<Delivery> deliveries = packageFinder.getPendingPackagesByDroneId(droneId);
         logger.info("Starting drone " + droneId + " with package " + deliveries.stream().map((d)->d.getId().toString()).collect(Collectors.toList()));
 
         FlightPlan flightPlan = pathFinder.getPath(truckPos, deliveries);
@@ -53,7 +53,7 @@ public class DroneStarterBean implements DroneLauncher {
     public void startFleet(Long[] droneIds) {
 
         Position truckPos = positionProvider.getTruckPosition();
-        List<Delivery> deliveries = droneFinder.findDroneById(droneIds[0]).getDeliveries();
+        List<Delivery> deliveries = packageFinder.getPendingPackagesByDroneId(droneIds[0]);
         logger.info("Starting drones " + droneIds + " with package " + deliveries.stream().map((d)->d.getId().toString()).collect(Collectors.toList()));
 
         FlightPlan flightPlan = pathFinder.getPath(truckPos, deliveries);
