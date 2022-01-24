@@ -1,6 +1,8 @@
 **/.DS_Store
 .DS_Store
 **/node_modules
+**/mocks/*.json
+**/logs/*.txt
 ### IntelliJ IDEA ###
 .idea
 *.iws

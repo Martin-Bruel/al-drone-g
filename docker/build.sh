@@ -15,7 +15,7 @@ docker build -t delivery-drone/truck .
 
 # Building the docker image
 echo  "${tGreen}Building drone docker${tNC}"
-cd ../drone
+cd ../dronev2
 docker build -t delivery-drone/drone .
 
 # Building the docker image

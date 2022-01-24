@@ -15,8 +15,10 @@ class GetAllocations(Command):
     def execute(self):
         try:
             data = self.getAllocations()
-            for allocation in data:
-                print('> ',allocation['droneId'], ' will handle deliveries #', allocation['deliveryIds'])
+            for fleetAllocation in data:
+                print('> ','----- Fleet -----')
+                for allocation in fleetAllocation['allocations']:
+                    print('> ',allocation['droneId'], ' will handle deliveries #', allocation['deliveryIds'])
         except requests.exceptions.RequestException:
             print('Can\'t create connection with : ' + self._url)
 

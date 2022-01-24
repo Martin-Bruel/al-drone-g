@@ -18,8 +18,6 @@ import java.util.List;
 @Component
 public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifier {
     private static final Logger logger = LoggerFactory.getLogger(DeliveryTracker.class);
-    @Autowired
-    DroneWatcher droneWatcher;
 
     @Autowired
     NotificationRegistration notificationRegistration;
@@ -48,7 +46,6 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
         switch (status){
             case DeliveryStatusCode.STARTING_DELIVERY:
                 logger.info("Starting delivery ");
-                droneWatcher.track(droneId);
                 Drone drone = droneFinder.findDroneById(droneId);
                 droneModifier.setDroneStatus(drone, DroneStatus.FLYING_TO_DELIVERY);
 
@@ -75,7 +72,8 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
                 logger.info("Finishing delivery ");
                 drone = droneFinder.findDroneById(droneId);
                 droneModifier.setDroneStatus(drone, DroneStatus.READY);
-                droneWatcher.untrack(droneId);
+                // reset timestamp of drone for future flights
+                droneModifier.setTimeStampDrone(drone, 0);
                 break;
             default:
                 break;
@@ -91,6 +89,7 @@ public class DeliveryTracker implements DeliveryStateNotifier, DroneStateNotifie
     @Override
     @Transactional
     public void droneDown(long droneId) {
+        logger.warn("This drone is down= "+droneId);
         List<Delivery> deliveries=packageFinder.getPackagesByDroneId(droneId);
         for(Delivery delivery : deliveries){
             packageModifier.setPackageStatus(delivery, DeliveryStatus.LOST);

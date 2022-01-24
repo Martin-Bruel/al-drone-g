@@ -29,6 +29,8 @@ public class Drone {
     )
     private List<Delivery> deliveries = new ArrayList<>();
     private int capacity;
+    private Position position;
+    private long timeStamp;
 
     public ConnectionInterface connectionInterface;
 
@@ -41,6 +43,7 @@ public class Drone {
 
     public Drone() {
         this.status = DroneStatus.READY;
+        this.position = new Position(0, 0);
     }
 
     public Drone(DroneDto dto){
@@ -48,6 +51,7 @@ public class Drone {
         this.name = dto.name;
         this.connectionInterface = new ConnectionInterface(dto.host, dto.port);
         this.capacity = (dto.capacity==null) ? 1 : dto.capacity;
+        this.position = new Position(0, 0);
     }
 
 
