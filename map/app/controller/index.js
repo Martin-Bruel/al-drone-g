@@ -8,7 +8,7 @@ var drones = [];
 function calculInvisibleDrones(droneId, position){
 
     let invisibleDrones = [];
-    let drone = drones.find(d => d.droneId == droneId);
+    let drone = drones.find(d => d.id == droneId);
 
     drone.position = position;
     console.log(`Drone ${droneId} dected at position ${position}`);
@@ -16,7 +16,7 @@ function calculInvisibleDrones(droneId, position){
     
 
     for(let d of drones){
-        if(d.position.distance(position) > config.radius) invisibleDrones.push(d.droneId);
+        if(d.position.distance(position) > config.radius) invisibleDrones.push(d.id);
     }
     if(truckPosition.distance(position) > config.radius) invisibleDrones.push(0);
 
@@ -25,19 +25,26 @@ function calculInvisibleDrones(droneId, position){
 
 function addDrone(drone){
     drones.push(drone);
+    console.log(`Drone ${drone.id} added`);
     WebService.notifyWebSockets(JSON.stringify(drone));
     return drone;
 }
 
 function updateStatus(droneId, status){
-    let drone = drones.find(d => d.droneId === droneId);
+    let drone = drones.find(d => d.id == droneId);
     drone.status = status;
+    console.log(`Drone ${droneId} change status ${status}`);
     WebService.notifyWebSockets(JSON.stringify(drone));
     return drone;
+}
+
+function getInfo(){
+    return {drones: drones, truckPosition: truckPosition};
 }
 
 module.exports = {
     calculInvisibleDrones,
     addDrone,
-    updateStatus
+    updateStatus,
+    getInfo
 }

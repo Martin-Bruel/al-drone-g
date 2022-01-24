@@ -27,7 +27,7 @@ async function flyTo(position){
                 clearInterval(id);
                 res();
             }
-        }, 500)
+        }, 25)
     })
 }
 

@@ -15,19 +15,7 @@ export const store = createStore<State>({
             latitude: 43.617226,
             longitude: 7.075738
         },
-        drones: [
-            {
-                id: 0,
-                name: 'a',
-                status: DroneStatus.READY,
-                deliveries: [],
-                capacity: 1,
-                position: {
-                    latitude: 43.615627,
-                    longitude: 7.072019
-                },
-            }
-        ]
+        drones: []
     },
     getters:{
         truck: (state) => {
@@ -48,7 +36,7 @@ export const store = createStore<State>({
         }
     },
     mutations:{
-        updateDrone(state, data: {position: Position, droneId: number, name: string, status: string}){
+        updateDrone(state, data: {position: Position, droneId: number, name: string, status: number}){
 
             if(state.drones.find(drone => drone.id === data.droneId) === undefined){
                 state.drones.push({
@@ -63,7 +51,7 @@ export const store = createStore<State>({
             else{
                 state.drones = state.drones.map(drone => {
                     if(drone.id === data.droneId){
-                        return {...drone, position: data.position};
+                        return {...drone, position: data.position, status: data.status};
                     }
                     return drone;
                 });

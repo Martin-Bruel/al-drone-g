@@ -2,6 +2,7 @@ const PositionProvider = require('../interfaces/PositionProvider');
 const { getConfiguration } = require('../configuration/config');
 const TruckService = require('../services/TruckService')
 const DroneService = require('../services/DroneService')
+const MapService = require('../services/MapService')
 const TimeUtil = require('../utils/TimeUtil')
 const DroneFinder = require('../interfaces/DroneFinder')
 
@@ -17,7 +18,8 @@ async function startSendingPositions(lastPosition) {
             let fleet = DroneFinder.findAll();
             // console.log(fleet)
             TruckService.sendFleet(fleet);  
-        }, 5000)
+            MapService.sendPositionDrone(currentPosition);
+        }, 50)
         return;
     }
     let id = setInterval(() => {

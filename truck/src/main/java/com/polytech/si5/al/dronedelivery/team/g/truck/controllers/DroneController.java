@@ -4,10 +4,9 @@ import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DeliveryStateDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DroneDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.PositionDroneDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
-import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DeliveryStateNotifier;
-import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneFinder;
-import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneModifier;
-import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.DroneRegistration;
+import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.*;
+import com.polytech.si5.al.dronedelivery.team.g.truck.services.DroneService;
+import com.polytech.si5.al.dronedelivery.team.g.truck.services.MapService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +34,12 @@ public class DroneController {
 
     @Autowired
     private DroneModifier droneModifier;
+
+    @Autowired
+    private MapService mapService;
+
+    @Autowired
+    private PositionProvider positionProvider;
 
     @RequestMapping(value="/drones", method= RequestMethod.GET)
     public List<Drone> getAllDrones() {
@@ -65,7 +70,10 @@ public class DroneController {
     @PostMapping("/connect/drone")
     public Long connect(@RequestBody DroneDto droneDto){
         logger.info("new drone connected : " + droneDto.name + " - " + droneDto.host + ":" + droneDto.port);
-        return droneRegistration.registerDrone(new Drone(droneDto));
+        Long droneId = droneRegistration.registerDrone(new Drone(droneDto));
+        Drone drone = droneFinder.findDroneById(droneId);
+        mapService.addDrone(drone);
+        return droneId;
     }
 
     @PostMapping("/truck-api/position")
