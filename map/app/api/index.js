@@ -10,7 +10,7 @@ router.post('/update/drone/position/:droneId', (req, res) => {
 });
 
 router.post('/add/drone', (req, res) => {
-    let drone = Controller.addDrone(new Drone(req.body.id, req.body.name, req.body.status, new Position(req.body.position.latitude, req.body.position.longitude)));
+    let drone = Controller.addDrone(new Drone(req.body.id, req.body.name, req.body.status, new Position(req.body.position.latitude, req.body.position.longitude), req.body.connectionInterface));
     res.send(drone);
 })
 

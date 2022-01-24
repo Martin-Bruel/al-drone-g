@@ -1,6 +1,6 @@
-const port = 8080;
+const port = 8081;
 const websocketPort = 3000;
-const radius = 20;
+const radius = 3;
 
 module.exports = {
     port,

@@ -7,7 +7,7 @@ export default class TheLoader extends Vue {
     truckIntervalId: number = 0;
     truckResponse: any = undefined;
     readonly globalURL = 'localhost'
-    readonly truckPort = '8080'
+    readonly truckPort = '8081'
     readonly truckInfoPath = '/map-api/info'
 
     truckUp() {

@@ -3,6 +3,7 @@ const { Position } = require('../model/Position');
 const WebService = require('../webservice');
 
 var truckPosition = new Position(43.617226, 7.075738);
+var truckHost = 'localhost:8085';
 var drones = [];
 
 function calculInvisibleDrones(droneId, position){
@@ -16,10 +17,13 @@ function calculInvisibleDrones(droneId, position){
     
 
     for(let d of drones){
-        if(d.position.distance(position) > config.radius) invisibleDrones.push(d.id);
+        if(d.position.distance(position) > config.radius) invisibleDrones.push(d.connectionInterface.host+':'+d.connectionInterface.port);
     }
-    if(truckPosition.distance(position) > config.radius) invisibleDrones.push(0);
-
+    if(truckPosition.distance(position) > config.radius) {
+        invisibleDrones.push(truckHost);
+        updateStatus(droneId, 5);
+    }
+    else updateStatus(droneId, 1);
     return invisibleDrones;
 }
 
@@ -33,7 +37,7 @@ function addDrone(drone){
 function updateStatus(droneId, status){
     let drone = drones.find(d => d.id == droneId);
     drone.status = status;
-    console.log(`Drone ${droneId} change status ${status}`);
+    //console.log(`Drone ${droneId} change status ${status}`);
     WebService.notifyWebSockets(JSON.stringify(drone));
     return drone;
 }

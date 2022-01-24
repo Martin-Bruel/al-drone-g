@@ -13,7 +13,7 @@ let configuration = {
         capacity: process.env.DRONE_CAPACITY,
         external: {
             truck: {host: 'truck', port: 8085},
-            map: {host: 'map', port: 8080}
+            map: {host: 'map', port: 8081}
         }
     },
     dev: {
@@ -23,7 +23,7 @@ let configuration = {
         capacity: 1,
         external: {
             truck: {host: 'localhost', port: 8085},
-            map: {host: 'localhost', port: 8080}
+            map: {host: 'localhost', port: 8081}
         }
     },
     multiDrone: {
@@ -33,7 +33,7 @@ let configuration = {
         capacity: 1,
         external: {
             truck: {host: 'localhost', port: 8085},
-            map: {host: 'localhost', port: 8080}
+            map: {host: 'localhost', port: 8081}
         }
     }
 };

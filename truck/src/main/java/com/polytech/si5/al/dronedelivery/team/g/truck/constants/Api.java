@@ -18,6 +18,6 @@ public class Api {
 
               //////////- Map APIs-//////////
     public static final String MAP_API_HOST = ENV.equals("prod") ? "map" : "localhost";
-    public static final String MAP_API_PORT = "8080";
+    public static final String MAP_API_PORT = "8081";
     public static final String MAP_API_BASE_URL = "map-api";
 }

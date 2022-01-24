@@ -2,7 +2,7 @@ export enum DroneStatus {
     READY = 3,
     FLYINGTODELIVERY = 1,
     FLYINTOTRUCK = 4,
-    LOST = 'LOST'
+    LOST = 5
 }
 
 export enum DeliveryStatus {
