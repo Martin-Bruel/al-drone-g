@@ -5,8 +5,9 @@ class FlightPlan{
 
     constructor(steps){
         this.steps = [];
-        steps.forEach(p => {
-           this.steps.push(new Step(new Position(p.latitude, p.longitude), p.deliveryId)); 
+        steps.forEach(step => {
+            let pos = step.position
+            this.steps.push(new Step(new Position(pos.latitude, pos.longitude), step.deliveryId));
         });
     }
 
