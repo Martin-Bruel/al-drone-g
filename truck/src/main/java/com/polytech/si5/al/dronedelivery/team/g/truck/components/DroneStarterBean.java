@@ -45,26 +45,26 @@ public class DroneStarterBean implements DroneLauncher {
 
         List<Drone> drones = new ArrayList<>();
         drones.add(drone);
-        Fleet fleet = new Fleet(drones, droneId, flightPlan);
-        droneService.launchDrone(fleet);
+        Fleet fleet = new Fleet(drones, droneId);
+        droneService.launchDrone(flightPlan,fleet);
     }
 
     @Override
     public void startFleet(Long[] droneIds) {
-
-        Position truckPos = positionProvider.getTruckPosition();
-        List<Delivery> deliveries = droneFinder.findDroneById(droneIds[0]).getDeliveries();
-        logger.info("Starting drones " + droneIds + " with package " + deliveries.stream().map((d)->d.getId().toString()).collect(Collectors.toList()));
-
-        FlightPlan flightPlan = pathFinder.getPath(truckPos, deliveries);
-
         List<Drone> drones = new ArrayList<>();
         for(Long droneId : droneIds){
             drones.add(droneFinder.findDroneById(droneId));
         }
 
-        Fleet fleet = new Fleet(drones,droneIds[0],flightPlan);
-        droneService.launchDrone(fleet);
+        Fleet fleet = new Fleet(drones,droneIds[0]);
+        Position truckPos = positionProvider.getTruckPosition();
+
+        for(Drone drone: drones) {
+            List<Delivery> deliveries = droneFinder.findDroneById(drone.getId()).getDeliveries();
+            logger.info("Starting drone " + drone.getId() + " with package " + deliveries.stream().map((d)->d.getId().toString()).collect(Collectors.toList()));
+            FlightPlan flightPlan = pathFinder.getPath(truckPos, deliveries);
+            droneService.launchDrone(flightPlan, fleet);
+        }
     }
 
 

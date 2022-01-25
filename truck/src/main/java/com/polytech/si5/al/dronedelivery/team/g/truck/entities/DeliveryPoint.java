@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
@@ -51,5 +52,19 @@ public class DeliveryPoint {
 
     public Position getPosition() {
         return position;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(position,deliveries);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof DeliveryPoint)) return false;
+        DeliveryPoint dp = (DeliveryPoint) other;
+        return this.position.equals(dp.position)
+                && this.deliveries.equals(dp.deliveries);
     }
 }

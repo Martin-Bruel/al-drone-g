@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -48,6 +49,19 @@ public class Delivery {
     }
 
     public void setDeliveryStatus(DeliveryStatus deliveryStatus){ this.deliveryStatus=deliveryStatus;}
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(position,deliveryDrone);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Delivery)) return false;
+        Delivery delivery = (Delivery) other;
+        return this.position == delivery.position && this.deliveryDrone == delivery.deliveryDrone;
+    }
 
     @Override
     public String toString() {
