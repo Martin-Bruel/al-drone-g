@@ -19,10 +19,6 @@ public class Delivery {
         this.position = position;
     }
 
-    public Delivery(Position position, Long id) {
-        this.position = position;
-    }
-
     public Delivery(DeliveryDto deliveryDto){
         this.position = new Position(deliveryDto.latitude, deliveryDto.longitude);
     }

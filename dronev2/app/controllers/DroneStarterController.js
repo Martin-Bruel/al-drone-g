@@ -7,7 +7,7 @@ exports.deliveryStart = async function(req, res){
     console.log("START DELIVERY")
     console.log(req.body)
     
-    let flightPlan = new FlightPlan(req.body.flightPlan.steps, req.body.flightPlan.start);
+    let flightPlan = new FlightPlan(req.body.flightPlan.steps);
     let fleet = new Fleet(req.body.drones);
     let leaderDroneId = req.body.leaderDroneId;
 

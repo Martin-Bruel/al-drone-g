@@ -1,8 +1,24 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.entities;
 
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Entity
+@Getter
+@Setter
 public class DeliveryPoint {
+    @Id
+    @GeneratedValue
+    @Setter(AccessLevel.NONE)
+    private Long id;
+
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     List<Delivery> deliveries;
 
     @Column(name="position")
@@ -33,7 +49,7 @@ public class DeliveryPoint {
         return new Position(latitude,longitude);
     }
 
-    public List<Delivery> getDeliveries() {
-        return deliveries;
+    public Position getPosition() {
+        return position;
     }
 }

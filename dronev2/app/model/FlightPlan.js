@@ -3,9 +3,8 @@ const { Step } = require('./Step');
 
 class FlightPlan{
 
-    constructor(steps, start){
+    constructor(steps){
         this.steps = [];
-        this.start = new Position(start.latitude, start.longitude);
         steps.forEach(p => {
            this.steps.push(new Step(new Position(p.latitude, p.longitude), p.deliveryId)); 
         });
@@ -13,11 +12,9 @@ class FlightPlan{
 
     getPositions(){
         let positions = [];
-        positions.push(this.start)
         for(let step of this.steps){
             positions.push(step.position);
         }
-        positions.push(this.start);
         return positions;
     }
 }

@@ -1,6 +1,7 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.DeliveryStep;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.FlightPlan;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PathFinder;
@@ -22,20 +23,20 @@ class DronePlanifierBeanTest {
     @Test
     void getPathTest(){
         List<Delivery> deliveries = new ArrayList<>();
-        deliveries.add(new Delivery(new Position(2,2), 0L));
+        deliveries.add(new Delivery(new Position(2,2)));
         Position truckPos= new Position(0,0);
         FlightPlan flightPlan = pathFinder.getPath(truckPos, deliveries);
         System.out.println(flightPlan);
-        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 1).getDeliveryId(), deliveries.get(0).getId());
+        assertEquals(((DeliveryStep) flightPlan.getSteps().get(flightPlan.getSteps().size() - 1)).getDeliveryId(), deliveries.get(0).getId());
     }
 
     @Test
     void getPathSeveralPackageTest(){
         List<Delivery> deliveries = new ArrayList<>();
 
-        Delivery d1 = new Delivery(new Position(2,2), 0L);
-        Delivery d2 = new Delivery(new Position(2,3), 0L);
-        Delivery d3 = new Delivery(new Position(2,4), 0L);
+        Delivery d1 = new Delivery(new Position(2,2));
+        Delivery d2 = new Delivery(new Position(2,3));
+        Delivery d3 = new Delivery(new Position(2,4));
 
         deliveries.add(d2);
         deliveries.add(d3);
@@ -43,8 +44,8 @@ class DronePlanifierBeanTest {
 
         Position truckPos= new Position(0,0);
         FlightPlan flightPlan = pathFinder.getPath(truckPos, deliveries);
-        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 1).getDeliveryId(), d3.getId());
-        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 2).getDeliveryId(), d2.getId());
-        assertEquals(flightPlan.getSteps().get(flightPlan.getSteps().size() - 3).getDeliveryId(), d1.getId());
+        assertEquals(((DeliveryStep) flightPlan.getSteps().get(flightPlan.getSteps().size() - 1)).getDeliveryId(), d3.getId());
+        assertEquals(((DeliveryStep) flightPlan.getSteps().get(flightPlan.getSteps().size() - 2)).getDeliveryId(), d2.getId());
+        assertEquals(((DeliveryStep) flightPlan.getSteps().get(flightPlan.getSteps().size() - 3)).getDeliveryId(), d1.getId());
     }
 }
