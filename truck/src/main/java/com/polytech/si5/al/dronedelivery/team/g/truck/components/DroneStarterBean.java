@@ -46,7 +46,7 @@ public class DroneStarterBean implements DroneLauncher {
         List<Drone> drones = new ArrayList<>();
         drones.add(drone);
         Fleet fleet = new Fleet(drones, droneId);
-        droneService.launchDrone(flightPlan,fleet);
+        droneService.launchDrone(drone,flightPlan,fleet);
     }
 
     @Override
@@ -59,11 +59,13 @@ public class DroneStarterBean implements DroneLauncher {
         Fleet fleet = new Fleet(drones,droneIds[0]);
         Position truckPos = positionProvider.getTruckPosition();
 
+        logger.info("Launching fleet : " + fleet.toString());
+
         for(Drone drone: drones) {
             List<Delivery> deliveries = droneFinder.findDroneById(drone.getId()).getDeliveries();
             logger.info("Starting drone " + drone.getId() + " with package " + deliveries.stream().map((d)->d.getId().toString()).collect(Collectors.toList()));
             FlightPlan flightPlan = pathFinder.getPath(truckPos, deliveries);
-            droneService.launchDrone(flightPlan, fleet);
+            droneService.launchDrone(drone,flightPlan, fleet);
         }
     }
 

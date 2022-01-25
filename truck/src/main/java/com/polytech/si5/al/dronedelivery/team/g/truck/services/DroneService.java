@@ -53,21 +53,16 @@ public class DroneService {
         return  getDronePositionFunc(drone,timeout);
     }
 
-    public void launchDrone(FlightPlan flightPlan, Fleet fleet){
+    public void launchDrone(Drone drone, FlightPlan flightPlan, Fleet fleet){
 
-        logger.info("Launching fleet : " + fleet.toString());
-        for(Drone drone : fleet.getDrones()){
-
-            String port=drone.getConnectionInterface().getPort();
-            String host=drone.getConnectionInterface().getHost();
-            String url = "http://"+host + ":" + port+"/"+Api.DRONE_API_BASE_URL+"/delivery/start";
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<StartDroneDto> request = new HttpEntity<StartDroneDto>(new StartDroneDto(flightPlan, fleet), headers);
-            String response= restTemplate.postForObject(url, request, String.class);
-            logger.debug(response);
-        }
-
+        String port=drone.getConnectionInterface().getPort();
+        String host=drone.getConnectionInterface().getHost();
+        String url = "http://"+host + ":" + port+"/"+Api.DRONE_API_BASE_URL+"/delivery/start";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<StartDroneDto> request = new HttpEntity<StartDroneDto>(new StartDroneDto(flightPlan, fleet), headers);
+        String response= restTemplate.postForObject(url, request, String.class);
+        logger.debug(response);
 
     }
 }
