@@ -4,7 +4,7 @@ const mapPort = getConfiguration().context.external.map.port;
 const mapHost = getConfiguration().context.external.map.host;
 const droneId = getConfiguration().info.id
 const BlackListHosts = require('../utils/BlackListHosts');
-const connected = true;
+var connected = true;
 
 async function sendPositionDrone(currentPosition){
     
