@@ -4,6 +4,7 @@ const mapPort = getConfiguration().context.external.map.port;
 const mapHost = getConfiguration().context.external.map.host;
 const droneId = getConfiguration().info.id
 const BlackListHosts = require('../utils/BlackListHosts');
+const connected = true;
 
 async function sendPositionDrone(currentPosition){
     
@@ -11,11 +12,14 @@ async function sendPositionDrone(currentPosition){
     await axios.post(url, currentPosition)
     .then(function (response){
         BlackListHosts.blackList = response.data;
+        connected = true;
         return response.data;
     })
     .catch(function (error) {
-        console.log(error)
-        console.log("cannot etablish connection to map...");
+        if(connected) {
+            console.log("cannot etablish connection to map...");
+            connected = false;
+        }
     })
 }
 
@@ -24,11 +28,14 @@ async function sendStatusDrone(status){
     let url='http://'+mapHost +':'+ mapPort+'/map-api/update/drone/status/' + droneId;
     await axios.post(url, {status: status})
     .then(function (response){
+        connected = true;
         return response.data;
     })
     .catch(function (error) {
-        console.log(error)
-        console.log("cannot etablish connection to map...");
+        if(connected) {
+            console.log("cannot etablish connection to map...");
+            connected = false;
+        }
     })
 }
 
