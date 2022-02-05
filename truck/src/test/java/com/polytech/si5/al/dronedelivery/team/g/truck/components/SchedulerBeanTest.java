@@ -88,7 +88,7 @@ class SchedulerBeanTest {
         drones.add(drone);
         droneRegistration.registerDrone(drone);
 
-        Delivery delivery = new Delivery(new Position(0,0));
+        Delivery delivery = new Delivery(new Position(43.587817,7.072201));
         packages.add(delivery);
         packageRegistration.registerDelivery(delivery);
 
@@ -114,7 +114,7 @@ class SchedulerBeanTest {
 
         int nb_deliveries = 4;
         for (int i=0; i<nb_deliveries; i++) {
-            Delivery delivery = new Delivery(new Position(0,i));
+            Delivery delivery = new Delivery(new Position(43.587817,7.072201 + i*0.1));
             packages.add(delivery);
             packageRegistration.registerDelivery(delivery);
         }
