@@ -51,7 +51,7 @@ def initTest(number):
     try:
         url = 'http://localhost:8085/package/add'
         for i in range(number):
-            requests.post(url, json = {'latitude':10+number, 'longitude':10+number})
+            requests.post(url, json = {'latitude':43.617226+number*0.1, 'longitude':7.075738+number*0.1})
         sleep(15)
     except requests.exceptions.ConnectionError:
         sleep(5)
