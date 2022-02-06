@@ -1,17 +1,14 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.components;
 
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.FlightPlan;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Position;
-import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Step;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.*;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.PathFinder;
 import com.polytech.si5.al.dronedelivery.team.g.truck.utils.PositionCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class DronePlanifierBean implements PathFinder {
@@ -21,13 +18,35 @@ public class DronePlanifierBean implements PathFinder {
     @Override
     public FlightPlan getPath(Position truckPos, List<Delivery> deliveries) {
         logger.info("Determine flight plan");
+        deliveries = new ArrayList<>(deliveries); //clone
         List<Step> deliverySteps = new ArrayList<>();
-        deliveries.sort((d1, d2) -> {
-            if (PositionCalculator.distance(d1.getPosition(), truckPos) == PositionCalculator.distance(d2.getPosition(), truckPos))
-                return 0;
-            else return PositionCalculator.distance(d1.getPosition(), truckPos) > PositionCalculator.distance(d2.getPosition(), truckPos) ? 1 : -1;
-        });
-        deliveries.forEach(delivery -> deliverySteps.add(new Step(delivery.getPosition(), delivery.getId())));
+
+        Set<DeliveryPoint> deliveryPoints = deliveries.stream()
+                .map(Delivery::getDeliveryPoint)
+                .sorted(Comparator.comparingDouble( d -> PositionCalculator.distance(d.getPosition(), truckPos) ))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        for ( DeliveryPoint dp : deliveryPoints) {
+            List<Delivery> deliveriesFromDp = deliveries.stream()
+                    .filter(d -> d.getDeliveryPoint().equals(dp))
+                    .sorted(Comparator.comparingDouble( delivery -> PositionCalculator.distance(delivery.getPosition(), dp.getPosition()) ))
+                    .collect(Collectors.toList());
+
+            deliverySteps.add(new Step(dp.getPosition()));
+            deliverySteps.addAll(deliveriesFromDp.stream()
+                    .map(DeliveryStep::new)
+                    .collect(Collectors.toList())
+            );
+
+            deliveries.removeAll(deliveriesFromDp);
+        }
+
+        Position lastStepPosition = (deliverySteps.size()!=0) ? deliverySteps.get(deliverySteps.size()-1).getPosition() : truckPos;
+        deliveries.sort(Comparator.comparingDouble(
+                delivery -> PositionCalculator.distance(delivery.getPosition(), lastStepPosition)
+        ));
+        deliveries.forEach(delivery -> deliverySteps.add(new DeliveryStep(delivery.getPosition(), delivery.getId())));
+
         return new FlightPlan(deliverySteps, truckPos);
     }
 }

@@ -2,8 +2,10 @@ package com.polytech.si5.al.dronedelivery.team.g.truck.services;
 
 import com.polytech.si5.al.dronedelivery.team.g.truck.constants.Api;
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.PositionDto;
+import com.polytech.si5.al.dronedelivery.team.g.truck.dto.StartDroneDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Fleet;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.FlightPlan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -51,21 +53,16 @@ public class DroneService {
         return  getDronePositionFunc(drone,timeout);
     }
 
-    public void launchDrone(Fleet fleet){
+    public void launchDrone(Drone drone, FlightPlan flightPlan, Fleet fleet){
 
-        logger.info("Launching fleet : " + fleet.toString());
-        for(Drone drone : fleet.getDrones()){
-
-            String port=drone.getConnectionInterface().getPort();
-            String host=drone.getConnectionInterface().getHost();
-            String url = "http://"+host + ":" + port+"/"+Api.DRONE_API_BASE_URL+"/delivery/start";
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Fleet> request = new HttpEntity<Fleet>(fleet, headers);
-            String response= restTemplate.postForObject(url, request, String.class);
-            logger.debug(response);
-        }
-
+        String port=drone.getConnectionInterface().getPort();
+        String host=drone.getConnectionInterface().getHost();
+        String url = "http://"+host + ":" + port+"/"+Api.DRONE_API_BASE_URL+"/delivery/start";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<StartDroneDto> request = new HttpEntity<StartDroneDto>(new StartDroneDto(flightPlan, fleet), headers);
+        String response= restTemplate.postForObject(url, request, String.class);
+        logger.debug(response);
 
     }
 }
