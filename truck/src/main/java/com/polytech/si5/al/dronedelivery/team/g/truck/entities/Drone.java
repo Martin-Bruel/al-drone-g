@@ -43,7 +43,7 @@ public class Drone {
 
     public Drone() {
         this.status = DroneStatus.READY;
-        this.position = new Position(0, 0);
+        this.position = new Position(43.617226, 7.075738);
     }
 
     public Drone(DroneDto dto){
@@ -51,7 +51,7 @@ public class Drone {
         this.name = dto.name;
         this.connectionInterface = new ConnectionInterface(dto.host, dto.port);
         this.capacity = (dto.capacity==null) ? 1 : dto.capacity;
-        this.position = new Position(0, 0);
+        this.position = new Position(43.617226, 7.075738);
     }
 
 

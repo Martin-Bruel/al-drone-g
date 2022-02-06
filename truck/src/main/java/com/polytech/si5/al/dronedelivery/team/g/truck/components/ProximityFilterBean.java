@@ -41,6 +41,9 @@ public class ProximityFilterBean implements PackageSelector {
     @Override
     public List<DeliveryPoint> getReachableDeliveryPoints() {
         // TODO: 16/01/2022 Group deliveries into DeliveryPoints
-        return new ArrayList<>(Arrays.asList(new DeliveryPoint(this.getDeliverySelected())));
+        List<Delivery> reachableDeliveries = this.getDeliverySelected();
+        DeliveryPoint dp = new DeliveryPoint(reachableDeliveries);
+        reachableDeliveries.forEach(delivery -> delivery.setDeliveryPoint(dp));
+        return new ArrayList<>(Arrays.asList(dp));
     }
 }

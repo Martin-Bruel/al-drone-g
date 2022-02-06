@@ -21,6 +21,7 @@ function findDroneDisconnected(){
 }
 
 function registerFleet(fleet, leaderDroneId){
+    unregisterFleet();
     let f = new Fleet(fleet.drones);
     for(drone of f.drones){
         console.log("Registering drone "+ drone.id+"");
@@ -29,6 +30,11 @@ function registerFleet(fleet, leaderDroneId){
     
     console.log("The leader is drone " + leaderDroneId)
     leaderIdRegistry = leaderDroneId;
+}
+
+function unregisterFleet(){
+    fleetRegistry.clean();
+    leaderIdRegistry = 0;
 }
 
 function updatePositionDrone(droneId, position,timestamp){
@@ -44,5 +50,6 @@ module.exports = {
     findLeader,
     findDroneDisconnected,
     registerFleet,
-    updatePositionDrone
+    updatePositionDrone,
+    unregisterFleet
 }

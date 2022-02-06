@@ -2,6 +2,21 @@ version: "3.9"
 
 services:
 
+  map:
+      image: delivery-drone/map
+      ports:
+        - "8081:8081"
+        - "3000:3000"
+      environment:
+        - APP_ENV=prod
+
+  ui:
+      image: delivery-drone/ui
+      ports:
+        - "8080:8080"
+      environment:
+        - APP_ENV=prod
+
   truck:
       image: delivery-drone/truck
       ports:

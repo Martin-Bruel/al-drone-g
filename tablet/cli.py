@@ -2,6 +2,7 @@ from GetAllocations import GetAllocations
 from Invoker import Invoker
 from LaunchDrone import LaunchDrone
 from LaunchFleet import LaunchFleet
+from RegisterPackages import RegisterPackages
 
 
 def register_commands():
@@ -9,6 +10,7 @@ def register_commands():
     invoker.register('1', GetAllocations())
     invoker.register('2', LaunchDrone())
     invoker.register('3', LaunchFleet())
+    invoker.register('4', RegisterPackages())
     return invoker
 
 def main():

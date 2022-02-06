@@ -20,14 +20,13 @@ async function flyTo(position){
 
         let id = setInterval(() => {
             currentPos = calculPositionProjection(startPos, targetPos, startTime, endTime, speed);
-            console.log(currentPos.toString());
             PositionModifier.setCurrentPosition(currentPos);
             PositionModifier.updatePositionDrone(getConfiguration().info.id,currentPos,TimeUtil.getCurrentTime())
             if(currentPos.equals(targetPos)){
                 clearInterval(id);
                 res();
             }
-        }, 500)
+        }, 25)
     })
 }
 
