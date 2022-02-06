@@ -37,7 +37,7 @@ export default class App extends Vue {
 
   mounted(){
     // Change the following ip to the one where the WS has been launched
-    const connection = new WebSocket('ws://172.30.150.192:3000/');
+    const connection = new WebSocket('ws://localhost:3000/');
     connection.onopen = function() {
       console.log("ws::open : connection established ");
     }

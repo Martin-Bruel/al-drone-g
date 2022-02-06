@@ -44,14 +44,24 @@ def disconnectDrones():
 
 def reconnectDrone():
     for k in LIST_DRONES:
-        url = 'http://localhost:' + str(k) + '/drone-api/connection/restart'
+        url = 'http://localhost:' + str(k) + '/drone-api/connection/start'
         requests.post(url)
 
 def initTest(number):
     try:
         url = 'http://localhost:8085/package/add'
         for i in range(number):
-            requests.post(url, json = {'latitude':43.617226+number*0.1, 'longitude':7.075738+number*0.1})
+            requests.post(url, json = {'latitude':43.637226+i*0.01, 'longitude':7.095738+i*0.01})
+        sleep(15)
+    except requests.exceptions.ConnectionError:
+        sleep(5)
+        initTest(number)
+
+def initTest2(number):
+    try:
+        url = 'http://localhost:8085/package/add'
+        for i in range(number):
+            requests.post(url, json = {'latitude':43.617226, 'longitude':7.075738})
         sleep(15)
     except requests.exceptions.ConnectionError:
         sleep(5)
@@ -61,6 +71,10 @@ def initTest(number):
 @given("un conducteur, 3 drones, {number:n} colis et sa tablette")
 def step_impl(context, number):
     initTest(number)
+
+@given("un conducteur, 1 flotte de 3 drones, {number:n} colis avec la même adresse et la tablette")
+def step_impl(context, number):
+    initTest2(number)
 
 @given("un conducteur, 1 flotte de 3 drones, {number:n} colis et la tablette")
 def step_impl(context, number):

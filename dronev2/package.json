@@ -6,7 +6,10 @@
   "scripts": {
     "test": "node test/index.js",
     "start": "node app/index.js",
-    "dev": "nodemon app/index.js"
+    "dev": "nodemon app/index.js",
+    "alpha": "DRONE_PORT=8087 DRONE_NAME=alpha APP_ENV=multiDrone node app/index.js",
+    "beta": "DRONE_PORT=8088 DRONE_NAME=beta APP_ENV=multiDrone node app/index.js",
+    "charly": "DRONE_PORT=8089 DRONE_NAME=charly APP_ENV=multiDrone node app/index.js"
   },
   "author": "",
   "license": "ISC",
