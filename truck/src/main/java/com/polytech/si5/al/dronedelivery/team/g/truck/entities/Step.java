@@ -1,35 +1,36 @@
 package com.polytech.si5.al.dronedelivery.team.g.truck.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Objects;
+
 public class Step {
 
-    private final double latitude;
-    private final double longitude;
-    private final Long deliveryId;
+    @Setter
+    @Getter
+    Position position;
 
-    public Step(Position position, Long deliveryId) {
-        this.latitude = position.getLatitude();
-        this.longitude = position.getLongitude();
-        this.deliveryId = deliveryId;
-    }
-
-    public Long getDeliveryId() {
-        return deliveryId;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
+    public Step(Position position) {
+        this.position = position;
     }
 
     @Override
     public String toString() {
-        return "Step{" +
-                "latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", deliveryId=" + deliveryId +
-                '}';
+        return "Step(" + position.toString() + ')';
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(position);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Step)) return false;
+        Step step = (Step) other;
+        return this.position.equals(step.position);
     }
 }

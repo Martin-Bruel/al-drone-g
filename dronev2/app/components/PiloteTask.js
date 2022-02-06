@@ -31,6 +31,7 @@ async function startJourney(flightPlan) {
             await new Promise((res,rej) => {
                 let id = setInterval(() => {
                     if(PositionProvider.getCurrentPosition().equals(targetPos)){
+                        console.log("Step reached :"+targetPos)
                         currentStep++;
                         clearInterval(id);
                         res();

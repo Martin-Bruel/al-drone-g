@@ -25,7 +25,8 @@ public class AllocationController {
     @GetMapping(value="/truck/allocation")
     public List<FleetAllocationView> getAllocations () {
         // TODO: 16/01/2022 Return proper json formatted DTO
-        return allocationProvider.getAllocations().stream().map(FleetAllocation::getView).collect(Collectors.toList());
+        List<FleetAllocation> allocations = allocationProvider.getAllocations();
+        return allocations.stream().map(FleetAllocation::getView).collect(Collectors.toList());
     }
 
     @PostMapping("/start/drone/{droneId}")
