@@ -16,4 +16,8 @@ public class Api {
     public static final String WAREHOUSE_API_PORT = "8086";
     public static final String WAREHOUSE_API_BASE_URL = "warehouse-api";
 
+              //////////- Map APIs-//////////
+    public static final String MAP_API_HOST = ENV.equals("prod") ? "map" : "localhost";
+    public static final String MAP_API_PORT = "8081";
+    public static final String MAP_API_BASE_URL = "map-api";
 }

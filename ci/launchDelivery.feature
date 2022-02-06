@@ -21,11 +21,11 @@ Feature: launch delivery
     # TODO : Issue #80
     # And le drone n'est pas localisable
     # TODO : Issue #63 #79
-    # When le camion retrouve la connexion avec le drone
+    When le camion retrouve la connexion avec le drone
     # Then  le colis est livré
 
    Scenario: Assignations flotte-colis et livraison
-    Given un conducteur, 1 flotte de 3 drones, 3 colis et la tablette
+    Given un conducteur, 1 flotte de 3 drones, 3 colis avec la même adresse et la tablette
     When  le conducteur demande les assignations pour une flotte
     Then il y a 3 assignations pour la flotte
     When le conducteur lance la flotte avec les colis

@@ -3,8 +3,10 @@ const PositionModifier = require('../interfaces/PositionModifier');
 const PositionProvider = require('../interfaces/PositionProvider');
 const TrackingStarter = require('../interfaces/TrackingStarter');
 const DeliveryStatusCode = require('../constants/DeliveryStatusCode');
+const DroneModifier = require('../interfaces/DroneModifier');
 
 const TruckService = require('../services/TruckService')
+const MapService = require('../services/MapService')
 
 async function startJourney(flightPlan) {
 
@@ -18,6 +20,7 @@ async function startJourney(flightPlan) {
 
         // TODO : Remplacer l'id de package envoyer par défaud par le(s) vrais ids
         await TruckService.sendDeliveryState(DeliveryStatusCode.STARTING_DELIVERY, 1);
+        await MapService.sendStatusDrone(DeliveryStatusCode.STARTING_DELIVERY);
         await TrackingStarter.startSendingPositions(positions[nbPositions - 1]);
 
         while(currentStep < nbPositions){
@@ -39,6 +42,7 @@ async function startJourney(flightPlan) {
         accept();
 
         await TruckService.sendDeliveryState(DeliveryStatusCode.FINISHED_DELIVERY);
+        await MapService.sendStatusDrone(DeliveryStatusCode.FINISHED_DELIVERY);
     });
 
 

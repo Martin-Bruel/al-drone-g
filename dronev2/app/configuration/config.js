@@ -3,7 +3,7 @@ let configuration = {
     server_name: "drone",
     info: {
         id: 1,
-        speed: 3,
+        speed: 0.5,
         connected: true
     },
     prod: {
@@ -12,7 +12,8 @@ let configuration = {
         name: process.env.DRONE_NAME,
         capacity: process.env.DRONE_CAPACITY,
         external: {
-            truck: {host: 'truck', port: 8085}
+            truck: {host: 'truck', port: 8085},
+            map: {host: 'map', port: 8081}
         }
     },
     dev: {
@@ -21,7 +22,8 @@ let configuration = {
         name: 'alpha',
         capacity: 1,
         external: {
-            truck: {host: 'localhost', port: 8085}
+            truck: {host: 'localhost', port: 8085},
+            map: {host: 'localhost', port: 8081}
         }
     },
     multiDrone: {
@@ -30,7 +32,8 @@ let configuration = {
         name: process.env.DRONE_NAME,
         capacity: 1,
         external: {
-            truck: {host: 'localhost', port: 8085}
+            truck: {host: 'localhost', port: 8085},
+            map: {host: 'localhost', port: 8081}
         }
     }
 };
