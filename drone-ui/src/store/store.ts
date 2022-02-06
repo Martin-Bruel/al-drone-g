@@ -36,11 +36,11 @@ export const store = createStore<State>({
         }
     },
     mutations:{
-        updateDrone(state, data: {position: Position, droneId: number, name: string, status: number}){
+        updateDrone(state, data: {position: Position, id: number, name: string, status: number}){
 
-            if(state.drones.find(drone => drone.id === data.droneId) === undefined){
+            if(state.drones.find(drone => drone.id === data.id) === undefined){
                 state.drones.push({
-                    id: data.droneId,
+                    id: data.id,
                     name: data.name,
                     status: (<any>DroneStatus)[data.status],
                     deliveries: [],
@@ -49,12 +49,11 @@ export const store = createStore<State>({
                 })
             }
             else{
-                state.drones = state.drones.map(drone => {
-                    if(drone.id === data.droneId){
-                        return {...drone, position: data.position, status: data.status};
-                    }
-                    return drone;
-                });
+                const drone = state.drones.find(drone => drone.id === data.id);
+                if(drone !== undefined){
+                    drone.position = data.position;
+                    drone.status = data.status;
+                }
             }
         }
     },

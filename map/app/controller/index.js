@@ -12,7 +12,6 @@ function calculInvisibleDrones(droneId, position){
     let drone = drones.find(d => d.id == droneId);
 
     drone.position = position;
-    //console.log(`Drone ${droneId} dected at position ${position}`);
     WebService.notifyWebSockets(JSON.stringify(drone));
     
 
