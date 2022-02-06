@@ -17,9 +17,9 @@ function calculInvisibleDrones(droneId, position){
     
 
     for(let d of drones){
-        if(d.position.distance(position) > config.radius) invisibleDrones.push(d.connectionInterface.host+':'+d.connectionInterface.port);
+        if(d.position.distance(position) > config.getConfiguration().info.radius) invisibleDrones.push(d.connectionInterface.host+':'+d.connectionInterface.port);
     }
-    if(truckPosition.distance(position) > config.radius) {
+    if(truckPosition.distance(position) > config.getConfiguration().info.radius) {
         invisibleDrones.push(truckHost);
         updateStatus(droneId, 5);
     }

@@ -6,9 +6,10 @@ export default class TheLoader extends Vue {
 
     truckIntervalId: number = 0;
     truckResponse: any = undefined;
-    readonly globalURL = 'localhost'
-    readonly truckPort = '8081'
-    readonly truckInfoPath = '/map-api/info'
+    readonly env = process.env.APP_ENV;
+    readonly map_host = this.env == 'prod' ? 'map' : 'localhost';
+    readonly map_port = 8081;
+    readonly mapInfoPath = '/map-api/info'
 
     truckUp() {
         clearInterval(this.truckIntervalId);
@@ -38,7 +39,7 @@ export default class TheLoader extends Vue {
 
     async mounted() {
         this.truckIntervalId = setInterval(() => {
-            axios.get(`http://${this.globalURL}:${this.truckPort}${this.truckInfoPath}`)
+            axios.get(`http://${this.map_host}:${this.map_port}${this.mapInfoPath}`)
                 .then((response) => {
                     this.truckResponse = response;
                 })

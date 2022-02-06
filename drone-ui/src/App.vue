@@ -37,7 +37,10 @@ export default class App extends Vue {
 
   mounted(){
     // Change the following ip to the one where the WS has been launched
-    const connection = new WebSocket('ws://localhost:3000/');
+    const env = process.env.APP_ENV;
+    const map_host = env == 'prod' ? 'map' : 'localhost';
+    const map_wsport = 3000;
+    const connection = new WebSocket(`ws://${map_host}:${map_wsport}/`);
     connection.onopen = function() {
       console.log("ws::open : connection established ");
     }
