@@ -16,7 +16,7 @@ class RegisterPackages(Command):
         try:
             packages = [
                 {
-                    "latitude":43.587817, 
+                    "latitude":43.387817, 
                     "longitude":7.072201
                 },
                 {

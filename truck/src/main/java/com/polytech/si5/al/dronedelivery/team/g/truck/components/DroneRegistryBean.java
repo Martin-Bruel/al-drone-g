@@ -103,7 +103,7 @@ public class DroneRegistryBean implements DroneFinder, DroneModifier, DroneRegis
     @Transactional
     public void setPositionsDrones(List<PositionDroneDto> positionsDroneDto) {
         for(PositionDroneDto positionDroneDto : positionsDroneDto){
-            //logger.info(String.format("Position of drone %1$s received : %2$s", positionDroneDto.getDroneId(), positionDroneDto.getPosition()));
+            logger.info(String.format("Position of drone %1$s received : %2$s", positionDroneDto.getDroneId(), positionDroneDto.getPosition()));
             Drone drone = findDroneById(positionDroneDto.getDroneId());
             drone = entityManager.merge(drone);
             drone.setPosition(positionDroneDto.getPosition());
