@@ -26,6 +26,7 @@ async function startJourney(flightPlan) {
         while(currentStep < nbPositions){
 
             let targetPos = positions[currentStep];
+            await TruckService.sendDeliveryState(DeliveryStatusCode.PENDING_DELIVERY);
             await EngineActuator.flyTo(targetPos);
 
             await new Promise((res,rej) => {

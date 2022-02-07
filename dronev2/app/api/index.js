@@ -6,6 +6,7 @@ const UtilsController = require('../controllers/UtilsController');
 
 router.post('/delivery/start',DroneStarterController.deliveryStart);
 router.post('/position/followers',FleetInfoController.getFollowerPosition);
+router.post('/status/followers',FleetInfoController.sendFollowerStatusCode);
 router.post('/connection/stop',UtilsController.disconnection);
 router.post('/connection/start',UtilsController.connection);
 module.exports = router;

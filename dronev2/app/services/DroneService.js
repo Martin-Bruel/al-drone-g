@@ -24,6 +24,30 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
     )
 }
 
+async function sendDeliveryState(statusCode, deliveryId, drone){
+    
+    let idDrone= getConfiguration().info.id;
+    if(droneId !== undefined && droneId !== null){
+        idDrone = droneId;
+    }
+    
+    await RequestHelper.post(
+        drone.connectionInterface.host,
+        drone.connectionInterface.port,
+        '/status/followers',
+        {
+            droneId:drone.id,
+            deliveryState:statusCode,
+            deliveryId:deliveryId
+        },
+        (response) => {
+        },
+        (error) => {
+            console.log(error);
+        }
+    ).catch(error => {});
+}
+
 module.exports = {
     sendPositionDrone
 }
