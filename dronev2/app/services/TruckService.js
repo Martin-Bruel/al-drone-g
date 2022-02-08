@@ -51,8 +51,7 @@ async function sendDeliveryState(statusCode, deliveryId, droneId){
         },
         (error) => {
             console.log(error);
-        }
-    ).catch(error => {});
+        });
 }
 
 async function sendPositionDrone(idDrone, currentPosition, currentTime){
