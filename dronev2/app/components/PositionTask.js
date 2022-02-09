@@ -25,13 +25,13 @@ async function startSendingPositions(lastPosition) {
     }, 1000)
 }
 
-function contactDroneLeader(fleet){
+async function contactDroneLeader(fleet){
+    console.log("============-DANS LE CONTACTDRONELEADER-============");
     for(var drone of fleet){
         if(drone.id < getConfiguration().info.id){
             DroneService.sendFleet(drone, fleet)
                 .then(() => {
                     DroneFinder.setLeader(drone.id);
-                    break;
                 })
                 .catch(() => {
                     continue;
