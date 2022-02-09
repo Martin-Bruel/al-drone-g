@@ -45,11 +45,21 @@ function updatePositionDrone(droneId, position,timestamp){
     fleetRegistry.update(oldDrone, newDrone);
 }
 
+async function updatePositionFleet(fleet){
+    for(let newDrone of fleet.getDrones()){
+        let oldDrone = fleetRegistry.find({id: id});
+        if(newDrone.timestamp > oldDrone.timestamp){
+            fleetRegistry.update(oldDrone, newDrone);
+        }
+    }
+}
+
 module.exports = {
     findAll,
     findLeader,
     findDroneDisconnected,
     registerFleet,
     updatePositionDrone,
+    updatePositionFleet,
     unregisterFleet
 }

@@ -25,8 +25,6 @@ async function startSendingPositions(lastPosition) {
     }, 1000)
 }
 
-function()
-
 
 module.exports = {
     startSendingPositions
