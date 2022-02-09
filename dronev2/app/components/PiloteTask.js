@@ -7,6 +7,7 @@ const DroneFinder = require('../interfaces/DroneFinder');
 
 const TruckService = require('../services/TruckService')
 const DroneService = require('../services/DroneService')
+const DeliveryRegistry = require('./DeliveryRegistry')
 const MapService = require('../services/MapService')
 
 async function startJourney(flightPlan) {
@@ -27,10 +28,8 @@ async function startJourney(flightPlan) {
         while(currentStep < nbPositions){
             nextDeliveryId = flightPlan.nextDelivery(currentStep);
             let targetDeliveryId =steps[currentStep].deliveryId;
-            console.log("nextDeliveryId="+nextDeliveryId);
-            console.log("targetDeliveryId="+targetDeliveryId);
             let targetPos = steps[currentStep].position;
-            await sendAndRetryDeliveryState(DeliveryStatusCode.PENDING_DELIVERY,nextDeliveryId);       
+            DeliveryRegistry.save(DeliveryStatusCode.PENDING_DELIVERY,nextDeliveryId);       
             await EngineActuator.flyTo(targetPos);
 
             await new Promise((res,rej) => {
@@ -40,7 +39,7 @@ async function startJourney(flightPlan) {
                         // Le step est une adresse de livraison
                         if(targetDeliveryId !== undefined 
                             && targetDeliveryId !==null){
-                            sendAndRetryDeliveryState(DeliveryStatusCode.PACKAGE_DELIVERED,targetDeliveryId);
+                                DeliveryRegistry.save(DeliveryStatusCode.PACKAGE_DELIVERED,targetDeliveryId);
                         }
                         currentStep++;
                         clearInterval(id);
@@ -56,16 +55,6 @@ async function startJourney(flightPlan) {
     });
 
 
-}
-
-// Envoyer le status de livraison au camion et réessayer avec le drone leader actuelle
-async function sendAndRetryDeliveryState(deliveryStatusCode,deliveryId){
-    try{
-        await TruckService.sendDeliveryState(deliveryStatusCode,deliveryId);
-    }catch(e){
-        const leader = DroneFinder.findLeader();
-        DroneService.sendDeliveryState(deliveryStatusCode,deliveryId,leader);
-    }
 }
 
 module.exports = {
