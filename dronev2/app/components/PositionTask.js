@@ -14,15 +14,30 @@ async function startSendingPositions(lastPosition) {
         }
 
         MapService.sendPositionDrone(currentPosition);
-
+        
         let fleet = DroneFinder.findAll();
 
         
         TruckService.sendFleet(fleet).then().catch(() => {
-            contactDroneLeader()
+            contactDroneLeader(fleet)
         });
         
     }, 1000)
+}
+
+function contactDroneLeader(fleet){
+    for(var drone of fleet){
+        if(drone.id < getConfiguration().info.id){
+            DroneService.sendFleet(drone, fleet)
+                .then(() => {
+                    DroneFinder.setLeader(drone.id);
+                    break;
+                })
+                .catch(() => {
+                    continue;
+                });
+        }
+    }
 }
 
 

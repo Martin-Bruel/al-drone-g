@@ -16,6 +16,10 @@ function findLeader(){
     return new Drone(leader.id,{ host:leader.connectionInterface.host, port:leader.connectionInterface.port} ,leader.position);
 }
 
+function setLeader(leaderId){
+    leaderIdRegistry = leaderId;
+}
+
 function findDroneDisconnected(){
     return [];
 }
@@ -57,6 +61,7 @@ async function updatePositionFleet(fleet){
 module.exports = {
     findAll,
     findLeader,
+    setLeader,
     findDroneDisconnected,
     registerFleet,
     updatePositionDrone,

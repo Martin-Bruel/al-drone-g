@@ -1,7 +1,8 @@
-const { findAll, findLeader, findDroneDisconnected } = require('../components/FleetRegistry');
+const { findAll, findLeader, setLeader, findDroneDisconnected } = require('../components/FleetRegistry');
 
 module.exports = {
     findAll,
     findLeader,
+    setLeader,
     findDroneDisconnected
 }
