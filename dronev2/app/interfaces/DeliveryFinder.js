@@ -1,6 +1,5 @@
-const { reset, findAll } = require('../components/DeliveryRegistry');
+const { findAll } = require('../components/DeliveryRegistry');
 
 module.exports = {
-    reset,
     findAll
 }

@@ -1,5 +1,6 @@
-const { save } = require('../components/DeliveryRegistry');
+const { save,reset } = require('../components/DeliveryRegistry');
 
 module.exports = {
-    save
+    save,
+    reset
 }
