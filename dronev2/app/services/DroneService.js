@@ -50,5 +50,6 @@ async function sendFleet(droneToContact, fleet){
 }
 
 module.exports = {
-    sendPositionDrone
+    sendPositionDrone,
+    sendFleet
 }

@@ -51,7 +51,7 @@ function updatePositionDrone(droneId, position,timestamp){
 
 async function updatePositionFleet(fleet){
     for(let newDrone of fleet.getDrones()){
-        let oldDrone = fleetRegistry.find({id: id});
+        let oldDrone = fleetRegistry.find({id: newDrone.id});
         if(newDrone.timestamp > oldDrone.timestamp){
             fleetRegistry.update(oldDrone, newDrone);
         }

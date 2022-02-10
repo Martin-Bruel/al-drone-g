@@ -19,25 +19,23 @@ async function startSendingPositions(lastPosition) {
 
         
         TruckService.sendFleet(fleet).then().catch(() => {
-            contactDroneLeader(fleet)
+            contactDrones(0, fleet)
         });
         
     }, 1000)
 }
 
-async function contactDroneLeader(fleet){
+async function contactDrones(index, fleet){
     console.log("============-DANS LE CONTACTDRONELEADER-============");
-    for(var drone of fleet){
-        if(drone.id < getConfiguration().info.id){
-            DroneService.sendFleet(drone, fleet)
-                .then(() => {
-                    DroneFinder.setLeader(drone.id);
-                })
-                .catch(() => {
-                    continue;
-                });
-        }
-    }
+    if(fleet[index].id == getConfiguration().info.id) return;
+    DroneService.sendFleet(fleet[index], fleet)
+    .then(() => {
+        DroneFinder.setLeader(fleet[index].id);
+    })
+    .catch(() => {
+        index++;
+        contactDrones(fleet[index], fleet)
+    });
 }
 
 
