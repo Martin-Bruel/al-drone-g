@@ -157,9 +157,10 @@ def step_impl(context):
 def step_impl(context):
     global allocations
     sleep(10)
-    for id in list(map(lambda x: x["deliveryIds"], [k["allocations"] for k in allocations][0])):
-        package = getPackage(id)
-        assert(package["deliveryStatus"] == 'DELIVERED')
+    for ids in list(map(lambda x: x["deliveryIds"], [k["allocations"] for k in allocations][0])):
+        for id in ids:
+            package = getPackage(id)
+            assert(package["deliveryStatus"] == 'DELIVERED')
 
 @then("le camion perd la connexion avec le drone")
 def step_impl(context):
