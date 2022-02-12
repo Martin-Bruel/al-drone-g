@@ -2,7 +2,7 @@ const DroneService = require('../services/DroneService');
 const TruckService = require('../services/TruckService')
 const DeliveryFinder = require('../interfaces/DeliveryFinder')
 const DroneFinder = require('../interfaces/DroneFinder')
-const DroneModifier = require('../interfaces/DroneModifier')
+const DeliveryModifier = require('../interfaces/DeliveryModifier')
 const { getConfiguration } = require('../configuration/config');
 
 async function start(){
@@ -16,12 +16,11 @@ async function start(){
             deliveries.forEach(async (delivery)=>{
                 try{
                     await TruckService.sendDeliveryState(delivery.deliveryStatusCode,delivery.deliveryId);
-                    DroneModifier.reset();
+                    DeliveryModifier.reset();
                 }catch(e){
+                    const leader = DroneFinder.findLeader();
                     if(getConfiguration().info.id !== leader.id){
-                        const leader = DroneFinder.findLeader();
                         DroneService.sendDeliveryState(delivery.deliveryStatusCode,delivery.deliveryId,leader);
-                        DroneModifier.reset();
                     }                    
                 }
             })               

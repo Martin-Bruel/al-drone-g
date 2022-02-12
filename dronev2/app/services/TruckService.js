@@ -32,7 +32,7 @@ async function connectToTruck(){
 async function sendDeliveryState(statusCode, deliveryId, droneId){
     let truck = getConfiguration().context.external.truck;
     let idDrone= getConfiguration().info.id;
-    if(droneId !== undefined && droneId !== null){
+    if(droneId){
         idDrone = droneId;
     }
     

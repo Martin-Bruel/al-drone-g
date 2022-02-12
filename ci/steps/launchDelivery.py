@@ -42,6 +42,11 @@ def disconnectDrones():
         url = 'http://localhost:' + str(k) + '/drone-api/connection/stop'
         requests.post(url)
 
+def disconnectOnlyDronesFollowers():
+    for k in LIST_DRONES:
+        url = 'http://localhost:' + str(k) + '/drone-api/connection/stop'
+        requests.post(url,json={'onlyFollowers':True})
+        
 def reconnectDrone():
     for k in LIST_DRONES:
         url = 'http://localhost:' + str(k) + '/drone-api/connection/start'
@@ -158,7 +163,13 @@ def step_impl(context):
     global allocations
     sleep(10)
     for id in list(map(lambda x: x["deliveryIds"], [k["allocations"] for k in allocations][0])):
-        package = getPackage(id)
+        print("\n")
+        print("deliveryId =" +str(id[0]))
+        package = getPackage(id[0])
+        print("\n")
+        print("package =" +str(package))
+        print("\n")
+        print("\n")
         assert(package["deliveryStatus"] == 'DELIVERED')
 
 @then("le camion perd la connexion avec le drone")
