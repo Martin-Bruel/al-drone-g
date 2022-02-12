@@ -16,6 +16,10 @@ function findLeader(){
     return new Drone(leader.id,{ host:leader.connectionInterface.host, port:leader.connectionInterface.port} ,leader.position);
 }
 
+function setLeader(leaderId){
+    leaderIdRegistry = leaderId;
+}
+
 function findDroneDisconnected(){
     return [];
 }
@@ -45,11 +49,22 @@ function updatePositionDrone(droneId, position,timestamp){
     fleetRegistry.update(oldDrone, newDrone);
 }
 
+async function updatePositionFleet(fleet){
+    for(let newDrone of fleet.getDrones()){
+        let oldDrone = fleetRegistry.find({id: newDrone.id});
+        if(newDrone.timestamp > oldDrone.timestamp){
+            fleetRegistry.update(oldDrone, newDrone);
+        }
+    }
+}
+
 module.exports = {
     findAll,
     findLeader,
+    setLeader,
     findDroneDisconnected,
     registerFleet,
     updatePositionDrone,
+    updatePositionFleet,
     unregisterFleet
 }

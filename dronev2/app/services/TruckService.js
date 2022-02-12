@@ -86,19 +86,22 @@ async function sendFleet(fleetInfo){
         position: drone.position.format(),
         timestamp: drone.timestamp};
     })
-    await RequestHelper.post(
-        truck.host,
-        truck.port,
-        '/truck-api/position',
-        fleetInfoDto,
-        (response) => {
-            return response.data;
-        },
-        (error) => {
-            console.log(error);
-        }
-
-    ).catch(error => {});
+    return new Promise(async(res, rej) => {
+        await RequestHelper.post(
+            truck.host,
+            truck.port,
+            '/truck-api/position',
+            fleetInfoDto,
+            (response) => {
+                res();
+            },
+            (error) => {
+                rej();
+            }
+    
+        );
+    })
+    
 }
 
 module.exports = {

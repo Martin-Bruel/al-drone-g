@@ -3,7 +3,7 @@ const { Position } = require('../model/Position');
 const WebService = require('../webservice');
 
 var truckPosition = new Position(43.617226, 7.075738);
-var truckHost = 'localhost:8085';
+var truckHost = process.env.APP_ENV=='prod'?'truck:8085':'localhost:8085';
 var drones = [];
 
 function calculInvisibleDrones(droneId, position){
