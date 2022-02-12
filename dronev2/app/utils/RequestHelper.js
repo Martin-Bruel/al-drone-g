@@ -7,8 +7,11 @@ exports.post = async function (host,port,path,body,response,error){
     if(!reachable(host,port)){
         error()
     }
-    let url = 'http://'+host + ':'+port + path;
-    await axios.post(url, body).then(response,error);
+    else{
+        let url = 'http://'+host + ':'+port + path;
+        await axios.post(url, body).then(response,error);
+    }
+    
 }
 
 function reachable(host,port){

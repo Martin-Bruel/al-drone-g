@@ -16,12 +16,20 @@ class RegisterPackages(Command):
         try:
             packages = [
                 {
-                    "latitude":43.572720, 
-                    "longitude":7.114953
+                    "latitude":43.546604, 
+                    "longitude":7.128822
                 },
                 {
-                    "latitude":43.573556,
-                    "longitude":7.123023
+                    "latitude":43.544773,
+                    "longitude": 7.131650
+                },
+                {
+                    "latitude":43.587680, 
+                    "longitude":7.071836
+                },
+                {
+                    "latitude":43.587507, 
+                    "longitude":7.072437
                 }
             ]
 

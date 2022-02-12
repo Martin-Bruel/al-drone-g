@@ -19,25 +19,29 @@ async function startSendingPositions(lastPosition) {
 
         
         TruckService.sendFleet(fleet).then().catch(() => {
-            contactDrones(0, fleet)
+            contactDrones(fleet)
         });
         
     }, 1000)
 }
 
-async function contactDrones(index, fleet){
-    console.log("============-DANS LE CONTACTDRONELEADER-============");
-    if(fleet[index].id == getConfiguration().info.id) return;
-    DroneService.sendFleet(fleet[index], fleet)
-    .then(() => {
-        DroneFinder.setLeader(fleet[index].id);
-    })
-    .catch(() => {
-        index++;
-        contactDrones(fleet[index], fleet)
-    });
+async function contactDrones(fleet){
+    console.log("============-DANS LE CONTACT DRONE LEADER-============");
+    fleet = fleet.sort((d1,d2) => d1.id - d2.id)
+    for(let drone of fleet){
+        if(drone.id == getConfiguration().info.id) break;
+        try{
+            await DroneService.sendFleet(drone, fleet);
+            console.log("============-ENVOIE SA POSITION AU DRONE "+drone.id+"-============");
+            DroneFinder.setLeader(drone.id);
+            break;
+        }
+        catch{
+            continue;
+        }
+        
+    }
 }
-
 
 module.exports = {
     startSendingPositions
