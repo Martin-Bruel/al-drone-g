@@ -12,26 +12,25 @@ class RegisterPackages(Command):
     def description(self):
         return 'Register packages for tests'
 
+    def getPackages2fleet(self):
+        packages = [{"latitude":43.546604, "longitude":7.128822},
+                    {"latitude":43.544773,"longitude": 7.131650},
+                    {"latitude":43.587680, "longitude":7.071836},
+                    {"latitude":43.587507, "longitude":7.072437}]
+        return packages
+
+
+
+    def getPackage3chainedfleet(self):
+        packages = [{"latitude":43.641030, "longitude":6.962202}, #beta haut 1
+                    {"latitude":43.617915,"longitude": 6.982132}, #omicron milieu 2
+                    {"latitude":43.607434, "longitude":6.968958}] #gamma bas 3
+        return packages
+
     def execute(self):
         try:
-            packages = [
-                {
-                    "latitude":43.546604, 
-                    "longitude":7.128822
-                },
-                {
-                    "latitude":43.544773,
-                    "longitude": 7.131650
-                },
-                {
-                    "latitude":43.587680, 
-                    "longitude":7.071836
-                },
-                {
-                    "latitude":43.587507, 
-                    "longitude":7.072437
-                }
-            ]
+            packages = self.getPackage3chainedfleet()
+            
 
             self.registerPackages(packages)
             print('> Register done.')
@@ -41,3 +40,5 @@ class RegisterPackages(Command):
     def registerPackages(self, packages):
         response = requests.post(self._url, json=packages)
         return response
+
+    
