@@ -3,4 +3,4 @@
 #Run the pytest
 cd ci
 behave launchDelivery.feature
-behave followerDelivery.feature
+behave followDelivery.feature
