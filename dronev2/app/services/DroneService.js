@@ -1,5 +1,6 @@
 const DroneFinder = require('../interfaces/DroneFinder');
 const RequestHelper = require('../utils/RequestHelper');
+const { getConfiguration } = require('../configuration/config');
 const axios = require('axios');
 const math = require('math')
 
@@ -24,6 +25,31 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
     )
 }
 
+async function sendFleet(droneToContact, fleet){  
+    let myDroneId = getConfiguration().info.id
+    let body = {
+        droneId : myDroneId,
+        fleet : fleet
+    }
+    return new Promise(async(res, rej) => {
+        await RequestHelper.post(
+            droneToContact.connectionInterface.host,
+            droneToContact.connectionInterface.port,
+            '/drone-api/position/followers',
+            body,
+            (response) => {
+                res();
+            },
+            (error) => {
+                rej();
+            }
+    
+        );
+    })
+    
+}
+
 module.exports = {
-    sendPositionDrone
+    sendPositionDrone,
+    sendFleet
 }

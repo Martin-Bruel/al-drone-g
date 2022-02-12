@@ -11,6 +11,7 @@ async function sendPositionDrone(currentPosition){
     await axios.post(url, currentPosition)
     .then(function (response){
         BlackListHosts.blackList = response.data;
+        console.log('BlackListHosts.blackList ='+BlackListHosts.blackList);
         connected = true;
         return response.data;
     })
