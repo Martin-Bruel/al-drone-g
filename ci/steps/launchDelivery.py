@@ -45,6 +45,9 @@ def disconnectDrones():
 def disconnectOnlyDronesFollowers():
     for k in LIST_DRONES:
         url = 'http://localhost:' + str(k) + '/drone-api/connection/stop'
+        print("\n")
+        print(url)
+        print("\n")
         requests.post(url,json={'onlyFollowers':True})
         
 def reconnectDrone():
@@ -78,6 +81,10 @@ def step_impl(context, number):
     initTest(number)
 
 @given("un conducteur, 1 flotte de 3 drones, {number:n} colis avec la même adresse et la tablette")
+def step_impl(context, number):
+    initTest2(number)
+    
+@given("un conducteur, 1 flotte de 5 drones, {number:n} colis avec la même adresse et la tablette")
 def step_impl(context, number):
     initTest2(number)
 
