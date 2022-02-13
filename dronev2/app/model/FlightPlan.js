@@ -18,6 +18,16 @@ class FlightPlan{
         }
         return positions;
     }
+
+    nextDelivery(currentStep){
+        for(let i = currentStep; i< this.steps.length; i++){
+            if (steps[i].deliveryId !== undefined 
+                && steps[i].deliveryId !== null){
+                return steps[i].deliveryId;
+            }
+        }
+        return null;
+    }
 }
 
 module.exports = {

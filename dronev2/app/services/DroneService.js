@@ -25,6 +25,26 @@ async function sendPositionDrone(idDrone, currentPosition, currentTime){
     )
 }
 
+
+async function sendDeliveryState(statusCode, deliveryId, leader){
+    
+    let idDrone= getConfiguration().info.id;
+    await RequestHelper.post(
+        leader.connectionInterface.host,
+        leader.connectionInterface.port,
+        '/status/followers',
+        {
+            droneId:idDrone,
+            deliveryState:statusCode,
+            deliveryId:deliveryId
+        },
+        (response) => {
+        },
+        (error) => {
+            console.log(error);
+        }
+    ).catch(error => {});
+}
 async function sendFleet(droneToContact, fleet){  
     let myDroneId = getConfiguration().info.id
     let body = {
@@ -46,10 +66,10 @@ async function sendFleet(droneToContact, fleet){
     
         );
     })
-    
 }
 
 module.exports = {
     sendPositionDrone,
+    sendDeliveryState,
     sendFleet
 }

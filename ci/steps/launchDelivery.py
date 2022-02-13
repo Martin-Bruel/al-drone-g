@@ -42,6 +42,14 @@ def disconnectDrones():
         url = 'http://localhost:' + str(k) + '/drone-api/connection/stop'
         requests.post(url)
 
+def disconnectOnlyDronesFollowers():
+    for k in LIST_DRONES:
+        url = 'http://localhost:' + str(k) + '/drone-api/connection/stop'
+        print("\n")
+        print(url)
+        print("\n")
+        requests.post(url,json={'onlyFollowers':True})
+        
 def reconnectDrone():
     for k in LIST_DRONES:
         url = 'http://localhost:' + str(k) + '/drone-api/connection/start'
@@ -73,6 +81,10 @@ def step_impl(context, number):
     initTest(number)
 
 @given("un conducteur, 1 flotte de 3 drones, {number:n} colis avec la même adresse et la tablette")
+def step_impl(context, number):
+    initTest2(number)
+    
+@given("un conducteur, 1 flotte de 5 drones, {number:n} colis avec la même adresse et la tablette")
 def step_impl(context, number):
     initTest2(number)
 
@@ -157,9 +169,10 @@ def step_impl(context):
 def step_impl(context):
     global allocations
     sleep(10)
-    for id in list(map(lambda x: x["deliveryIds"], [k["allocations"] for k in allocations][0])):
-        package = getPackage(id)
-        assert(package["deliveryStatus"] == 'DELIVERED')
+    for ids in list(map(lambda x: x["deliveryIds"], [k["allocations"] for k in allocations][0])):
+        for id in ids:
+            package = getPackage(id)
+            assert(package["deliveryStatus"] == 'DELIVERED')
 
 @then("le camion perd la connexion avec le drone")
 def step_impl(context):

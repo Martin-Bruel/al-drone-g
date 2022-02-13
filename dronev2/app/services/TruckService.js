@@ -29,9 +29,13 @@ async function connectToTruck(){
     })
 }
 
-async function sendDeliveryState(statusCode, deliveryId){
+async function sendDeliveryState(statusCode, deliveryId, droneId){
     let truck = getConfiguration().context.external.truck;
-    let idDrone = getConfiguration().info.id;
+    let idDrone= getConfiguration().info.id;
+    if(droneId){
+        idDrone = droneId;
+    }
+    
     await RequestHelper.post(
         truck.host,
         truck.port,
@@ -47,8 +51,7 @@ async function sendDeliveryState(statusCode, deliveryId){
         },
         (error) => {
             console.log(error);
-        }
-    ).catch(error => {});
+        });
 }
 
 async function sendPositionDrone(idDrone, currentPosition, currentTime){

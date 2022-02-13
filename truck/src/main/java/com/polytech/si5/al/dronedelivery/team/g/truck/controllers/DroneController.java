@@ -3,8 +3,11 @@ package com.polytech.si5.al.dronedelivery.team.g.truck.controllers;
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DeliveryStateDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.DroneDto;
 import com.polytech.si5.al.dronedelivery.team.g.truck.dto.PositionDroneDto;
+import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Delivery;
 import com.polytech.si5.al.dronedelivery.team.g.truck.entities.Drone;
+import com.polytech.si5.al.dronedelivery.team.g.truck.enumeration.DeliveryStatus;
 import com.polytech.si5.al.dronedelivery.team.g.truck.interfaces.*;
+import com.polytech.si5.al.dronedelivery.team.g.truck.repositories.DeliveryRepository;
 import com.polytech.si5.al.dronedelivery.team.g.truck.services.DroneService;
 import com.polytech.si5.al.dronedelivery.team.g.truck.services.MapService;
 import org.slf4j.Logger;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class DroneController {
@@ -41,6 +45,9 @@ public class DroneController {
     @Autowired
     private PositionProvider positionProvider;
 
+    @Autowired
+    private DeliveryRepository deliveryRepository;
+
     @RequestMapping(value="/drones", method= RequestMethod.GET)
     public List<Drone> getAllDrones() {
         return droneFinder.getAllDrones();
@@ -58,14 +65,24 @@ public class DroneController {
             return droneFinder.findDroneById(id);
         }
         catch (IllegalArgumentException iae){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Drone with id " + id + " do not exist...");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Drone with id " + id + " does not exist...");
         }
     }
 
     @PostMapping("/truck-api/delivery/status")
-    public void getDeliveryStatus(){
+    public void postDeliveryStatus(){
         logger.info("receive start demand");
     }
+
+    @PostMapping("/truck-api/delivery/{id}/status")
+    public DeliveryStatus getDeliveryStatus(@PathVariable Integer id){
+        Optional<Delivery> delivery = deliveryRepository.findById(id);
+        if(delivery.isPresent()){
+            return delivery.get().getDeliveryStatus();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Delivery with id " + id + " does not exist...");
+    }
+
 
     @PostMapping("/connect/drone")
     public Long connect(@RequestBody DroneDto droneDto){
