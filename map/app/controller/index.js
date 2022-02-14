@@ -6,23 +6,25 @@ var truckPosition = new Position(43.617226, 7.075738);
 var truckHost = process.env.APP_ENV=='prod'?'truck:8085':'localhost:8085';
 var drones = [];
 
-function calculInvisibleDrones(droneId, position){
+function calculInvisibleDrones(fromId, toId, position){
 
     let invisibleDrones = [];
-    let drone = drones.find(d => d.id == droneId);
+    let link = toId;
+    let drone = drones.find(d => d.id == fromId);
 
     drone.position = position;
-    WebService.notifyWebSockets(JSON.stringify(drone));
-    
-
-    for(let d of drones){
-        if(d.position.distance(position) > config.getConfiguration().info.radius) invisibleDrones.push(d.connectionInterface.host+':'+d.connectionInterface.port);
-    }
     if(truckPosition.distance(position) > config.getConfiguration().info.radius) {
         invisibleDrones.push(truckHost);
-        updateStatus(droneId, 5);
     }
-    else updateStatus(droneId, 1);
+
+    for(let d of drones){
+        if(d.position.distance(position) > config.getConfiguration().info.radius) {
+            invisibleDrones.push(d.connectionInterface.host+':'+d.connectionInterface.port);
+        }
+    }
+
+    drone.link = link;
+    WebService.notifyWebSockets(JSON.stringify(drone));
     return invisibleDrones;
 }
 
