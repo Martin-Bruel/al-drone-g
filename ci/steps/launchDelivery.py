@@ -165,7 +165,7 @@ def step_impl(context):
 @then("les colis sont livrés")
 def step_impl(context):
     global allocations
-    sleep(10)
+    sleep(15)
     for ids in list(map(lambda x: x["deliveryIds"], [k["allocations"] for k in allocations][0])):
         for id in ids:
             package = getPackage(id)
