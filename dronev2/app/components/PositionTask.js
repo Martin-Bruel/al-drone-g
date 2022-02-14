@@ -22,7 +22,7 @@ async function startSendingPositions(lastPosition) {
             contactDrones(fleet)
         });
         
-    }, 1000)
+    }, 50)
 }
 
 async function contactDrones(fleet){
