@@ -17,7 +17,7 @@ Feature: launch delivery
     When  le conducteur demande les assignations
     And le conducteur lance le drone avec son colis
     Then le camion perd la connexion avec le drone
-    # And le drone n'est pas localisable
+    And le drone n'est pas localisable
     When le camion retrouve la connexion avec le drone
     Then  le colis est livré
 
