@@ -2,16 +2,16 @@ const axios = require('axios');
 const { getConfiguration} = require('../configuration/config');
 const mapPort = getConfiguration().context.external.map.port;
 const mapHost = getConfiguration().context.external.map.host;
-const droneId = getConfiguration().info.id
 const BlackListHosts = require('../utils/BlackListHosts');
 var connected = true;
 
 async function sendPositionDrone(currentPosition){
     
-    let url='http://'+mapHost +':'+ mapPort+'/map-api/update/drone/position/' + droneId;
+    let url='http://'+mapHost +':'+ mapPort+'/map-api/update/drone/position/' + getConfiguration().info.id;
     await axios.post(url, currentPosition)
     .then(function (response){
         BlackListHosts.blackList = response.data;
+        console.log('BlackListHosts.blackList ='+BlackListHosts.blackList);
         connected = true;
         return response.data;
     })
@@ -25,7 +25,7 @@ async function sendPositionDrone(currentPosition){
 
 async function sendStatusDrone(status){
     
-    let url='http://'+mapHost +':'+ mapPort+'/map-api/update/drone/status/' + droneId;
+    let url='http://'+mapHost +':'+ mapPort+'/map-api/update/drone/status/' + getConfiguration().info.id;
     await axios.post(url, {status: status})
     .then(function (response){
         connected = true;

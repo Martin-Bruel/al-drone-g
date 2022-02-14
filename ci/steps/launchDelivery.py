@@ -15,16 +15,16 @@ def getPackage(packageId):
     response = requests.get(url)
     return response.json()
 
-def getDronePosition():
+def getDroneConnexionStatus():
     if DOCKER :
         res = []
         for d in LIST_DRONES:
-            url = 'http://localhost:' + str(d) + '/drone-api/position'
+            url = 'http://localhost:' + str(d) + '/drone-api/connexion/status'
             response = requests.get(url)
-            res.append(response.status_code)
+            res.append(response.json())
         return res
     else:
-        url = 'http://localhost:' + str(LIST_DRONES[0]) + '/drone-api/position'
+        url = 'http://localhost:' + str(LIST_DRONES[0]) + '/drone-api/connexion/status'
         response = requests.get(url)
         return response
 
@@ -41,6 +41,11 @@ def disconnectDrones():
     for k in LIST_DRONES:
         url = 'http://localhost:' + str(k) + '/drone-api/connection/stop'
         requests.post(url)
+
+def disconnectOnlyDronesFollowers():
+    for k in LIST_DRONES:
+        url = 'http://localhost:' + str(k) + '/drone-api/connection/stop'
+        requests.post(url,json={'onlyFollowers':True})
 
 def reconnectDrone():
     for k in LIST_DRONES:
@@ -73,6 +78,10 @@ def step_impl(context, number):
     initTest(number)
 
 @given("un conducteur, 1 flotte de 3 drones, {number:n} colis avec la même adresse et la tablette")
+def step_impl(context, number):
+    initTest2(number)
+
+@given("un conducteur, 1 flotte de 5 drones, {number:n} colis avec la même adresse et la tablette")
 def step_impl(context, number):
     initTest2(number)
 
@@ -157,9 +166,10 @@ def step_impl(context):
 def step_impl(context):
     global allocations
     sleep(10)
-    for id in list(map(lambda x: x["deliveryIds"], [k["allocations"] for k in allocations][0])):
-        package = getPackage(id)
-        assert(package["deliveryStatus"] == 'DELIVERED')
+    for ids in list(map(lambda x: x["deliveryIds"], [k["allocations"] for k in allocations][0])):
+        for id in ids:
+            package = getPackage(id)
+            assert(package["deliveryStatus"] == 'DELIVERED')
 
 @then("le camion perd la connexion avec le drone")
 def step_impl(context):
@@ -168,10 +178,10 @@ def step_impl(context):
 
 @then("le drone n'est pas localisable")
 def step_impl(context):
-    res = getDronePosition()
+    res = getDroneConnexionStatus()
     if DOCKER:
-        assert(500 in res)
-    else: assert(res.status_code == 500)
+        assert(False in res)
+    else: assert(not res)
 
 
 @when("le camion retrouve la connexion avec le drone")
