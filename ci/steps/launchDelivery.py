@@ -169,7 +169,6 @@ def step_impl(context):
     for ids in list(map(lambda x: x["deliveryIds"], [k["allocations"] for k in allocations][0])):
         for id in ids:
             package = getPackage(id)
-            print(package)
             assert(package["deliveryStatus"] == 'DELIVERED')
 
 @then("le camion perd la connexion avec le drone")

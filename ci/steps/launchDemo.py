@@ -2,7 +2,7 @@ import requests
 from behave import *
 from time import sleep
 
-LIST_DRONES = [8087, 8088, 8089, 8090, 8091]
+LIST_DRONES = [k for k in range(8087, 8092)]
 
 def initTest(number):
     try:
@@ -21,21 +21,4 @@ def initTest(number):
 @given("un conducteur, 1 flotte de 5 drones, {number:n} colis")
 def step_impl(context, number):
     initTest(number)
-
-# @then("le camion perd la connexion avec le drone")
-# def step_impl(context):
-#     disconnectDrones()
-#     sleep(1)
-#
-# @then("la drone n'est pas localisable")
-# def step_impl(context):
-#     res = getDroneConnexionStatus()
-#     if DOCKER:
-#         assert(False in res)
-#     else: assert(not res)
-
-
-# @when("le camion retrouve la connexion avec le drone")
-# def step_impl(context):
-#     reconnectDrone()
-#     sleep(2)
+    
