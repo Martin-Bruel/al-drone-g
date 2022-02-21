@@ -12,7 +12,6 @@ async function startSendingPositions(lastPosition) {
         if(currentPosition.equals(lastPosition)){
             clearInterval(id);
         }
-
         
         let fleet = DroneFinder.findAll();
 
@@ -23,11 +22,10 @@ async function startSendingPositions(lastPosition) {
             contactDrones(fleet)
         });
         
-    }, 30)
+    }, 400)
 }
 
 async function contactDrones(fleet){
-    console.log("============-DANS LE CONTACT DRONE LEADER-============");
     let currentPosition = PositionProvider.getCurrentPosition();
     let isSend = false
     fleet = fleet.sort((d1,d2) => d1.id - d2.id)
@@ -36,7 +34,6 @@ async function contactDrones(fleet){
         try{
             await DroneService.sendFleet(drone, fleet);
             MapService.sendPositionDrone(currentPosition, drone.id)
-            console.log("============-ENVOIE SA POSITION AU DRONE "+drone.id+"-============");
             DroneFinder.setLeader(drone.id);
             isSend = true;
             break;
@@ -44,7 +41,7 @@ async function contactDrones(fleet){
         catch{
             continue;
         }
-        
+
     }
     if(!isSend) MapService.sendPositionDrone(currentPosition, 999)
 }
