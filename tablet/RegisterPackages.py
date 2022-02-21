@@ -22,7 +22,7 @@ class RegisterPackages(Command):
 
 
     def getPackage3chainedfleet(self):
-        packages = [{"latitude":43.641030, "longitude":6.962202}, #beta haut 1
+        packages = [{"latitude":43.637538, "longitude":6.970750}, #beta haut 1
                     {"latitude":43.617915,"longitude": 6.982132}, #omicron milieu 2
                     {"latitude":43.607434, "longitude":6.968958}] #gamma bas 3
         return packages

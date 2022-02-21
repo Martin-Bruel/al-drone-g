@@ -26,7 +26,8 @@ export interface DroneType {
     status: DroneStatus,
     deliveries: Array<Delivery>,
     capacity: number,
-    position: Position
+    position: Position,
+    link: number
 }
 
 
