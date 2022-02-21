@@ -6,7 +6,7 @@ Feature: Follow delivery
     When  le conducteur demande les assignations pour une flotte
     Then il y a 3 assignations pour la flotte
     When le conducteur lance la flotte avec les colis
-    Then les colis sont en livrasion
+    Then les colis sont en livraison
     When les drones arrivent à leur addresse de livraison
     Then les colis sont livrés
 
@@ -15,7 +15,7 @@ Feature: Follow delivery
     When  le conducteur demande les assignations pour une flotte
     Then il y a 5 assignations pour la flotte
     When le conducteur lance la flotte avec les colis
-    Then les colis sont en livrasion
+    Then les colis sont en livraison
     When le drone follower perd la connexion avec le camion
     Then le drone leader envoi au camion le status de l'autre drone
 

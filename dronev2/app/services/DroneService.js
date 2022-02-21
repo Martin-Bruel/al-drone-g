@@ -32,7 +32,7 @@ async function sendDeliveryState(statusCode, deliveryId, leader){
     await RequestHelper.post(
         leader.connectionInterface.host,
         leader.connectionInterface.port,
-        '/status/followers',
+        '/drone-api/status/followers',
         {
             droneId:idDrone,
             deliveryState:statusCode,
