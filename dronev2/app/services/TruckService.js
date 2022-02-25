@@ -35,7 +35,6 @@ async function sendDeliveryState(statusCode, deliveryId, droneId){
     if(droneId){
         idDrone = droneId;
     }
-    
     await RequestHelper.post(
         truck.host,
         truck.port,
