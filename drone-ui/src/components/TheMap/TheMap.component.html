@@ -3,7 +3,14 @@
   <TheTruck :position="truckPosition"></TheTruck>
   <div v-for="drone in droneList" :key="drone.id">
     <Drone :drone="drone" @drone-selected-event="onDroneSelected"></Drone>
-    <Line :drone="drone" :truckPosition="truckPosition"></Line>
+    <div v-for="connected in droneList" :key="connected.id">
+      <div v-if="drone.link == connected.id">
+        <Line :drone="drone" :truckPosition="connected.position"></Line>
+      </div>
+    </div>
+    <div v-if="drone.link == 0">
+      <Line :drone="drone" :truckPosition="truckPosition"></Line>
+    </div>
   </div>
 </div>
 <DroneInfo :id="droneSelected" @closeInfo="droneSelected = -1"></DroneInfo>

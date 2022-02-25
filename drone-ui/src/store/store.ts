@@ -36,7 +36,7 @@ export const store = createStore<State>({
         }
     },
     mutations:{
-        updateDrone(state, data: {position: Position, id: number, name: string, status: number}){
+        updateDrone(state, data: {position: Position, id: number, name: string, status: number, link: number}){
 
             if(state.drones.find(drone => drone.id === data.id) === undefined){
                 state.drones.push({
@@ -45,7 +45,8 @@ export const store = createStore<State>({
                     status: (<any>DroneStatus)[data.status],
                     deliveries: [],
                     capacity: 1,
-                    position: data.position
+                    position: data.position,
+                    link: 0
                 })
             }
             else{
@@ -53,6 +54,7 @@ export const store = createStore<State>({
                 if(drone !== undefined){
                     drone.position = data.position;
                     drone.status = data.status;
+                    drone.link = data.link
                 }
             }
         }
