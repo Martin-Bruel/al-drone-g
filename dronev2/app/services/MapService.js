@@ -5,13 +5,12 @@ const mapHost = getConfiguration().context.external.map.host;
 const BlackListHosts = require('../utils/BlackListHosts');
 var connected = true;
 
-async function sendPositionDrone(currentPosition){
+async function sendPositionDrone(currentPosition, id){
     
-    let url='http://'+mapHost +':'+ mapPort+'/map-api/update/drone/position/' + getConfiguration().info.id;
+    let url='http://'+mapHost +':'+ mapPort+'/map-api/update/drone/position/' + getConfiguration().info.id + '/' + id;
     await axios.post(url, currentPosition)
     .then(function (response){
         BlackListHosts.blackList = response.data;
-        console.log('BlackListHosts.blackList ='+BlackListHosts.blackList);
         connected = true;
         return response.data;
     })

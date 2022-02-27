@@ -2,6 +2,7 @@ const RequestHelper = require('../utils/RequestHelper');
 const { getConfiguration } = require('../configuration/config');
 const states = ['STARTING_DELIVERY','PENDING_DELIVERY','FINISHED_DELIVERY','PACKAGE_DELIVERED']
 const math = require('math');
+const { ConnectionException } = require('../exceptions/ConnectionException');
 
 async function connectToTruck(){
     
@@ -35,7 +36,6 @@ async function sendDeliveryState(statusCode, deliveryId, droneId){
     if(droneId){
         idDrone = droneId;
     }
-    
     await RequestHelper.post(
         truck.host,
         truck.port,
@@ -50,7 +50,7 @@ async function sendDeliveryState(statusCode, deliveryId, droneId){
             else console.log("Notify truck : " + states[statusCode - 1]);
         },
         (error) => {
-            console.log(error);
+            throw ConnectionException(error.message)
         });
 }
 

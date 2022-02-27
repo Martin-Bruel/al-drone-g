@@ -4,8 +4,8 @@ const Controller = require('../controller');
 const { Drone } = require('../model/Drone');
 const { Position } = require('../model/Position');
 
-router.post('/update/drone/position/:droneId', (req, res) => {
-    let visibleDroneIds = Controller.calculInvisibleDrones(parseInt(req.params.droneId), new Position(req.body.latitude, req.body.longitude));
+router.post('/update/drone/position/:fromId/:toId', (req, res) => {
+    let visibleDroneIds = Controller.calculInvisibleDrones(parseInt(req.params.fromId), parseInt(req.params.toId), new Position(req.body.latitude, req.body.longitude));
     res.send(visibleDroneIds);
 });
 
